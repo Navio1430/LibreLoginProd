@@ -1,0 +1,63 @@
+
+services:
+  postgres:
+    image: postgres:15
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgresuser
+      - POSTGRES_PASSWORD=postgrespass
+      - POSTGRES_DB=default
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    dns:
+      - 8.8.8.8
+
+  limbo1:
+    hostname: limbo1
+    image: itzg/minecraft-server
+    ports:
+      - "25550:65535"
+    environment:
+      - EULA=TRUE
+      - TYPE=CUSTOM
+      - CUSTOM_SERVER=https://github.com/BoomEaro/NanoLimbo/releases/download/1.9.6/NanoLimbo-1.9.6-all.jar
+    volumes:
+      - ./data/limbo:/data/
+
+  paper1:
+    hostname: paper1
+    image: itzg/minecraft-server
+    ports:
+      - "25566:25565"zna
+      - "5066:5005"
+    environment:
+      - EULA=TRUE
+      - TYPE=PAPER
+      - VERSION=1.21.7
+      - ONLINE_MODE=FALSE
+      - MODRINTH_PROJECTS=luckperms:beta,viaversion:beta,viabackwards:beta
+#      - JVM_OPTS=-Dlog4j.configurationFile=log4j2.xml
+      - JVM_XX_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+    volumes:
+      - ./data/paper:/data/
+
+  velocity1:
+    hostname: velocity1
+    image: itzg/mc-proxy
+    ports:
+      - "25568:25565"
+    environment:
+      - TYPE=VELOCITY
+      - VELOCITY_VERSION=latest
+      - MINECRAFT_VERSION=1.21.5
+    volumes:
+      - ./data/proxy/plugins:/server/plugins
+    depends_on:
+      - limbo1
+      - postgres
+
+networks:
+  default:
+    driver: bridge
