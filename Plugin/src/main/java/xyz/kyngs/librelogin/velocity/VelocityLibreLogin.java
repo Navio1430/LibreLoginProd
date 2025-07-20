@@ -33,7 +33,6 @@ import xyz.kyngs.librelogin.common.config.ConfigurationKeys;
 import xyz.kyngs.librelogin.common.image.AuthenticImageProjector;
 import xyz.kyngs.librelogin.common.image.protocolize.ProtocolizeImageProjector;
 import xyz.kyngs.librelogin.common.util.CancellableTask;
-import xyz.kyngs.librelogin.velocity.integration.VelocityNanoLimboIntegration;
 
 import java.io.File;
 import java.io.InputStream;
@@ -232,16 +231,5 @@ public class VelocityLibreLogin extends AuthenticLibreLogin<Player, RegisteredSe
     public File getDataFolder() {
         return dataDir.toFile();
     }
-
-    @Nullable
-    @Override
-    public LimboIntegration<RegisteredServer> getLimboIntegration() {
-        if (pluginPresent("nanolimbovelocity") && limboIntegration == null) {
-            limboIntegration = new VelocityNanoLimboIntegration(server,
-                    getConfiguration().get(ConfigurationKeys.LIMBO_PORT_RANGE));
-        }
-        return limboIntegration;
-    }
-
 
 }

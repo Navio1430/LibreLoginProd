@@ -41,6 +41,11 @@ alt="Contributors listed"></img>
 - [✔️] Paper - up to 1.21.8
 - [❌] BungeeCord - no longer supported, do not use it for production
 
+## Main changes
+
+- [❌] BungeeCord
+- [❌] NanoLimboPlugin (should not be used on prod)
+
 # FAQ
 
 ### What does prod mean?

@@ -53,7 +53,7 @@ services:
       - VELOCITY_VERSION=latest
       - MINECRAFT_VERSION=1.21.5
     volumes:
-      - ./data/proxy/plugins:/server/plugins
+      - ./data/proxy:/server
     depends_on:
       - limbo1
       - postgres

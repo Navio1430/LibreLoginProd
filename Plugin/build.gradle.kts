@@ -121,12 +121,8 @@ dependencies {
 
     //Paper
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
-    //compileOnly "com.comphenix.protocol:ProtocolLib:5.1.0"
     implementation("com.github.retrooper:packetevents-spigot:2.9.3")
     compileOnly("org.apache.logging.log4j:log4j-core:2.23.1")
-
-    //NanoLimboPlugin
-    compileOnly("com.github.bivashy.NanoLimboPlugin:api:1.0.8")
 }
 
 tasks.withType<ProcessResources> {
