@@ -5,8 +5,6 @@ plugins {
     id("io.github.goooler.shadow") version "8.1.8"
     id("net.kyori.blossom").version("1.3.1")
     id("java-library")
-//    id("xyz.kyngs.libby.plugin").version("1.2.1")
-//    id("xyz.kyngs.mcupload.plugin").version("0.3.4")
 }
 
 tasks.withType<JavaCompile> {
@@ -77,19 +75,6 @@ tasks.withType<Jar> {
 //    noChecksumDependency("com.github.retrooper.packetevents:.*:.*")
 //}
 
-//configurations.all {
-//    // I hate this, but it needs to be done as bungeecord does not support newer versions of adventure, and packetevents includes it
-//    resolutionStrategy {
-//        force("net.kyori:adventure-text-minimessage:4.14.0")
-//        force("net.kyori:adventure-text-serializer-gson:4.14.0")
-//        force("net.kyori:adventure-text-serializer-legacy:4.14.0")
-//        force("net.kyori:adventure-text-serializer-json:4.14.0")
-//        force("net.kyori:adventure-api:4.14.0")
-//        force("net.kyori:adventure-nbt:4.14.0")
-//        force("net.kyori:adventure-key:4.14.0")
-//    }
-//}
-
 dependencies {
     //API
     implementation(project(":API"))
@@ -138,14 +123,7 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
     //compileOnly "com.comphenix.protocol:ProtocolLib:5.1.0"
     implementation("com.github.retrooper:packetevents-spigot:2.9.3")
-    compileOnly("io.netty:netty-transport:4.1.108.Final")
-    compileOnly("com.mojang:datafixerupper:5.0.28") //I hate this so much
     compileOnly("org.apache.logging.log4j:log4j-core:2.23.1")
-
-    //Libby
-//    implementation("xyz.kyngs.libby:libby-bukkit:1.6.0")
-//    implementation("xyz.kyngs.libby:libby-velocity:1.6.0")
-//    implementation("xyz.kyngs.libby:libby-paper:1.6.0")
 
     //NanoLimboPlugin
     compileOnly("com.github.bivashy.NanoLimboPlugin:api:1.0.8")
