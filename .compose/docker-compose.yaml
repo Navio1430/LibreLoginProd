@@ -30,7 +30,7 @@ services:
     hostname: paper1
     image: itzg/minecraft-server
     ports:
-      - "25566:25565"zna
+      - "25566:25565"
       - "5066:5005"
     environment:
       - EULA=TRUE
