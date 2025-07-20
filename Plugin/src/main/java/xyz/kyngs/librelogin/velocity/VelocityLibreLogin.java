@@ -29,7 +29,6 @@ import xyz.kyngs.librelogin.api.event.exception.EventCancelledException;
 import xyz.kyngs.librelogin.api.integration.LimboIntegration;
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 import xyz.kyngs.librelogin.common.SLF4JLogger;
-import xyz.kyngs.librelogin.common.config.ConfigurationKeys;
 import xyz.kyngs.librelogin.common.image.AuthenticImageProjector;
 import xyz.kyngs.librelogin.common.image.protocolize.ProtocolizeImageProjector;
 import xyz.kyngs.librelogin.common.util.CancellableTask;
@@ -210,7 +209,7 @@ public class VelocityLibreLogin extends AuthenticLibreLogin<Player, RegisteredSe
 
     @Override
     protected void initMetrics(CustomChart... charts) {
-        var metrics = factory.make(bootstrap, 17981);
+        var metrics = factory.make(bootstrap, Constants.BSTATS_ID);
 
         for (CustomChart chart : charts) {
             metrics.addCustomChart(chart);
