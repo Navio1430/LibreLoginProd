@@ -1,5 +1,5 @@
-name: "LibreLogin"
-author: "kyngs"
+name: "LibreLoginProd"
+author: "sapphirecode"
 version: '${version}'
 main: "xyz.kyngs.librelogin.paper.PaperBootstrap"
 api-version: "1.19"
