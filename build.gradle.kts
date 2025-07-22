@@ -16,6 +16,12 @@ subprojects {
         plugin("org.cadixdev.licenser")
     }
 
+    tasks.configureEach {
+        if (name.contains("jar", true)) {
+            dependsOn("updateLicenses")
+        }
+    }
+
     repositories {
         mavenLocal()
         mavenCentral()
