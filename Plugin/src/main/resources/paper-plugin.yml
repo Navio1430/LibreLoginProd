@@ -1,4 +1,4 @@
-name: "LibreLoginProd"
+name: "LibreLogin"
 authors: [ "sapphirecode", "Navio1430", "kyngs" ]
 version: '${version}'
 main: "xyz.kyngs.librelogin.paper.PaperBootstrap"
