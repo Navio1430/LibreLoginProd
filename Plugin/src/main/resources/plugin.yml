@@ -5,6 +5,11 @@ main: "xyz.kyngs.librelogin.paper.PaperBootstrap"
 api-version: 1.13
 
 softdepend:
+  - ProtocolLib
+  - ProtocolSupport
+  - ViaVersion
+  - ViaBackwards
+  - ViaRewind
   - Geyser-Spigot
   - floodgate
   - LuckPerms

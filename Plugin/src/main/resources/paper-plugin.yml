@@ -15,3 +15,18 @@ dependencies:
     LuckPerms:
       load: "BEFORE"
       required: false
+    ProtocolLib:
+      load: "BEFORE"
+      required: false
+    ProtocolSupport:
+      load: "BEFORE"
+      required: false
+    ViaVersion:
+      load: "BEFORE"
+      required: false
+    ViaBackwards:
+      load: "BEFORE"
+      required: false
+    ViaRewind:
+      load: "BEFORE"
+      required: false
