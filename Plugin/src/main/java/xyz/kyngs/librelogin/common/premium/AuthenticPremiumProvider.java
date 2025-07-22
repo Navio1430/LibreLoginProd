@@ -9,13 +9,6 @@ package xyz.kyngs.librelogin.common.premium;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.google.gson.JsonObject;
-import xyz.kyngs.librelogin.api.premium.PremiumException;
-import xyz.kyngs.librelogin.api.premium.PremiumProvider;
-import xyz.kyngs.librelogin.api.premium.PremiumUser;
-import xyz.kyngs.librelogin.api.util.ThrowableFunction;
-import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
-import xyz.kyngs.librelogin.common.util.GeneralUtil;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -25,6 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import xyz.kyngs.librelogin.api.premium.PremiumException;
+import xyz.kyngs.librelogin.api.premium.PremiumProvider;
+import xyz.kyngs.librelogin.api.premium.PremiumUser;
+import xyz.kyngs.librelogin.api.util.ThrowableFunction;
+import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
+import xyz.kyngs.librelogin.common.util.GeneralUtil;
 
 public class AuthenticPremiumProvider implements PremiumProvider {
 
@@ -69,28 +68,28 @@ public class AuthenticPremiumProvider implements PremiumProvider {
                                         plugin.getLogger()
                                                 .warn(
                                                         "Got a server exception while fetching"
-                                                                + " premium user. Falling back to an"
-                                                                + " alternative API. Player's"
-                                                                + " information's might not be"
-                                                                + " up-to-date.",
+                                                            + " premium user. Falling back to an"
+                                                            + " alternative API. Player's"
+                                                            + " information's might not be"
+                                                            + " up-to-date.",
                                                         e);
                                     } else if (e.getIssue() == PremiumException.Issue.THROTTLED) {
                                         plugin.getLogger()
                                                 .warn(
                                                         "Your IP has been rate limited while"
-                                                                + " fetching premium user. Falling back"
-                                                                + " to an alternative API. Player's"
-                                                                + " information's might not be"
-                                                                + " up-to-date.",
+                                                            + " fetching premium user. Falling back"
+                                                            + " to an alternative API. Player's"
+                                                            + " information's might not be"
+                                                            + " up-to-date.",
                                                         e);
                                     } else {
                                         plugin.getLogger()
                                                 .warn(
                                                         "Got unexpected exception while fetching"
-                                                                + " premium user. Falling back to an"
-                                                                + " alternative API. Player's"
-                                                                + " information's might not be"
-                                                                + " up-to-date.",
+                                                            + " premium user. Falling back to an"
+                                                            + " alternative API. Player's"
+                                                            + " information's might not be"
+                                                            + " up-to-date.",
                                                         e);
                                     }
                                 } catch (RuntimeException e) {
@@ -145,12 +144,14 @@ public class AuthenticPremiumProvider implements PremiumProvider {
                 case 404 -> {
                     return null;
                 }
-                case 429 -> throw new PremiumException(
-                        PremiumException.Issue.THROTTLED,
-                        GeneralUtil.readInput(connection.getErrorStream()));
-                default -> throw new PremiumException(
-                        PremiumException.Issue.UNDEFINED,
-                        GeneralUtil.readInput(connection.getErrorStream()));
+                case 429 ->
+                        throw new PremiumException(
+                                PremiumException.Issue.THROTTLED,
+                                GeneralUtil.readInput(connection.getErrorStream()));
+                default ->
+                        throw new PremiumException(
+                                PremiumException.Issue.UNDEFINED,
+                                GeneralUtil.readInput(connection.getErrorStream()));
             }
         } catch (IOException e) {
             throw new PremiumException(PremiumException.Issue.SERVER_EXCEPTION, e);
@@ -195,12 +196,14 @@ public class AuthenticPremiumProvider implements PremiumProvider {
                 case 400 -> {
                     return null;
                 }
-                case 500 -> throw new PremiumException(
-                        PremiumException.Issue.SERVER_EXCEPTION,
-                        GeneralUtil.readInput(connection.getErrorStream()));
-                default -> throw new PremiumException(
-                        PremiumException.Issue.UNDEFINED,
-                        GeneralUtil.readInput(connection.getErrorStream()));
+                case 500 ->
+                        throw new PremiumException(
+                                PremiumException.Issue.SERVER_EXCEPTION,
+                                GeneralUtil.readInput(connection.getErrorStream()));
+                default ->
+                        throw new PremiumException(
+                                PremiumException.Issue.UNDEFINED,
+                                GeneralUtil.readInput(connection.getErrorStream()));
             }
         } catch (IOException e) {
             throw new PremiumException(PremiumException.Issue.SERVER_EXCEPTION, e);
@@ -247,12 +250,14 @@ public class AuthenticPremiumProvider implements PremiumProvider {
                 case 400 -> {
                     return null;
                 }
-                case 500 -> throw new PremiumException(
-                        PremiumException.Issue.SERVER_EXCEPTION,
-                        GeneralUtil.readInput(connection.getErrorStream()));
-                default -> throw new PremiumException(
-                        PremiumException.Issue.UNDEFINED,
-                        GeneralUtil.readInput(connection.getErrorStream()));
+                case 500 ->
+                        throw new PremiumException(
+                                PremiumException.Issue.SERVER_EXCEPTION,
+                                GeneralUtil.readInput(connection.getErrorStream()));
+                default ->
+                        throw new PremiumException(
+                                PremiumException.Issue.UNDEFINED,
+                                GeneralUtil.readInput(connection.getErrorStream()));
             }
         } catch (SocketTimeoutException te) {
             throw new PremiumException(PremiumException.Issue.THROTTLED, "Minetools API timed out");
@@ -267,16 +272,17 @@ public class AuthenticPremiumProvider implements PremiumProvider {
             var connection =
                     (HttpURLConnection)
                             new URL(
-                                    "https://api.minecraftservices.com/minecraft/profile/lookup/name/"
-                                            + name)
+                                            "https://api.minecraftservices.com/minecraft/profile/lookup/name/"
+                                                    + name)
                                     .openConnection();
             connection.setConnectTimeout(5000);
             connection.setReadTimeout(5000);
 
             return switch (connection.getResponseCode()) {
-                case 429 -> throw new PremiumException(
-                        PremiumException.Issue.THROTTLED,
-                        GeneralUtil.readInput(connection.getErrorStream()));
+                case 429 ->
+                        throw new PremiumException(
+                                PremiumException.Issue.THROTTLED,
+                                GeneralUtil.readInput(connection.getErrorStream()));
                 case 204, 404 -> null;
                 case 200 -> {
                     var data =
@@ -290,10 +296,10 @@ public class AuthenticPremiumProvider implements PremiumProvider {
                     yield demo != null
                             ? null
                             : new PremiumUser(
-                            GeneralUtil.fromUnDashedUUID(id),
-                            data.get("name").getAsString(),
-                            true // Mojang API is always authoritative
-                    );
+                                    GeneralUtil.fromUnDashedUUID(id),
+                                    data.get("name").getAsString(),
+                                    true // Mojang API is always authoritative
+                                    );
                 }
                 case 403 -> {
                     if ("text/html".equals(connection.getContentType())) {
@@ -305,12 +311,14 @@ public class AuthenticPremiumProvider implements PremiumProvider {
                             PremiumException.Issue.UNDEFINED,
                             GeneralUtil.readInput(connection.getErrorStream()));
                 }
-                case 500 -> throw new PremiumException(
-                        PremiumException.Issue.SERVER_EXCEPTION,
-                        GeneralUtil.readInput(connection.getErrorStream()));
-                default -> throw new PremiumException(
-                        PremiumException.Issue.UNDEFINED,
-                        GeneralUtil.readInput(connection.getErrorStream()));
+                case 500 ->
+                        throw new PremiumException(
+                                PremiumException.Issue.SERVER_EXCEPTION,
+                                GeneralUtil.readInput(connection.getErrorStream()));
+                default ->
+                        throw new PremiumException(
+                                PremiumException.Issue.UNDEFINED,
+                                GeneralUtil.readInput(connection.getErrorStream()));
             };
         } catch (SocketTimeoutException te) {
             throw new PremiumException(PremiumException.Issue.THROTTLED, "Mojang API timed out");
@@ -326,14 +334,15 @@ public class AuthenticPremiumProvider implements PremiumProvider {
             var connection =
                     (HttpURLConnection)
                             new URL(
-                                    "https://sessionserver.mojang.com/session/minecraft/profile/"
-                                            + uuid.toString())
+                                            "https://sessionserver.mojang.com/session/minecraft/profile/"
+                                                    + uuid.toString())
                                     .openConnection();
 
             return switch (connection.getResponseCode()) {
-                case 429 -> throw new PremiumException(
-                        PremiumException.Issue.THROTTLED,
-                        GeneralUtil.readInput(connection.getErrorStream()));
+                case 429 ->
+                        throw new PremiumException(
+                                PremiumException.Issue.THROTTLED,
+                                GeneralUtil.readInput(connection.getErrorStream()));
                 case 204, 404 -> null;
                 case 200 -> {
                     var data =
@@ -345,12 +354,14 @@ public class AuthenticPremiumProvider implements PremiumProvider {
 
                     yield new PremiumUser(uuid, name, true); // Mojang API is always authoritative
                 }
-                case 500 -> throw new PremiumException(
-                        PremiumException.Issue.SERVER_EXCEPTION,
-                        GeneralUtil.readInput(connection.getErrorStream()));
-                default -> throw new PremiumException(
-                        PremiumException.Issue.UNDEFINED,
-                        GeneralUtil.readInput(connection.getErrorStream()));
+                case 500 ->
+                        throw new PremiumException(
+                                PremiumException.Issue.SERVER_EXCEPTION,
+                                GeneralUtil.readInput(connection.getErrorStream()));
+                default ->
+                        throw new PremiumException(
+                                PremiumException.Issue.UNDEFINED,
+                                GeneralUtil.readInput(connection.getErrorStream()));
             };
         } catch (IOException e) {
             throw new PremiumException(PremiumException.Issue.UNDEFINED, e);
