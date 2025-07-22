@@ -31,7 +31,8 @@ blossom {
 }
 
 tasks.withType<ShadowJar> {
-    archiveFileName.set("LibreLogin.jar")
+    archiveBaseName.set("LibreLoginProd")
+    archiveClassifier = null
 
     dependencies {
         exclude(dependency("org.slf4j:.*:.*"))
