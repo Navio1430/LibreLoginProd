@@ -6,12 +6,11 @@
 
 package xyz.kyngs.librelogin.common.database;
 
-import xyz.kyngs.librelogin.api.crypto.HashedPassword;
-import xyz.kyngs.librelogin.api.database.User;
-
 import java.sql.Timestamp;
 import java.util.Objects;
 import java.util.UUID;
+import xyz.kyngs.librelogin.api.crypto.HashedPassword;
+import xyz.kyngs.librelogin.api.database.User;
 
 public class AuthenticUser implements User {
 
@@ -27,7 +26,18 @@ public class AuthenticUser implements User {
     private String lastServer;
     private String email;
 
-    public AuthenticUser(UUID uuid, UUID premiumUUID, HashedPassword hashedPassword, String lastNickname, Timestamp joinDate, Timestamp lastSeen, String secret, String ip, Timestamp lastAuthentication, String lastServer, String email) {
+    public AuthenticUser(
+            UUID uuid,
+            UUID premiumUUID,
+            HashedPassword hashedPassword,
+            String lastNickname,
+            Timestamp joinDate,
+            Timestamp lastSeen,
+            String secret,
+            String ip,
+            Timestamp lastAuthentication,
+            String lastServer,
+            String email) {
         this.uuid = uuid;
         this.premiumUUID = premiumUUID;
         this.hashedPassword = hashedPassword;
@@ -147,5 +157,4 @@ public class AuthenticUser implements User {
     public void setLastServer(String lastServer) {
         this.lastServer = lastServer;
     }
-
 }

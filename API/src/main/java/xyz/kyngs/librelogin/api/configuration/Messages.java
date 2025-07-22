@@ -6,10 +6,9 @@
 
 package xyz.kyngs.librelogin.api.configuration;
 
+import java.io.IOException;
 import net.kyori.adventure.text.TextComponent;
 import xyz.kyngs.librelogin.api.LibreLoginPlugin;
-
-import java.io.IOException;
 
 /**
  * This interface manages the messages of the plugin.
@@ -21,7 +20,7 @@ public interface Messages {
     /**
      * Gets the message with the given key.
      *
-     * @param key          The message key.
+     * @param key The message key.
      * @param replacements Allows you to replace the placeholders in the message.
      * @return The message, or null if the message does not exist.
      */
@@ -31,9 +30,8 @@ public interface Messages {
      * Reloads the messages.
      *
      * @param plugin The plugin.
-     * @throws IOException                     If an I/O error occurs.
+     * @throws IOException If an I/O error occurs.
      * @throws CorruptedConfigurationException If the configuration is corrupted.
      */
     void reload(LibreLoginPlugin<?, ?> plugin) throws IOException, CorruptedConfigurationException;
-
 }

@@ -17,11 +17,12 @@ public class PremiumCommand<P> extends AuthorizationCommand<P> {
     }
 
     protected void checkCracked(User user) {
-        if (user.autoLoginEnabled()) throw new InvalidCommandArgument(getMessage("error-not-cracked"));
+        if (user.autoLoginEnabled())
+            throw new InvalidCommandArgument(getMessage("error-not-cracked"));
     }
 
     protected void checkPremium(User user) {
-        if (!user.autoLoginEnabled()) throw new InvalidCommandArgument(getMessage("error-not-premium"));
+        if (!user.autoLoginEnabled())
+            throw new InvalidCommandArgument(getMessage("error-not-premium"));
     }
-
 }

@@ -6,6 +6,8 @@
 
 package xyz.kyngs.librelogin.common;
 
+import static xyz.kyngs.librelogin.common.config.ConfigurationKeys.*;
+
 import co.aikar.commands.CommandIssuer;
 import co.aikar.commands.CommandManager;
 import com.google.common.collect.HashMultimap;
@@ -13,6 +15,16 @@ import com.google.common.collect.Multimap;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import java.io.*;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.sql.Timestamp;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ForkJoinPool;
 import net.kyori.adventure.audience.Audience;
 import org.bstats.charts.CustomChart;
 import org.jetbrains.annotations.Nullable;
@@ -69,23 +81,11 @@ import xyz.kyngs.librelogin.common.totp.AuthenticTOTPProvider;
 import xyz.kyngs.librelogin.common.util.CancellableTask;
 import xyz.kyngs.librelogin.common.util.GeneralUtil;
 
-import java.io.*;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.sql.Timestamp;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ForkJoinPool;
-
-import static xyz.kyngs.librelogin.common.config.ConfigurationKeys.*;
-
 public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S> {
 
     public static final Gson GSON = new Gson();
-    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd. MM. yyyy HH:mm");
+    public static final DateTimeFormatter DATE_TIME_FORMATTER =
+            DateTimeFormatter.ofPattern("dd. MM. yyyy HH:mm");
     public static final ExecutorService EXECUTOR;
 
     static {
@@ -130,7 +130,8 @@ public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S
     }
 
     @Override
-    public <E extends Exception, C extends DatabaseConnector<E, ?>> void registerDatabaseConnector(Class<?> clazz, ThrowableFunction<String, C, E> factory, String id) {
+    public <E extends Exception, C extends DatabaseConnector<E, ?>> void registerDatabaseConnector(
+            Class<?> clazz, ThrowableFunction<String, C, E> factory, String id) {
         registerDatabaseConnector(new DatabaseConnectorRegistration<>(factory, null, id), clazz);
     }
 
@@ -144,18 +145,40 @@ public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S
         return eMailHandler;
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public LimboIntegration<S> getLimboIntegration() {
         return null;
     }
 
     @Override
-    public User createUser(UUID uuid, UUID premiumUUID, HashedPassword hashedPassword, String lastNickname, Timestamp joinDate, Timestamp lastSeen, String secret, String ip, Timestamp lastAuthentication, String lastServer, String email) {
-        return new AuthenticUser(uuid, premiumUUID, hashedPassword, lastNickname, joinDate, lastSeen, secret, ip, lastAuthentication, lastServer, email);
+    public User createUser(
+            UUID uuid,
+            UUID premiumUUID,
+            HashedPassword hashedPassword,
+            String lastNickname,
+            Timestamp joinDate,
+            Timestamp lastSeen,
+            String secret,
+            String ip,
+            Timestamp lastAuthentication,
+            String lastServer,
+            String email) {
+        return new AuthenticUser(
+                uuid,
+                premiumUUID,
+                hashedPassword,
+                lastNickname,
+                joinDate,
+                lastSeen,
+                secret,
+                ip,
+                lastAuthentication,
+                lastServer,
+                email);
     }
 
-    public void registerDatabaseConnector(DatabaseConnectorRegistration<?, ?> registration, Class<?> clazz) {
+    public void registerDatabaseConnector(
+            DatabaseConnectorRegistration<?, ?> registration, Class<?> clazz) {
         databaseConnectors.put(clazz, registration);
     }
 
@@ -170,7 +193,6 @@ public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S
     public SemanticVersion getParsedVersion() {
         return version;
     }
-
 
     @Override
     public boolean validPassword(String password) {
@@ -237,17 +259,26 @@ public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S
 
         var folder = getDataFolder();
         if (!folder.exists()) {
-            var oldFolder = new File(folder.getParentFile(), folder.getName().equals("librelogin") ? "librepremium" : "LibrePremium");
+            var oldFolder =
+                    new File(
+                            folder.getParentFile(),
+                            folder.getName().equals("librelogin")
+                                    ? "librepremium"
+                                    : "LibrePremium");
             if (oldFolder.exists()) {
                 logger.info("Migrating configuration and messages from old folder...");
                 if (!oldFolder.renameTo(folder)) {
-                    throw new RuntimeException("Can't migrate configuration and messages from old folder!");
+                    throw new RuntimeException(
+                            "Can't migrate configuration and messages from old folder!");
                 }
             }
         }
 
         try {
-            Files.copy(getResourceAsStream("LICENSE.txt"), new File(folder, "LICENSE.txt").toPath(), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(
+                    getResourceAsStream("LICENSE.txt"),
+                    new File(folder, "LICENSE.txt").toPath(),
+                    StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ignored) {
             // Silently ignore
         }
@@ -282,7 +313,9 @@ public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S
             loadForbiddenPasswords();
         } catch (IOException e) {
             e.printStackTrace();
-            logger.info("An unknown exception occurred while attempting to load the forbidden passwords, this most likely isn't your fault");
+            logger.info(
+                    "An unknown exception occurred while attempting to load the forbidden"
+                            + " passwords, this most likely isn't your fault");
             shutdownProxy(1);
         }
 
@@ -316,7 +349,9 @@ public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S
 
         if (version.dev()) {
             logger.warn("!! YOU ARE RUNNING A DEVELOPMENT BUILD OF LIBRELOGIN !!");
-            logger.warn("!! THIS IS NOT A RELEASE, USE THIS ONLY IF YOU WERE INSTRUCTED TO DO SO. DO NOT USE THIS IN PRODUCTION !!");
+            logger.warn(
+                    "!! THIS IS NOT A RELEASE, USE THIS ONLY IF YOU WERE INSTRUCTED TO DO SO. DO"
+                            + " NOT USE THIS IN PRODUCTION !!");
         } else {
             initMetrics();
         }
@@ -338,7 +373,8 @@ public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S
         }
     }
 
-    public <C extends DatabaseConnector<?, ?>> DatabaseConnectorRegistration<?, C> getDatabaseConnector(Class<C> clazz) {
+    public <C extends DatabaseConnector<?, ?>>
+            DatabaseConnectorRegistration<?, C> getDatabaseConnector(Class<C> clazz) {
         return (DatabaseConnectorRegistration<?, C>) databaseConnectors.get(clazz);
     }
 
@@ -348,7 +384,9 @@ public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S
         try {
             var registration = readProviders.get(configuration.get(DATABASE_TYPE));
             if (registration == null) {
-                logger.error("Database type %s doesn't exist, please check your configuration".formatted(configuration.get(DATABASE_TYPE)));
+                logger.error(
+                        "Database type %s doesn't exist, please check your configuration"
+                                .formatted(configuration.get(DATABASE_TYPE)));
                 shutdownProxy(1);
             }
 
@@ -358,11 +396,16 @@ public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S
                 var connectorRegistration = getDatabaseConnector(registration.databaseConnector());
 
                 if (connectorRegistration == null) {
-                    logger.error("Database type %s is corrupted, please use a different one".formatted(configuration.get(DATABASE_TYPE)));
+                    logger.error(
+                            "Database type %s is corrupted, please use a different one"
+                                    .formatted(configuration.get(DATABASE_TYPE)));
                     shutdownProxy(1);
                 }
 
-                connector = connectorRegistration.factory().apply("database.properties." + connectorRegistration.id() + ".");
+                connector =
+                        connectorRegistration
+                                .factory()
+                                .apply("database.properties." + connectorRegistration.id() + ".");
 
                 connector.connect();
             }
@@ -373,14 +416,18 @@ public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S
                 databaseProvider = casted;
                 databaseConnector = connector;
             } else {
-                logger.error("Database type %s cannot be used for writing, please use a different one".formatted(configuration.get(DATABASE_TYPE)));
+                logger.error(
+                        "Database type %s cannot be used for writing, please use a different one"
+                                .formatted(configuration.get(DATABASE_TYPE)));
                 shutdownProxy(1);
             }
 
         } catch (Exception e) {
             var cause = GeneralUtil.getFurthestCause(e);
             logger.error("!! THIS IS MOST LIKELY NOT AN ERROR CAUSED BY LIBRELOGIN !!");
-            logger.error("Failed to connect to the database, this most likely is caused by wrong credentials. Cause: %s: %s".formatted(cause.getClass().getSimpleName(), cause.getMessage()));
+            logger.error(
+                    "Failed to connect to the database, this most likely is caused by wrong credentials. Cause: %s: %s"
+                            .formatted(cause.getClass().getSimpleName(), cause.getMessage()));
             shutdownProxy(1);
         }
 
@@ -393,7 +440,9 @@ public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S
                 casted.validateSchema();
             } catch (Exception e) {
                 var cause = GeneralUtil.getFurthestCause(e);
-                logger.error("Failed to validate schema! Cause: %s: %s".formatted(cause.getClass().getSimpleName(), cause.getMessage()));
+                logger.error(
+                        "Failed to validate schema! Cause: %s: %s"
+                                .formatted(cause.getClass().getSimpleName(), cause.getMessage()));
                 logger.error("Please open an issue on our GitHub, or visit Discord support");
                 shutdownProxy(1);
             }
@@ -411,12 +460,16 @@ public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S
             messages.reload(this);
         } catch (IOException e) {
             e.printStackTrace();
-            logger.info("An unknown exception occurred while attempting to load the messages, this most likely isn't your fault");
+            logger.info(
+                    "An unknown exception occurred while attempting to load the messages, this most"
+                            + " likely isn't your fault");
             shutdownProxy(1);
         } catch (CorruptedConfigurationException e) {
             var cause = GeneralUtil.getFurthestCause(e);
             logger.error("!! THIS IS MOST LIKELY NOT AN ERROR CAUSED BY LIBRELOGIN !!");
-            logger.error("!!The messages are corrupted, please look below for further clues. If you are clueless, delete the messages and a new ones will be created for you. Cause: %s: %s".formatted(cause.getClass().getSimpleName(), cause.getMessage()));
+            logger.error(
+                    "!!The messages are corrupted, please look below for further clues. If you are clueless, delete the messages and a new ones will be created for you. Cause: %s: %s"
+                            .formatted(cause.getClass().getSimpleName(), cause.getMessage()));
             shutdownProxy(1);
         }
 
@@ -426,15 +479,20 @@ public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S
 
         for (DatabaseConnectorRegistration<?, ?> value : databaseConnectors.values()) {
             if (value.configClass() == null) continue;
-            defaults.add(new BiHolder<>(value.configClass(), "database.properties." + value.id() + "."));
-            defaults.add(new BiHolder<>(value.configClass(), "migration.old-database." + value.id() + "."));
+            defaults.add(
+                    new BiHolder<>(value.configClass(), "database.properties." + value.id() + "."));
+            defaults.add(
+                    new BiHolder<>(
+                            value.configClass(), "migration.old-database." + value.id() + "."));
         }
 
         configuration = new HoconPluginConfiguration(logger, defaults);
 
         try {
             if (configuration.reload(this)) {
-                logger.warn("!! A new configuration was generated, please fill it out, if in doubt, see the wiki !!");
+                logger.warn(
+                        "!! A new configuration was generated, please fill it out, if in doubt, see"
+                                + " the wiki !!");
                 shutdownProxy(0);
             }
 
@@ -443,141 +501,189 @@ public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S
 
             for (String value : lobby.values()) {
                 if (limbos.contains(value)) {
-                    throw new CorruptedConfigurationException("Lobby server/world %s is also a limbo server/world, this is not allowed".formatted(value));
+                    throw new CorruptedConfigurationException(
+                            "Lobby server/world %s is also a limbo server/world, this is not allowed"
+                                    .formatted(value));
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
-            logger.info("An unknown exception occurred while attempting to load the configuration, this most likely isn't your fault");
+            logger.info(
+                    "An unknown exception occurred while attempting to load the configuration, this"
+                            + " most likely isn't your fault");
             shutdownProxy(1);
         } catch (CorruptedConfigurationException e) {
             var cause = GeneralUtil.getFurthestCause(e);
             logger.error("!! THIS IS MOST LIKELY NOT AN ERROR CAUSED BY LIBRELOGIN !!");
-            logger.error("!!The configuration is corrupted, please look below for further clues. If you are clueless, delete the config and a new one will be created for you. Cause: %s: %s".formatted(cause.getClass().getSimpleName(), cause.getMessage()));
+            logger.error(
+                    "!!The configuration is corrupted, please look below for further clues. If you are clueless, delete the config and a new one will be created for you. Cause: %s: %s"
+                            .formatted(cause.getClass().getSimpleName(), cause.getMessage()));
             shutdownProxy(1);
         }
     }
 
     private void setupDB() {
-        registerDatabaseConnector(new DatabaseConnectorRegistration<>(
+        registerDatabaseConnector(
+                new DatabaseConnectorRegistration<>(
                         prefix -> new AuthenticMySQLDatabaseConnector(this, prefix),
                         AuthenticMySQLDatabaseConnector.Configuration.class,
-                        "mysql"
-                ),
+                        "mysql"),
                 MySQLDatabaseConnector.class);
-        registerDatabaseConnector(new DatabaseConnectorRegistration<>(
+        registerDatabaseConnector(
+                new DatabaseConnectorRegistration<>(
                         prefix -> new AuthenticSQLiteDatabaseConnector(this, prefix),
                         AuthenticSQLiteDatabaseConnector.Configuration.class,
-                        "sqlite"
-                ),
+                        "sqlite"),
                 SQLiteDatabaseConnector.class);
-        registerDatabaseConnector(new DatabaseConnectorRegistration<>(
+        registerDatabaseConnector(
+                new DatabaseConnectorRegistration<>(
                         prefix -> new AuthenticPostgreSQLDatabaseConnector(this, prefix),
                         AuthenticPostgreSQLDatabaseConnector.Configuration.class,
-                        "postgresql"
-                ),
+                        "postgresql"),
                 PostgreSQLDatabaseConnector.class);
 
-        registerReadProvider(new ReadDatabaseProviderRegistration<>(
-                connector -> new LibreLoginMySQLDatabaseProvider(connector, this),
-                "librelogin-mysql",
-                MySQLDatabaseConnector.class
-        ));
-        registerReadProvider(new ReadDatabaseProviderRegistration<>(
-                connector -> new LibreLoginSQLiteDatabaseProvider(connector, this),
-                "librelogin-sqlite",
-                SQLiteDatabaseConnector.class
-        ));
-        registerReadProvider(new ReadDatabaseProviderRegistration<>(
-                connector -> new LibreLoginPostgreSQLDatabaseProvider(connector, this),
-                "librelogin-postgresql",
-                PostgreSQLDatabaseConnector.class
-        ));
-        registerReadProvider(new ReadDatabaseProviderRegistration<>(
-                connector -> new AegisSQLMigrateReadProvider(configuration.get(MIGRATION_MYSQL_OLD_DATABASE_TABLE), logger, connector),
-                "aegis-mysql",
-                MySQLDatabaseConnector.class
-        ));
-        registerReadProvider(new ReadDatabaseProviderRegistration<>(
-                connector -> new AuthMeSQLMigrateReadProvider(configuration.get(MIGRATION_MYSQL_OLD_DATABASE_TABLE), logger, connector),
-                "authme-mysql",
-                MySQLDatabaseConnector.class
-        ));
-        registerReadProvider(new ReadDatabaseProviderRegistration<>(
-                connector -> new AuthMeSQLMigrateReadProvider(configuration.get(MIGRATION_POSTGRESQL_OLD_DATABASE_TABLE), logger, connector),
-                "authme-postgresql",
-                PostgreSQLDatabaseConnector.class
-        ));
-        registerReadProvider(new ReadDatabaseProviderRegistration<>(
-                connector -> new AuthMeSQLMigrateReadProvider("authme", logger, connector),
-                "authme-sqlite",
-                SQLiteDatabaseConnector.class
-        ));
-        registerReadProvider(new ReadDatabaseProviderRegistration<>(
-                connector -> new DBASQLMigrateReadProvider(configuration.get(MIGRATION_MYSQL_OLD_DATABASE_TABLE), logger, connector),
-                "dba-mysql",
-                MySQLDatabaseConnector.class
-        ));
-        registerReadProvider(new ReadDatabaseProviderRegistration<>(
-                connector -> new JPremiumSQLMigrateReadProvider(configuration.get(MIGRATION_MYSQL_OLD_DATABASE_TABLE), logger, connector),
-                "jpremium-mysql",
-                MySQLDatabaseConnector.class
-        ));
-        registerReadProvider(new ReadDatabaseProviderRegistration<>(
-                connector -> new NLoginSQLMigrateReadProvider("nlogin", logger, connector),
-                "nlogin-sqlite",
-                SQLiteDatabaseConnector.class
-        ));
-        registerReadProvider(new ReadDatabaseProviderRegistration<>(
-                connector -> new NLoginSQLMigrateReadProvider("nlogin", logger, connector),
-                "nlogin-mysql",
-                MySQLDatabaseConnector.class
-        ));
-        registerReadProvider(new ReadDatabaseProviderRegistration<>(
-                connector -> new FastLoginSQLMigrateReadProvider("premium", logger, connector, databaseConnector, premiumProvider),
-                "fastlogin-mysql",
-                MySQLDatabaseConnector.class
-        ));
-        registerReadProvider(new ReadDatabaseProviderRegistration<>(
-                connector -> new FastLoginSQLMigrateReadProvider("premium", logger, connector, databaseConnector, premiumProvider),
-                "fastlogin-sqlite",
-                SQLiteDatabaseConnector.class
-        ));
-        registerReadProvider(new ReadDatabaseProviderRegistration<>(
-                connector -> new UniqueCodeAuthSQLMigrateReadProvider("uniquecode_proxy_users", logger, connector, this),
-                "uniquecodeauth-mysql",
-                MySQLDatabaseConnector.class
-        ));
-        registerReadProvider(new ReadDatabaseProviderRegistration<>(
-                connector -> new LoginSecuritySQLMigrateReadProvider("ls_players", logger, connector),
-                "loginsecurity-mysql",
-                MySQLDatabaseConnector.class
-        ));
-        registerReadProvider(new ReadDatabaseProviderRegistration<>(
-                connector -> new LoginSecuritySQLMigrateReadProvider("ls_players", logger, connector),
-                "loginsecurity-sqlite",
-                SQLiteDatabaseConnector.class
-        ));
-        registerReadProvider(new ReadDatabaseProviderRegistration<>(
-                connector -> new LimboAuthSQLMigrateReadProvider("AUTH", logger, connector),
-                "limboauth-mysql",
-                MySQLDatabaseConnector.class
-        ));
-        registerReadProvider(new ReadDatabaseProviderRegistration<>(
-                connector -> new AuthySQLMigrateReadProvider("players", logger, connector),
-                "authy-mysql",
-                MySQLDatabaseConnector.class
-        ));
-        registerReadProvider(new ReadDatabaseProviderRegistration<>(
-                connector -> new AuthySQLMigrateReadProvider("players", logger, connector),
-                "authy-sqlite",
-                SQLiteDatabaseConnector.class
-        ));
-        registerReadProvider(new ReadDatabaseProviderRegistration<>(
-                connector -> new LogItSQLMigrateReadProvider(configuration.get(MIGRATION_MYSQL_OLD_DATABASE_TABLE), logger, connector),
-                "logit-mysql",
-                MySQLDatabaseConnector.class
-        ));
+        registerReadProvider(
+                new ReadDatabaseProviderRegistration<>(
+                        connector -> new LibreLoginMySQLDatabaseProvider(connector, this),
+                        "librelogin-mysql",
+                        MySQLDatabaseConnector.class));
+        registerReadProvider(
+                new ReadDatabaseProviderRegistration<>(
+                        connector -> new LibreLoginSQLiteDatabaseProvider(connector, this),
+                        "librelogin-sqlite",
+                        SQLiteDatabaseConnector.class));
+        registerReadProvider(
+                new ReadDatabaseProviderRegistration<>(
+                        connector -> new LibreLoginPostgreSQLDatabaseProvider(connector, this),
+                        "librelogin-postgresql",
+                        PostgreSQLDatabaseConnector.class));
+        registerReadProvider(
+                new ReadDatabaseProviderRegistration<>(
+                        connector ->
+                                new AegisSQLMigrateReadProvider(
+                                        configuration.get(MIGRATION_MYSQL_OLD_DATABASE_TABLE),
+                                        logger,
+                                        connector),
+                        "aegis-mysql",
+                        MySQLDatabaseConnector.class));
+        registerReadProvider(
+                new ReadDatabaseProviderRegistration<>(
+                        connector ->
+                                new AuthMeSQLMigrateReadProvider(
+                                        configuration.get(MIGRATION_MYSQL_OLD_DATABASE_TABLE),
+                                        logger,
+                                        connector),
+                        "authme-mysql",
+                        MySQLDatabaseConnector.class));
+        registerReadProvider(
+                new ReadDatabaseProviderRegistration<>(
+                        connector ->
+                                new AuthMeSQLMigrateReadProvider(
+                                        configuration.get(MIGRATION_POSTGRESQL_OLD_DATABASE_TABLE),
+                                        logger,
+                                        connector),
+                        "authme-postgresql",
+                        PostgreSQLDatabaseConnector.class));
+        registerReadProvider(
+                new ReadDatabaseProviderRegistration<>(
+                        connector -> new AuthMeSQLMigrateReadProvider("authme", logger, connector),
+                        "authme-sqlite",
+                        SQLiteDatabaseConnector.class));
+        registerReadProvider(
+                new ReadDatabaseProviderRegistration<>(
+                        connector ->
+                                new DBASQLMigrateReadProvider(
+                                        configuration.get(MIGRATION_MYSQL_OLD_DATABASE_TABLE),
+                                        logger,
+                                        connector),
+                        "dba-mysql",
+                        MySQLDatabaseConnector.class));
+        registerReadProvider(
+                new ReadDatabaseProviderRegistration<>(
+                        connector ->
+                                new JPremiumSQLMigrateReadProvider(
+                                        configuration.get(MIGRATION_MYSQL_OLD_DATABASE_TABLE),
+                                        logger,
+                                        connector),
+                        "jpremium-mysql",
+                        MySQLDatabaseConnector.class));
+        registerReadProvider(
+                new ReadDatabaseProviderRegistration<>(
+                        connector -> new NLoginSQLMigrateReadProvider("nlogin", logger, connector),
+                        "nlogin-sqlite",
+                        SQLiteDatabaseConnector.class));
+        registerReadProvider(
+                new ReadDatabaseProviderRegistration<>(
+                        connector -> new NLoginSQLMigrateReadProvider("nlogin", logger, connector),
+                        "nlogin-mysql",
+                        MySQLDatabaseConnector.class));
+        registerReadProvider(
+                new ReadDatabaseProviderRegistration<>(
+                        connector ->
+                                new FastLoginSQLMigrateReadProvider(
+                                        "premium",
+                                        logger,
+                                        connector,
+                                        databaseConnector,
+                                        premiumProvider),
+                        "fastlogin-mysql",
+                        MySQLDatabaseConnector.class));
+        registerReadProvider(
+                new ReadDatabaseProviderRegistration<>(
+                        connector ->
+                                new FastLoginSQLMigrateReadProvider(
+                                        "premium",
+                                        logger,
+                                        connector,
+                                        databaseConnector,
+                                        premiumProvider),
+                        "fastlogin-sqlite",
+                        SQLiteDatabaseConnector.class));
+        registerReadProvider(
+                new ReadDatabaseProviderRegistration<>(
+                        connector ->
+                                new UniqueCodeAuthSQLMigrateReadProvider(
+                                        "uniquecode_proxy_users", logger, connector, this),
+                        "uniquecodeauth-mysql",
+                        MySQLDatabaseConnector.class));
+        registerReadProvider(
+                new ReadDatabaseProviderRegistration<>(
+                        connector ->
+                                new LoginSecuritySQLMigrateReadProvider(
+                                        "ls_players", logger, connector),
+                        "loginsecurity-mysql",
+                        MySQLDatabaseConnector.class));
+        registerReadProvider(
+                new ReadDatabaseProviderRegistration<>(
+                        connector ->
+                                new LoginSecuritySQLMigrateReadProvider(
+                                        "ls_players", logger, connector),
+                        "loginsecurity-sqlite",
+                        SQLiteDatabaseConnector.class));
+        registerReadProvider(
+                new ReadDatabaseProviderRegistration<>(
+                        connector -> new LimboAuthSQLMigrateReadProvider("AUTH", logger, connector),
+                        "limboauth-mysql",
+                        MySQLDatabaseConnector.class));
+        registerReadProvider(
+                new ReadDatabaseProviderRegistration<>(
+                        connector -> new AuthySQLMigrateReadProvider("players", logger, connector),
+                        "authy-mysql",
+                        MySQLDatabaseConnector.class));
+        registerReadProvider(
+                new ReadDatabaseProviderRegistration<>(
+                        connector -> new AuthySQLMigrateReadProvider("players", logger, connector),
+                        "authy-sqlite",
+                        SQLiteDatabaseConnector.class));
+        registerReadProvider(
+                new ReadDatabaseProviderRegistration<>(
+                        connector ->
+                                new LogItSQLMigrateReadProvider(
+                                        configuration.get(MIGRATION_MYSQL_OLD_DATABASE_TABLE),
+                                        logger,
+                                        connector),
+                        "logit-mysql",
+                        MySQLDatabaseConnector.class));
         // Currently disabled as crazylogin stores all names in lowercase
         /*registerReadProvider(new ReadDatabaseProviderRegistration<>(
                 connector -> new CrazyLoginSQLMigrateReadProvider(configuration.get(MIGRATION_MYSQL_OLD_DATABASE_TABLE), logger, connector),
@@ -591,7 +697,11 @@ public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S
 
         if (!file.exists()) {
             logger.info("Forbidden passwords list doesn't exist, downloading...");
-            try (BufferedInputStream in = new BufferedInputStream(new URL("https://raw.githubusercontent.com/kyngs/LibreLogin/dev/forbidden-passwords.txt").openStream())) {
+            try (BufferedInputStream in =
+                    new BufferedInputStream(
+                            new URL(
+                                            "https://raw.githubusercontent.com/kyngs/LibreLogin/dev/forbidden-passwords.txt")
+                                    .openStream())) {
                 if (!file.createNewFile()) {
                     throw new IOException("Failed to create file");
                 }
@@ -625,7 +735,9 @@ public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S
         logger.info("Checking for updates...");
 
         try {
-            var connection = new URL("https://api.github.com/repos/kyngs/LibreLogin/releases").openConnection();
+            var connection =
+                    new URL("https://api.github.com/repos/kyngs/LibreLogin/releases")
+                            .openConnection();
 
             connection.setRequestProperty("User-Agent", "LibreLogin");
 
@@ -633,7 +745,7 @@ public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S
 
             var root = GSON.fromJson(new InputStreamReader(in), JsonArray.class);
 
-            in.close(); //Not the safest way, but a slight leak isn't a big deal
+            in.close(); // Not the safest way, but a slight leak isn't a big deal
 
             List<Release> behind = new ArrayList<>();
             SemanticVersion latest = null;
@@ -645,13 +757,14 @@ public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S
 
                 if (latest == null) latest = version;
 
-                var shouldBreak = switch (this.version.compare(version)) {
-                    case 0, 1 -> true;
-                    default -> {
-                        behind.add(new Release(version, release.get("name").getAsString()));
-                        yield false;
-                    }
-                };
+                var shouldBreak =
+                        switch (this.version.compare(version)) {
+                            case 0, 1 -> true;
+                            default -> {
+                                behind.add(new Release(version, release.get("name").getAsString()));
+                                yield false;
+                            }
+                        };
 
                 if (shouldBreak) {
                     break;
@@ -663,7 +776,9 @@ public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S
             } else {
                 Collections.reverse(behind);
                 logger.warn("!! YOU ARE RUNNING AN OUTDATED VERSION OF LIBRELOGIN !!");
-                logger.info("You are running version %s, the latest version is %s. You are running %s versions behind. Newer versions:".formatted(getVersion(), latest, behind.size()));
+                logger.info(
+                        "You are running version %s, the latest version is %s. You are running %s versions behind. Newer versions:"
+                                .formatted(getVersion(), latest, behind.size()));
                 for (Release release : behind) {
                     logger.info("- %s".formatted(release.name()));
                 }
@@ -714,7 +829,8 @@ public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S
     public void checkDataFolder() {
         var folder = getDataFolder();
 
-        if (!folder.exists()) if (!folder.mkdir()) throw new RuntimeException("Failed to create datafolder");
+        if (!folder.exists())
+            if (!folder.mkdir()) throw new RuntimeException("Failed to create datafolder");
     }
 
     protected abstract Logger provideLogger();
@@ -727,7 +843,8 @@ public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S
 
     public abstract CancellableTask delay(Runnable runnable, long delayInMillis);
 
-    public abstract CancellableTask repeat(Runnable runnable, long delayInMillis, long repeatInMillis);
+    public abstract CancellableTask repeat(
+            Runnable runnable, long delayInMillis, long repeatInMillis);
 
     public abstract boolean pluginPresent(String pluginName);
 
@@ -737,12 +854,13 @@ public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S
         try {
             return getPremiumProvider().getUserForName(username);
         } catch (PremiumException e) {
-            throw new InvalidCommandArgument(getMessages().getMessage(
-                    switch (e.getIssue()) {
-                        case THROTTLED -> "error-premium-throttled";
-                        default -> "error-premium-unknown";
-                    }
-            ));
+            throw new InvalidCommandArgument(
+                    getMessages()
+                            .getMessage(
+                                    switch (e.getIssue()) {
+                                        case THROTTLED -> "error-premium-throttled";
+                                        default -> "error-premium-unknown";
+                                    }));
         }
     }
 
@@ -832,7 +950,10 @@ public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S
 
     public void reportMainThread() {
         if (mainThread()) {
-            logger.error("AN IO OPERATION IS BEING PERFORMED ON THE MAIN THREAD! THIS IS A SERIOUS BUG!, PLEASE REPORT IT TO THE DEVELOPER OF THE PLUGIN AND ATTACH THE STACKTRACE BELOW!");
+            logger.error(
+                    "AN IO OPERATION IS BEING PERFORMED ON THE MAIN THREAD! THIS IS A SERIOUS BUG!,"
+                            + " PLEASE REPORT IT TO THE DEVELOPER OF THE PLUGIN AND ATTACH THE"
+                            + " STACKTRACE BELOW!");
             new Throwable().printStackTrace();
         }
     }

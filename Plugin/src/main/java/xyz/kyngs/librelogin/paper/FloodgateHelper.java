@@ -22,9 +22,11 @@ public class FloodgateHelper {
      * @return false if the player was kicked
      * @author games647 and FastLogin contributors
      * @see <a href="https://github.com/GeyserMC/Floodgate/issues/143">Issue Floodgate#143</a>
-     * @see <a href="https://github.com/GeyserMC/Floodgate/blob/5d5713ed9e9eeab0f4abdaa9cf5cd8619dc1909b/spigot/src/main/java/org/geysermc/floodgate/addon/data/SpigotDataHandler.java#L121-L175">Floodgate/SpigotDataHandler</a>
+     * @see <a
+     *     href="https://github.com/GeyserMC/Floodgate/blob/5d5713ed9e9eeab0f4abdaa9cf5cd8619dc1909b/spigot/src/main/java/org/geysermc/floodgate/addon/data/SpigotDataHandler.java#L121-L175">Floodgate/SpigotDataHandler</a>
      */
-    protected boolean processFloodgateTasks(PacketReceiveEvent event, WrapperLoginClientLoginStart packet) {
+    protected boolean processFloodgateTasks(
+            PacketReceiveEvent event, WrapperLoginClientLoginStart packet) {
         FloodgatePlayer floodgatePlayer = getFloodgatePlayer(event.getChannel());
         if (floodgatePlayer == null) {
             return true;

@@ -14,7 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Used for setting the same values multiple times, for example in INSERT ... ON DUPLICATE KEY UPDATE ...
+ * Used for setting the same values multiple times, for example in INSERT ... ON DUPLICATE KEY
+ * UPDATE ...
  *
  * @author kyngs
  */

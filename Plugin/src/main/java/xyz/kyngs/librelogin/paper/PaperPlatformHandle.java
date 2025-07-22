@@ -7,18 +7,17 @@
 package xyz.kyngs.librelogin.paper;
 
 import com.google.common.base.MoreObjects;
+import java.io.File;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import xyz.kyngs.librelogin.api.PlatformHandle;
 import xyz.kyngs.librelogin.api.server.ServerPing;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 public class PaperPlatformHandle implements PlatformHandle<Player, World> {
 
@@ -73,7 +72,8 @@ public class PaperPlatformHandle implements PlatformHandle<Player, World> {
         world = Bukkit.createWorld(creator);
 
         if (limbo) {
-            world.setSpawnLocation(new Location(world, 0.5, world.getHighestBlockYAt(0, 0) + 1, 0.5));
+            world.setSpawnLocation(
+                    new Location(world, 0.5, world.getHighestBlockYAt(0, 0) + 1, 0.5));
             world.setKeepSpawnInMemory(true);
             world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
             world.setGameRule(GameRule.DO_INSOMNIA, false);
@@ -142,16 +142,23 @@ public class PaperPlatformHandle implements PlatformHandle<Player, World> {
         return new ProxyData(
                 Bukkit.getName() + " " + Bukkit.getVersion(),
                 getServers().stream().map(this::fromWorld).toList(),
-                Arrays.stream(Bukkit.getPluginManager().getPlugins()).map(plugin ->
-                        MoreObjects.toStringHelper(plugin)
-                                .add("name", plugin.getName())
-                                .add("version", plugin.getDescription().getVersion())
-                                .add("authors", plugin.getDescription().getAuthors())
-                                .toString()
-                ).toList(),
+                Arrays.stream(Bukkit.getPluginManager().getPlugins())
+                        .map(
+                                plugin ->
+                                        MoreObjects.toStringHelper(plugin)
+                                                .add("name", plugin.getName())
+                                                .add(
+                                                        "version",
+                                                        plugin.getDescription().getVersion())
+                                                .add(
+                                                        "authors",
+                                                        plugin.getDescription().getAuthors())
+                                                .toString())
+                        .toList(),
                 plugin.getServerHandler().getLimboServers().stream().map(this::fromWorld).toList(),
-                plugin.getServerHandler().getLobbyServers().values().stream().map(this::fromWorld).toList()
-        );
+                plugin.getServerHandler().getLobbyServers().values().stream()
+                        .map(this::fromWorld)
+                        .toList());
     }
 
     private String fromWorld(World world) {
@@ -161,7 +168,5 @@ public class PaperPlatformHandle implements PlatformHandle<Player, World> {
                 .add("difficulty", world.getDifficulty())
                 .add("players", world.getPlayers().size())
                 .toString();
-
     }
-
 }

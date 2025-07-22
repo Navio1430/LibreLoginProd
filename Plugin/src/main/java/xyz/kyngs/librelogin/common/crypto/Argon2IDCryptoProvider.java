@@ -6,6 +6,8 @@
 
 package xyz.kyngs.librelogin.common.crypto;
 
+import java.security.SecureRandom;
+import java.util.Arrays;
 import org.bouncycastle.crypto.generators.Argon2BytesGenerator;
 import org.bouncycastle.crypto.params.Argon2Parameters;
 import org.jetbrains.annotations.Nullable;
@@ -13,9 +15,6 @@ import xyz.kyngs.librelogin.api.Logger;
 import xyz.kyngs.librelogin.api.crypto.CryptoProvider;
 import xyz.kyngs.librelogin.api.crypto.HashedPassword;
 import xyz.kyngs.librelogin.common.util.CryptoUtil;
-
-import java.security.SecureRandom;
-import java.util.Arrays;
 
 public class Argon2IDCryptoProvider implements CryptoProvider {
 
@@ -27,8 +26,7 @@ public class Argon2IDCryptoProvider implements CryptoProvider {
         random = new SecureRandom();
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public HashedPassword createHash(String password) {
         var start = System.currentTimeMillis();
         var salt = new byte[16];
@@ -36,11 +34,12 @@ public class Argon2IDCryptoProvider implements CryptoProvider {
 
         var hash = new byte[32];
 
-        var params = new Argon2Parameters.Builder(Argon2Parameters.ARGON2_id)
-                .withSalt(salt)
-                .withMemoryAsKB(1 << 14)
-                .withIterations(2)
-                .build();
+        var params =
+                new Argon2Parameters.Builder(Argon2Parameters.ARGON2_id)
+                        .withSalt(salt)
+                        .withMemoryAsKB(1 << 14)
+                        .withIterations(2)
+                        .build();
 
         var generator = new Argon2BytesGenerator();
         generator.init(params);

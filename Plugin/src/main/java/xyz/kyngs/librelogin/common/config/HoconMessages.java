@@ -6,6 +6,10 @@
 
 package xyz.kyngs.librelogin.common.config;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -21,15 +25,9 @@ import xyz.kyngs.librelogin.common.config.migrate.messages.ThirdMessagesMigrator
 import xyz.kyngs.librelogin.common.util.GeneralUtil;
 import xyz.kyngs.utils.legacymessage.LegacyMessage;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 public class HoconMessages implements Messages {
 
-    private static final MiniMessage SERIALIZER = MiniMessage.builder()
-            .build();
+    private static final MiniMessage SERIALIZER = MiniMessage.builder().build();
     private final Map<String, TextComponent> messages;
     private final Logger logger;
     private ConfigurateConfiguration rawMessages;
@@ -66,48 +64,57 @@ public class HoconMessages implements Messages {
     }
 
     @Override
-    public void reload(LibreLoginPlugin<?, ?> plugin) throws IOException, CorruptedConfigurationException {
-        var adept = new ConfigurateConfiguration(
-                plugin.getDataFolder(),
-                "messages.conf",
-                Set.of(new BiHolder<>(MessageKeys.class, "")),
-                """
-                          !!THIS FILE IS WRITTEN IN THE HOCON FORMAT!!
-                          The hocon format is very similar to JSON, but it has some extra features.
-                          You can find more information about the format on the sponge wiki:
-                          https://docs.spongepowered.org/stable/en/server/getting-started/configuration/hocon.html
-                          ----------------------------------------------------------------------------------------
-                          LibreLogin Messages
-                          ----------------------------------------------------------------------------------------
-                          This file contains all of the messages used by the plugin, you are welcome to fit it to your needs.
-                          The messages can be written both in the legacy format and in the MiniMessage format. For example, the following message is completely valid: <bold>&aReloaded!</bold>
-                          You can find more information about LibreLogin on the github page:
-                          https://github.com/kyngs/LibreLogin
-                        """,
-                logger,
-                new FirstMessagesMigrator(),
-                new SecondMessagesMigrator(),
-                new ThirdMessagesMigrator()
-        );
+    public void reload(LibreLoginPlugin<?, ?> plugin)
+            throws IOException, CorruptedConfigurationException {
+        var adept =
+                new ConfigurateConfiguration(
+                        plugin.getDataFolder(),
+                        "messages.conf",
+                        Set.of(new BiHolder<>(MessageKeys.class, "")),
+                        """
+  !!THIS FILE IS WRITTEN IN THE HOCON FORMAT!!
+  The hocon format is very similar to JSON, but it has some extra features.
+  You can find more information about the format on the sponge wiki:
+  https://docs.spongepowered.org/stable/en/server/getting-started/configuration/hocon.html
+  ----------------------------------------------------------------------------------------
+  LibreLogin Messages
+  ----------------------------------------------------------------------------------------
+  This file contains all of the messages used by the plugin, you are welcome to fit it to your needs.
+  The messages can be written both in the legacy format and in the MiniMessage format. For example, the following message is completely valid: <bold>&aReloaded!</bold>
+  You can find more information about LibreLogin on the github page:
+  https://github.com/kyngs/LibreLogin
+""",
+                        logger,
+                        new FirstMessagesMigrator(),
+                        new SecondMessagesMigrator(),
+                        new ThirdMessagesMigrator());
 
         extractKeys("", adept.getHelper().configuration());
         rawMessages = adept;
     }
 
     private void extractKeys(String prefix, CommentedConfigurationNode node) {
-        node.childrenMap().forEach((key, value) -> {
-            if (!(key instanceof String str)) return;
+        node.childrenMap()
+                .forEach(
+                        (key, value) -> {
+                            if (!(key instanceof String str)) return;
 
-            if (value.childrenMap().isEmpty()) {
-                var string = value.getString();
+                            if (value.childrenMap().isEmpty()) {
+                                var string = value.getString();
 
-                if (string == null) return;
+                                if (string == null) return;
 
-                messages.put(prefix + str, Component.empty().append(SERIALIZER.deserialize(LegacyMessage.fromLegacy(string, "&"))));
-            } else {
-                extractKeys(prefix + str + ".", value);
-            }
-        });
+                                messages.put(
+                                        prefix + str,
+                                        Component.empty()
+                                                .append(
+                                                        SERIALIZER.deserialize(
+                                                                LegacyMessage.fromLegacy(
+                                                                        string, "&"))));
+                            } else {
+                                extractKeys(prefix + str + ".", value);
+                            }
+                        });
     }
 
     public String getRawMessage(String key) {

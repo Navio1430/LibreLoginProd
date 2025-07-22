@@ -36,7 +36,8 @@ public class Log4JFilter extends LogFilter implements Filter {
     }
 
     @Override
-    public Result filter(Logger logger, Level level, Marker marker, String message, Object... params) {
+    public Result filter(
+            Logger logger, Level level, Marker marker, String message, Object... params) {
         return checkMessageResult(message);
     }
 
@@ -46,47 +47,132 @@ public class Log4JFilter extends LogFilter implements Filter {
     }
 
     @Override
-    public Result filter(Logger logger, Level level, Marker marker, String message, Object p0, Object p1) {
+    public Result filter(
+            Logger logger, Level level, Marker marker, String message, Object p0, Object p1) {
         return checkMessageResult(message);
     }
 
     @Override
-    public Result filter(Logger logger, Level level, Marker marker, String message, Object p0, Object p1, Object p2) {
+    public Result filter(
+            Logger logger,
+            Level level,
+            Marker marker,
+            String message,
+            Object p0,
+            Object p1,
+            Object p2) {
         return checkMessageResult(message);
     }
 
     @Override
-    public Result filter(Logger logger, Level level, Marker marker, String message, Object p0, Object p1, Object p2, Object p3) {
+    public Result filter(
+            Logger logger,
+            Level level,
+            Marker marker,
+            String message,
+            Object p0,
+            Object p1,
+            Object p2,
+            Object p3) {
         return checkMessageResult(message);
     }
 
     @Override
-    public Result filter(Logger logger, Level level, Marker marker, String message, Object p0, Object p1, Object p2, Object p3, Object p4) {
+    public Result filter(
+            Logger logger,
+            Level level,
+            Marker marker,
+            String message,
+            Object p0,
+            Object p1,
+            Object p2,
+            Object p3,
+            Object p4) {
         return checkMessageResult(message);
     }
 
     @Override
-    public Result filter(Logger logger, Level level, Marker marker, String message, Object p0, Object p1, Object p2, Object p3, Object p4, Object p5) {
+    public Result filter(
+            Logger logger,
+            Level level,
+            Marker marker,
+            String message,
+            Object p0,
+            Object p1,
+            Object p2,
+            Object p3,
+            Object p4,
+            Object p5) {
         return checkMessageResult(message);
     }
 
     @Override
-    public Result filter(Logger logger, Level level, Marker marker, String message, Object p0, Object p1, Object p2, Object p3, Object p4, Object p5, Object p6) {
+    public Result filter(
+            Logger logger,
+            Level level,
+            Marker marker,
+            String message,
+            Object p0,
+            Object p1,
+            Object p2,
+            Object p3,
+            Object p4,
+            Object p5,
+            Object p6) {
         return checkMessageResult(message);
     }
 
     @Override
-    public Result filter(Logger logger, Level level, Marker marker, String message, Object p0, Object p1, Object p2, Object p3, Object p4, Object p5, Object p6, Object p7) {
+    public Result filter(
+            Logger logger,
+            Level level,
+            Marker marker,
+            String message,
+            Object p0,
+            Object p1,
+            Object p2,
+            Object p3,
+            Object p4,
+            Object p5,
+            Object p6,
+            Object p7) {
         return checkMessageResult(message);
     }
 
     @Override
-    public Result filter(Logger logger, Level level, Marker marker, String message, Object p0, Object p1, Object p2, Object p3, Object p4, Object p5, Object p6, Object p7, Object p8) {
+    public Result filter(
+            Logger logger,
+            Level level,
+            Marker marker,
+            String message,
+            Object p0,
+            Object p1,
+            Object p2,
+            Object p3,
+            Object p4,
+            Object p5,
+            Object p6,
+            Object p7,
+            Object p8) {
         return checkMessageResult(message);
     }
 
     @Override
-    public Result filter(Logger logger, Level level, Marker marker, String message, Object p0, Object p1, Object p2, Object p3, Object p4, Object p5, Object p6, Object p7, Object p8, Object p9) {
+    public Result filter(
+            Logger logger,
+            Level level,
+            Marker marker,
+            String message,
+            Object p0,
+            Object p1,
+            Object p2,
+            Object p3,
+            Object p4,
+            Object p5,
+            Object p6,
+            Object p7,
+            Object p8,
+            Object p9) {
         return checkMessageResult(message);
     }
 
@@ -110,8 +196,7 @@ public class Log4JFilter extends LogFilter implements Filter {
         return State.STARTED;
     }
 
-    public void initialize() {
-    }
+    public void initialize() {}
 
     public boolean isStarted() {
         return true;
@@ -121,9 +206,7 @@ public class Log4JFilter extends LogFilter implements Filter {
         return false;
     }
 
-    public void start() {
-    }
+    public void start() {}
 
-    public void stop() {
-    }
+    public void stop() {}
 }

@@ -6,14 +6,14 @@
 
 package xyz.kyngs.librelogin.paper.protocol;
 
+import static io.github.retrooper.packetevents.util.SpigotReflectionUtil.CHANNEL_CLASS;
+import static io.github.retrooper.packetevents.util.SpigotReflectionUtil.NETWORK_MANAGER_CLASS;
+
 import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.manager.server.ServerVersion;
 import com.github.retrooper.packetevents.util.reflection.ReflectionObject;
 import io.github.retrooper.packetevents.util.SpigotReflectionUtil;
 import io.netty.channel.Channel;
-
-import static io.github.retrooper.packetevents.util.SpigotReflectionUtil.CHANNEL_CLASS;
-import static io.github.retrooper.packetevents.util.SpigotReflectionUtil.NETWORK_MANAGER_CLASS;
 
 public class ProtocolUtil {
     public static ServerVersion getServerVersion() {

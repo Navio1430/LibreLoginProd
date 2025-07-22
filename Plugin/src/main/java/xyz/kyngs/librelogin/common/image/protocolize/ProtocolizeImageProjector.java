@@ -13,14 +13,14 @@ import dev.simplix.protocolize.api.util.ProtocolVersions;
 import dev.simplix.protocolize.data.ItemType;
 import dev.simplix.protocolize.data.packets.HeldItemChange;
 import dev.simplix.protocolize.data.packets.SetSlot;
+import java.awt.image.BufferedImage;
 import xyz.kyngs.librelogin.api.image.ImageProjector;
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 import xyz.kyngs.librelogin.common.image.AuthenticImageProjector;
 import xyz.kyngs.librelogin.common.image.protocolize.packet.MapDataPacket;
 
-import java.awt.image.BufferedImage;
-
-public class ProtocolizeImageProjector<P, S> extends AuthenticImageProjector<P, S> implements ImageProjector<P> {
+public class ProtocolizeImageProjector<P, S> extends AuthenticImageProjector<P, S>
+        implements ImageProjector<P> {
 
     public ProtocolizeImageProjector(AuthenticLibreLogin<P, S> plugin) {
         super(plugin);
@@ -36,9 +36,10 @@ public class ProtocolizeImageProjector<P, S> extends AuthenticImageProjector<P, 
     }
 
     /**
-     * <b>This implementation only really renders pure black and everything else as transparent. Shouldn't be used for anything else than a QR code.</b>
+     * <b>This implementation only really renders pure black and everything else as transparent.
+     * Shouldn't be used for anything else than a QR code.</b>
      *
-     * @param image  The image to render.
+     * @param image The image to render.
      * @param player The player to render the image to.
      */
     @Override
@@ -47,44 +48,31 @@ public class ProtocolizeImageProjector<P, S> extends AuthenticImageProjector<P, 
 
         var protocolize = Protocolize.playerProvider().player(id);
         var protocol = protocolize.protocolVersion();
-        var item = new ItemStack(
-                ItemType.FILLED_MAP,
-                1,
-                (short) 0
-        );
+        var item = new ItemStack(ItemType.FILLED_MAP, 1, (short) 0);
 
         if (protocol >= ProtocolVersions.MINECRAFT_1_17) {
-            item.nbtData()
-                    .putInt("map", 0);
+            item.nbtData().putInt("map", 0);
         }
 
-        protocolize.sendPacket(
-                new SetSlot()
-                        .slot((short) 36)
-                        .itemStack(item)
-        );
+        protocolize.sendPacket(new SetSlot().slot((short) 36).itemStack(item));
 
-        protocolize.sendPacketToServer(
-                new HeldItemChange()
-                        .newSlot((short) 0)
-        );
+        protocolize.sendPacketToServer(new HeldItemChange().newSlot((short) 0));
 
-        protocolize.sendPacket(
-                new HeldItemChange()
-                        .newSlot((short) 0)
-        );
+        protocolize.sendPacket(new HeldItemChange().newSlot((short) 0));
 
         if (image.getWidth() != 128 && image.getHeight() != 128) {
             var resized = new BufferedImage(128, 128, image.getType());
 
             var graphics = resized.createGraphics();
-            graphics.drawImage(image, 0, 0, 128, 128, 0, 0, image.getWidth(), image.getHeight(), null);
+            graphics.drawImage(
+                    image, 0, 0, 128, 128, 0, 0, image.getWidth(), image.getHeight(), null);
             graphics.dispose();
 
             image = resized;
         }
 
-        int[] pixels = image.getRGB(0, 0, image.getWidth(), image.getHeight(), null, 0, image.getWidth());
+        int[] pixels =
+                image.getRGB(0, 0, image.getWidth(), image.getHeight(), null, 0, image.getWidth());
         byte[] data = new byte[pixels.length];
 
         for (int i = 0; i < pixels.length; i++) {
@@ -100,7 +88,7 @@ public class ProtocolizeImageProjector<P, S> extends AuthenticImageProjector<P, 
 
         var protocolize = Protocolize.playerProvider().player(id);
 
-        return protocolize.protocolVersion() >= ProtocolVersions.MINECRAFT_1_13 && protocolize.protocolVersion() <= 767; // 1.21.1
+        return protocolize.protocolVersion() >= ProtocolVersions.MINECRAFT_1_13
+                && protocolize.protocolVersion() <= 767; // 1.21.1
     }
-
 }

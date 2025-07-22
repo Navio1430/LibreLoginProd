@@ -6,16 +6,8 @@
 
 package xyz.kyngs.librelogin.common.util;
 
-import net.kyori.adventure.text.TextComponent;
-import org.jetbrains.annotations.Nullable;
-import xyz.kyngs.librelogin.api.Logger;
-import xyz.kyngs.librelogin.api.database.ReadDatabaseProvider;
-import xyz.kyngs.librelogin.api.database.connector.DatabaseConnector;
-import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
-import xyz.kyngs.librelogin.common.command.InvalidCommandArgument;
-import xyz.kyngs.librelogin.common.config.ConfigurationKeys;
-import xyz.kyngs.librelogin.common.config.HoconPluginConfiguration;
-import xyz.kyngs.librelogin.common.config.key.ConfigurationKey;
+import static xyz.kyngs.librelogin.common.config.ConfigurationKeys.DATABASE_TYPE;
+import static xyz.kyngs.librelogin.common.config.ConfigurationKeys.MIGRATION_TYPE;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,9 +22,16 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ForkJoinPool;
-
-import static xyz.kyngs.librelogin.common.config.ConfigurationKeys.DATABASE_TYPE;
-import static xyz.kyngs.librelogin.common.config.ConfigurationKeys.MIGRATION_TYPE;
+import net.kyori.adventure.text.TextComponent;
+import org.jetbrains.annotations.Nullable;
+import xyz.kyngs.librelogin.api.Logger;
+import xyz.kyngs.librelogin.api.database.ReadDatabaseProvider;
+import xyz.kyngs.librelogin.api.database.connector.DatabaseConnector;
+import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
+import xyz.kyngs.librelogin.common.command.InvalidCommandArgument;
+import xyz.kyngs.librelogin.common.config.ConfigurationKeys;
+import xyz.kyngs.librelogin.common.config.HoconPluginConfiguration;
+import xyz.kyngs.librelogin.common.config.key.ConfigurationKey;
 
 public class GeneralUtil {
 
@@ -55,18 +54,24 @@ public class GeneralUtil {
     }
 
     public static UUID fromUnDashedUUID(String id) {
-        return id == null ? null : new UUID(
-                new BigInteger(id.substring(0, 16), 16).longValue(),
-                new BigInteger(id.substring(16, 32), 16).longValue()
-        );
+        return id == null
+                ? null
+                : new UUID(
+                        new BigInteger(id.substring(0, 16), 16).longValue(),
+                        new BigInteger(id.substring(16, 32), 16).longValue());
     }
 
-    @Nullable
-    public static TextComponent formatComponent(@Nullable TextComponent component, Map<String, String> replacements) {
+    @Nullable public static TextComponent formatComponent(
+            @Nullable TextComponent component, Map<String, String> replacements) {
         if (component == null) return null;
 
         for (Map.Entry<String, String> entry : replacements.entrySet()) {
-            component = (TextComponent) component.replaceText(builder -> builder.matchLiteral(entry.getKey()).replacement(entry.getValue()));
+            component =
+                    (TextComponent)
+                            component.replaceText(
+                                    builder ->
+                                            builder.matchLiteral(entry.getKey())
+                                                    .replacement(entry.getValue()));
         }
         return component;
     }
@@ -76,7 +81,10 @@ public class GeneralUtil {
         return UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(StandardCharsets.UTF_8));
     }
 
-    public static void checkAndMigrate(HoconPluginConfiguration configuration, Logger logger, AuthenticLibreLogin<?, ?> plugin) {
+    public static void checkAndMigrate(
+            HoconPluginConfiguration configuration,
+            Logger logger,
+            AuthenticLibreLogin<?, ?> plugin) {
         if (configuration.get(ConfigurationKeys.MIGRATION_ON_NEXT_STARTUP)) {
             logger.info("Performing migration...");
 
@@ -87,23 +95,35 @@ public class GeneralUtil {
                 DatabaseConnector<?, ?> connector = null;
 
                 try {
-                    var registration = plugin.getReadProviders().get(configuration.get(MIGRATION_TYPE));
+                    var registration =
+                            plugin.getReadProviders().get(configuration.get(MIGRATION_TYPE));
                     if (registration == null) {
-                        logger.error("Migration type %s doesn't exist, please check your configuration".formatted(configuration.get(MIGRATION_TYPE)));
+                        logger.error(
+                                "Migration type %s doesn't exist, please check your configuration"
+                                        .formatted(configuration.get(MIGRATION_TYPE)));
                         logger.error("Aborting migration");
                         return;
                     }
 
                     if (registration.databaseConnector() != null) {
-                        var connectorRegistration = plugin.getDatabaseConnector(registration.databaseConnector());
+                        var connectorRegistration =
+                                plugin.getDatabaseConnector(registration.databaseConnector());
 
                         if (connectorRegistration == null) {
-                            logger.error("Migration type %s is corrupted, please use a different one".formatted(configuration.get(DATABASE_TYPE)));
+                            logger.error(
+                                    "Migration type %s is corrupted, please use a different one"
+                                            .formatted(configuration.get(DATABASE_TYPE)));
                             logger.error("Aborting migration");
                             return;
                         }
 
-                        connector = connectorRegistration.factory().apply("migration.old-database." + connectorRegistration.id() + ".");
+                        connector =
+                                connectorRegistration
+                                        .factory()
+                                        .apply(
+                                                "migration.old-database."
+                                                        + connectorRegistration.id()
+                                                        + ".");
 
                         connector.connect();
                     }
@@ -115,7 +135,10 @@ public class GeneralUtil {
                 } catch (Exception e) {
                     var cause = GeneralUtil.getFurthestCause(e);
                     logger.error("!! THIS IS NOT AN ERROR CAUSED BY LIBRELOGIN !!");
-                    logger.error("Failed to connect to the OLD database, this most likely is caused by wrong credentials. Cause: %s: %s".formatted(cause.getClass().getSimpleName(), cause.getMessage()));
+                    logger.error(
+                            "Failed to connect to the OLD database, this most likely is caused by wrong credentials. Cause: %s: %s"
+                                    .formatted(
+                                            cause.getClass().getSimpleName(), cause.getMessage()));
                     logger.error("Aborting migration");
 
                     return;
@@ -134,25 +157,27 @@ public class GeneralUtil {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                logger.error("An unexpected exception occurred while performing database migration, aborting migration");
+                logger.error(
+                        "An unexpected exception occurred while performing database migration,"
+                                + " aborting migration");
             }
-
         }
     }
 
     public static CompletionStage<Void> runAsync(Runnable runnable) {
         var future = new CompletableFuture<Void>();
-        AuthenticLibreLogin.EXECUTOR.submit(() -> {
-            try {
-                runnable.run();
-                future.complete(null);
-            } catch (InvalidCommandArgument e) {
-                future.completeExceptionally(e);
-            } catch (Throwable e) {
-                e.printStackTrace();
-                future.completeExceptionally(e);
-            }
-        });
+        AuthenticLibreLogin.EXECUTOR.submit(
+                () -> {
+                    try {
+                        runnable.run();
+                        future.complete(null);
+                    } catch (InvalidCommandArgument e) {
+                        future.completeExceptionally(e);
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                        future.completeExceptionally(e);
+                    }
+                });
         return future;
     }
 
@@ -162,7 +187,6 @@ public class GeneralUtil {
             for (Field field : clazz.getFields()) {
                 if (field.getType() != ConfigurationKey.class) continue;
                 list.add((ConfigurationKey<?>) field.get(null));
-
             }
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
@@ -191,5 +215,4 @@ public class GeneralUtil {
         }
         return null;
     }
-
 }

@@ -6,23 +6,27 @@
 
 package xyz.kyngs.librelogin.common.database.provider;
 
-import xyz.kyngs.librelogin.api.database.connector.PostgreSQLDatabaseConnector;
-import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import xyz.kyngs.librelogin.api.database.connector.PostgreSQLDatabaseConnector;
+import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 
 public class LibreLoginPostgreSQLDatabaseProvider extends LibreLoginSQLDatabaseProvider {
-    public LibreLoginPostgreSQLDatabaseProvider(PostgreSQLDatabaseConnector connector, AuthenticLibreLogin<?, ?> plugin) {
+    public LibreLoginPostgreSQLDatabaseProvider(
+            PostgreSQLDatabaseConnector connector, AuthenticLibreLogin<?, ?> plugin) {
         super(connector, plugin);
     }
 
     @Override
     protected List<String> getColumnNames(Connection connection) throws SQLException {
-        var resultSet = connection.prepareStatement("SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='librepremium_data' and TABLE_SCHEMA='public'")
-                .executeQuery();
+        var resultSet =
+                connection
+                        .prepareStatement(
+                                "SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS WHERE"
+                                    + " TABLE_NAME='librepremium_data' and TABLE_SCHEMA='public'")
+                        .executeQuery();
 
         var columns = new ArrayList<String>();
         while (resultSet.next()) {

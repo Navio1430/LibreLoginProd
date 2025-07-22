@@ -6,14 +6,13 @@
 
 package xyz.kyngs.librelogin.api;
 
-import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.text.Component;
-import xyz.kyngs.librelogin.api.server.ServerPing;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
+import xyz.kyngs.librelogin.api.server.ServerPing;
 
 /**
  * Platform-specific things that are used to interact with platform's objects
@@ -44,8 +43,9 @@ public interface PlatformHandle<P, S> {
      * that will be completed with an exception if an error occurs during the move.
      *
      * @param player the player to be moved
-     * @param to     the location to which the player should be moved
-     * @return a CompletableFuture that will be completed with an exception if an error occurs during the move
+     * @param to the location to which the player should be moved
+     * @return a CompletableFuture that will be completed with an exception if an error occurs
+     *     during the move
      */
     CompletableFuture<Throwable> movePlayer(P player, S to);
 
@@ -60,7 +60,7 @@ public interface PlatformHandle<P, S> {
     /**
      * Retrieves the server with the specified name.
      *
-     * @param name  the name of the server to retrieve
+     * @param name the name of the server to retrieve
      * @param limbo a boolean indicating whether to retrieve servers in limbo status or not
      * @return the server with the specified name, or null if no server is found
      */
@@ -160,13 +160,16 @@ public interface PlatformHandle<P, S> {
     /**
      * Represents the data for a proxy server.
      *
-     * @param name    the name of the proxy server
+     * @param name the name of the proxy server
      * @param servers the list of servers on the proxy
      * @param plugins the list of plugins on the proxy
-     * @param limbos  the list of servers in limbo status on the proxy
+     * @param limbos the list of servers in limbo status on the proxy
      * @param lobbies the list of servers in lobby status on the proxy
      */
-    record ProxyData(String name, List<String> servers, List<String> plugins, List<String> limbos,
-                     List<String> lobbies) {
-    }
+    record ProxyData(
+            String name,
+            List<String> servers,
+            List<String> plugins,
+            List<String> limbos,
+            List<String> lobbies) {}
 }

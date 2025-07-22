@@ -8,7 +8,6 @@ package xyz.kyngs.librelogin.common.util;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -24,9 +23,7 @@ public class RateLimiter<T> {
     private final Cache<T, Object> expiring;
 
     public RateLimiter(long amount, TimeUnit unit) {
-        expiring = Caffeine.newBuilder()
-                .expireAfterWrite(amount, unit)
-                .build();
+        expiring = Caffeine.newBuilder().expireAfterWrite(amount, unit).build();
     }
 
     /**
@@ -35,11 +32,12 @@ public class RateLimiter<T> {
      */
     public boolean tryAndLimit(T t) {
         var wasLimited = new AtomicBoolean(true);
-        expiring.get(t, x -> {
-            wasLimited.set(false);
-            return new Object();
-        });
+        expiring.get(
+                t,
+                x -> {
+                    wasLimited.set(false);
+                    return new Object();
+                });
         return wasLimited.get();
     }
-
 }

@@ -10,6 +10,9 @@ import co.aikar.commands.CommandManager;
 import co.aikar.commands.MessageKeys;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import java.util.HashMap;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -31,13 +34,10 @@ import xyz.kyngs.librelogin.common.command.commands.tfa.TwoFactorAuthCommand;
 import xyz.kyngs.librelogin.common.command.commands.tfa.TwoFactorConfirmCommand;
 import xyz.kyngs.librelogin.common.util.RateLimiter;
 
-import java.util.HashMap;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-
 public class CommandProvider<P, S> extends AuthenticHandler<P, S> {
 
-    public static final LegacyComponentSerializer ACF_SERIALIZER = LegacyComponentSerializer.legacySection();
+    public static final LegacyComponentSerializer ACF_SERIALIZER =
+            LegacyComponentSerializer.legacySection();
 
     private final CommandManager<?, ?, ?, ?, ?, ?> manager;
     private final RateLimiter<UUID> limiter;
@@ -54,50 +54,63 @@ public class CommandProvider<P, S> extends AuthenticHandler<P, S> {
 
         var contexts = manager.getCommandContexts();
 
-        contexts.registerIssuerAwareContext(Audience.class, context -> {
-            if (limiter.tryAndLimit(context.getIssuer().getUniqueId()))
-                throw new xyz.kyngs.librelogin.common.command.InvalidCommandArgument(plugin.getMessages().getMessage("error-throttle"));
-            return plugin.getAudienceFromIssuer(context.getIssuer());
-        });
+        contexts.registerIssuerAwareContext(
+                Audience.class,
+                context -> {
+                    if (limiter.tryAndLimit(context.getIssuer().getUniqueId()))
+                        throw new xyz.kyngs.librelogin.common.command.InvalidCommandArgument(
+                                plugin.getMessages().getMessage("error-throttle"));
+                    return plugin.getAudienceFromIssuer(context.getIssuer());
+                });
 
         // Thanks type erasure
-        contexts.registerIssuerAwareContext(Object.class, context -> {
-            var player = plugin.getPlayerFromIssuer(context.getIssuer());
+        contexts.registerIssuerAwareContext(
+                Object.class,
+                context -> {
+                    var player = plugin.getPlayerFromIssuer(context.getIssuer());
 
-            if (player == null)
-                throw new co.aikar.commands.InvalidCommandArgument(MessageKeys.NOT_ALLOWED_ON_CONSOLE, false);
+                    if (player == null)
+                        throw new co.aikar.commands.InvalidCommandArgument(
+                                MessageKeys.NOT_ALLOWED_ON_CONSOLE, false);
 
-            return player;
-        });
+                    return player;
+                });
 
-        contexts.registerIssuerAwareContext(UUID.class, context -> {
-            var player = plugin.getPlayerFromIssuer(context.getIssuer());
+        contexts.registerIssuerAwareContext(
+                UUID.class,
+                context -> {
+                    var player = plugin.getPlayerFromIssuer(context.getIssuer());
 
-            if (player == null)
-                throw new co.aikar.commands.InvalidCommandArgument(MessageKeys.NOT_ALLOWED_ON_CONSOLE, false);
+                    if (player == null)
+                        throw new co.aikar.commands.InvalidCommandArgument(
+                                MessageKeys.NOT_ALLOWED_ON_CONSOLE, false);
 
-            return plugin.getPlatformHandle().getUUIDForPlayer(player);
-        });
+                    return plugin.getPlatformHandle().getUUIDForPlayer(player);
+                });
 
-        manager.setDefaultExceptionHandler((command, registeredCommand, sender, args, t) -> {
-            if (!(t instanceof xyz.kyngs.librelogin.common.command.InvalidCommandArgument ourEx)) {
-                var logger = plugin.getLogger();
+        manager.setDefaultExceptionHandler(
+                (command, registeredCommand, sender, args, t) -> {
+                    if (!(t
+                            instanceof
+                            xyz.kyngs.librelogin.common.command.InvalidCommandArgument ourEx)) {
+                        var logger = plugin.getLogger();
 
-                logger.error("An unexpected exception occurred while performing command, please attach the stacktrace below and report this issue.");
+                        logger.error(
+                                "An unexpected exception occurred while performing command, please"
+                                        + " attach the stacktrace below and report this issue.");
 
-                t.printStackTrace();
+                        t.printStackTrace();
 
-                return false;
-            }
+                        return false;
+                    }
 
-            plugin.getAudienceFromIssuer(sender).sendMessage(ourEx.getUserFuckUp());
+                    plugin.getAudienceFromIssuer(sender).sendMessage(ourEx.getUserFuckUp());
 
-            return true;
-        }, false);
+                    return true;
+                },
+                false);
 
-        confirmCache = Caffeine.newBuilder()
-                .expireAfterWrite(5, TimeUnit.MINUTES)
-                .build();
+        confirmCache = Caffeine.newBuilder().expireAfterWrite(5, TimeUnit.MINUTES).build();
 
         manager.registerCommand(new LoginCommand<>(plugin));
         manager.registerCommand(new RegisterCommand<>(plugin));
@@ -118,7 +131,6 @@ public class CommandProvider<P, S> extends AuthenticHandler<P, S> {
             manager.registerCommand(new ResetPasswordViaEMailCommand<>(plugin));
             manager.registerCommand(new ConfirmPasswordReset<>(plugin));
         }
-
     }
 
     public void registerConfirm(UUID uuid) {
@@ -136,7 +148,6 @@ public class CommandProvider<P, S> extends AuthenticHandler<P, S> {
         plugin.getDatabaseProvider().updateUser(user);
 
         platformHandle.kick(player, plugin.getMessages().getMessage("kick-premium-info-enabled"));
-
     }
 
     public TextComponent getMessage(String key) {
@@ -156,20 +167,28 @@ public class CommandProvider<P, S> extends AuthenticHandler<P, S> {
         var localeMap = new HashMap<String, String>();
 
         localeMap.put("acf-core.permission_denied", getMessageAsString("error-no-permission"));
-        localeMap.put("acf-core.permission_denied_parameter", getMessageAsString("error-no-permission"));
+        localeMap.put(
+                "acf-core.permission_denied_parameter", getMessageAsString("error-no-permission"));
         localeMap.put("acf-core.invalid_syntax", getMessageAsString("error-invalid-syntax"));
         localeMap.put("acf-core.unknown_command", getMessageAsString("error-unknown-command"));
 
-        plugin.getMessages().getMessages().forEach((key, value) -> {
-            if (key.startsWith("syntax")) {
-                localeMap.put(key, ACF_SERIALIZER.serialize(value));
-            } else if (key.startsWith("autocomplete")) {
-                var serialized = ACF_SERIALIZER.serialize(value);
-                manager.getCommandReplacements().addReplacement(key, serialized.isBlank() ? serialized : serialized + " @nothing");
-            }
-        });
+        plugin.getMessages()
+                .getMessages()
+                .forEach(
+                        (key, value) -> {
+                            if (key.startsWith("syntax")) {
+                                localeMap.put(key, ACF_SERIALIZER.serialize(value));
+                            } else if (key.startsWith("autocomplete")) {
+                                var serialized = ACF_SERIALIZER.serialize(value);
+                                manager.getCommandReplacements()
+                                        .addReplacement(
+                                                key,
+                                                serialized.isBlank()
+                                                        ? serialized
+                                                        : serialized + " @nothing");
+                            }
+                        });
 
         locales.addMessageStrings(locales.getDefaultLocale(), localeMap);
     }
-
 }

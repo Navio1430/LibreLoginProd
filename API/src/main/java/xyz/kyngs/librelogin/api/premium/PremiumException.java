@@ -13,15 +13,13 @@ package xyz.kyngs.librelogin.api.premium;
  */
 public class PremiumException extends Exception {
 
-    /**
-     * The issue that caused this exception.
-     */
+    /** The issue that caused this exception. */
     private final Issue issue;
 
     /**
      * Construct a new PremiumException with the given Issue and Exception.
      *
-     * @param issue     The issue related to the exception.
+     * @param issue The issue related to the exception.
      * @param exception The exception that caused the issue.
      */
     public PremiumException(Issue issue, Exception exception) {
@@ -49,22 +47,13 @@ public class PremiumException extends Exception {
         return issue;
     }
 
-    /**
-     * Possible issues that can cause this exception.
-     */
+    /** Possible issues that can cause this exception. */
     public enum Issue {
-        /**
-         * The API throttled the request.
-         */
+        /** The API throttled the request. */
         THROTTLED,
-        /**
-         * The API returned an invalid response.
-         */
+        /** The API returned an invalid response. */
         SERVER_EXCEPTION,
-        /**
-         * Other issues.
-         */
+        /** Other issues. */
         UNDEFINED
     }
-
 }

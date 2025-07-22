@@ -6,14 +6,13 @@
 
 package xyz.kyngs.librelogin.common.event;
 
+import java.util.UUID;
 import net.kyori.adventure.audience.Audience;
 import org.jetbrains.annotations.Nullable;
 import xyz.kyngs.librelogin.api.LibreLoginPlugin;
 import xyz.kyngs.librelogin.api.PlatformHandle;
 import xyz.kyngs.librelogin.api.database.User;
 import xyz.kyngs.librelogin.api.event.PlayerBasedEvent;
-
-import java.util.UUID;
 
 public class AuthenticPlayerBasedEvent<P, S> implements PlayerBasedEvent<P, S> {
 
@@ -24,11 +23,13 @@ public class AuthenticPlayerBasedEvent<P, S> implements PlayerBasedEvent<P, S> {
     private final LibreLoginPlugin<P, S> plugin;
     private final PlatformHandle<P, S> platformHandle;
 
-    public AuthenticPlayerBasedEvent(@Nullable User user, @Nullable P player, LibreLoginPlugin<P, S> plugin) {
+    public AuthenticPlayerBasedEvent(
+            @Nullable User user, @Nullable P player, LibreLoginPlugin<P, S> plugin) {
         this.plugin = plugin;
         this.platformHandle = plugin.getPlatformHandle();
         this.user = user;
-        this.audience = player == null ? Audience.empty() : platformHandle.getAudienceForPlayer(player);
+        this.audience =
+                player == null ? Audience.empty() : platformHandle.getAudienceForPlayer(player);
         this.uuid = player == null ? null : platformHandle.getUUIDForPlayer(player);
         this.player = player;
     }

@@ -6,6 +6,8 @@
 
 package xyz.kyngs.librelogin.paper;
 
+import static xyz.kyngs.librelogin.common.config.ConfigurationKeys.ALLOWED_COMMANDS_WHILE_UNAUTHORIZED;
+
 import io.papermc.paper.event.player.AsyncChatEvent;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -24,8 +26,6 @@ import org.bukkit.event.player.*;
 import xyz.kyngs.librelogin.api.authorization.AuthorizationProvider;
 import xyz.kyngs.librelogin.api.server.ServerHandler;
 import xyz.kyngs.librelogin.common.config.HoconPluginConfiguration;
-
-import static xyz.kyngs.librelogin.common.config.ConfigurationKeys.ALLOWED_COMMANDS_WHILE_UNAUTHORIZED;
 
 public class Blockers implements Listener {
 
@@ -50,7 +50,8 @@ public class Blockers implements Listener {
     }
 
     private boolean inLimbo(Player player) {
-        return !authorizationProvider.isAuthorized(player) || authorizationProvider.isAwaiting2FA(player);
+        return !authorizationProvider.isAuthorized(player)
+                || authorizationProvider.isAwaiting2FA(player);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -58,7 +59,8 @@ public class Blockers implements Listener {
         if (inLimbo(event.getPlayer())) {
             event.setCancelled(true);
         } else {
-            if (serverHandler.getLimboServers().contains(event.getTo().getWorld()) && !event.getPlayer().hasPermission("librelogin.limbo.access")) {
+            if (serverHandler.getLimboServers().contains(event.getTo().getWorld())
+                    && !event.getPlayer().hasPermission("librelogin.limbo.access")) {
                 event.setCancelled(true);
             }
         }
@@ -71,8 +73,8 @@ public class Blockers implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onCommand(PlayerCommandPreprocessEvent event) {
-        if (authorizationProvider.isAuthorized(event.getPlayer()) && !authorizationProvider.isAwaiting2FA(event.getPlayer()))
-            return;
+        if (authorizationProvider.isAuthorized(event.getPlayer())
+                && !authorizationProvider.isAwaiting2FA(event.getPlayer())) return;
 
         var command = event.getMessage().substring(1).split(" ")[0];
 
@@ -150,5 +152,4 @@ public class Blockers implements Listener {
             cancelIfNeeded(player, event);
         }
     }
-
 }

@@ -16,13 +16,14 @@ import xyz.kyngs.librelogin.common.image.protocolize.packet.MapDataPacket;
 public class ProtocolizeImageModule implements ProtocolizeModule {
 
     @Override
-    public void registerMappings(MappingProvider mappingProvider) {
-
-    }
+    public void registerMappings(MappingProvider mappingProvider) {}
 
     @Override
     public void registerPackets(ProtocolRegistrationProvider protocolRegistrationProvider) {
-        protocolRegistrationProvider.registerPacket(MapDataPacket.MAPPINGS, Protocol.PLAY, PacketDirection.CLIENTBOUND, MapDataPacket.class);
+        protocolRegistrationProvider.registerPacket(
+                MapDataPacket.MAPPINGS,
+                Protocol.PLAY,
+                PacketDirection.CLIENTBOUND,
+                MapDataPacket.class);
     }
-
 }

@@ -17,8 +17,7 @@ public class StaffCommand<P> extends Command<P> {
         super(plugin);
     }
 
-    @NotNull
-    protected User getUserOtherWiseInform(String name) {
+    @NotNull protected User getUserOtherWiseInform(String name) {
         var user = plugin.getDatabaseProvider().getByName(name);
 
         if (user == null) throw new InvalidCommandArgument(getMessage("error-unknown-user"));
@@ -35,8 +34,7 @@ public class StaffCommand<P> extends Command<P> {
         if (plugin.multiProxyEnabled())
             throw new InvalidCommandArgument(getMessage("error-not-available-on-multi-proxy"));
         var player = plugin.getPlayerForUUID(user.getUuid());
-        if (player == null)
-            throw new InvalidCommandArgument(getMessage("error-player-offline"));
+        if (player == null) throw new InvalidCommandArgument(getMessage("error-player-offline"));
         return player;
     }
 
@@ -61,5 +59,4 @@ public class StaffCommand<P> extends Command<P> {
         if (!user.isRegistered())
             throw new InvalidCommandArgument(getMessage("error-player-not-registered"));
     }
-
 }

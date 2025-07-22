@@ -6,12 +6,17 @@
 
 package xyz.kyngs.librelogin.paper;
 
+import static xyz.kyngs.librelogin.common.config.ConfigurationKeys.DEBUG;
+
 import co.aikar.commands.BukkitCommandIssuer;
 import co.aikar.commands.CommandIssuer;
 import co.aikar.commands.CommandManager;
 import co.aikar.commands.PaperCommandManager;
 import com.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
+import java.io.File;
+import java.io.InputStream;
+import java.util.UUID;
 import net.kyori.adventure.audience.Audience;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.CustomChart;
@@ -28,12 +33,6 @@ import xyz.kyngs.librelogin.common.image.AuthenticImageProjector;
 import xyz.kyngs.librelogin.common.util.CancellableTask;
 import xyz.kyngs.librelogin.paper.protocol.PacketListener;
 
-import java.io.File;
-import java.io.InputStream;
-import java.util.UUID;
-
-import static xyz.kyngs.librelogin.common.config.ConfigurationKeys.DEBUG;
-
 public class PaperLibreLogin extends AuthenticLibreLogin<Player, World> {
 
     private final PaperBootstrap bootstrap;
@@ -46,8 +45,9 @@ public class PaperLibreLogin extends AuthenticLibreLogin<Player, World> {
 
         PacketEvents.setAPI(SpigotPacketEventsBuilder.build(bootstrap));
 
-        PacketEvents.getAPI().getSettings()
-//                .debug(true)
+        PacketEvents.getAPI()
+                .getSettings()
+                //                .debug(true)
                 .checkForUpdates(false)
                 .bStats(false);
 
@@ -118,7 +118,7 @@ public class PaperLibreLogin extends AuthenticLibreLogin<Player, World> {
     @Override
     protected void disable() {
         PacketEvents.getAPI().terminate();
-        if (getDatabaseProvider() == null) return; //Not initialized
+        if (getDatabaseProvider() == null) return; // Not initialized
 
         super.disable();
     }
@@ -129,14 +129,23 @@ public class PaperLibreLogin extends AuthenticLibreLogin<Player, World> {
         logger = provideLogger();
 
         if (Bukkit.getOnlineMode()) {
-            getLogger().error("!!!The server is running in online mode! LibreLogin won't start unless you set it to false!!!");
+            getLogger()
+                    .error(
+                            "!!!The server is running in online mode! LibreLogin won't start unless"
+                                    + " you set it to false!!!");
             disable();
             return;
         }
 
-        if (Bukkit.spigot().getSpigotConfig().getBoolean("settings.bungeecord") || Bukkit.spigot().getPaperConfig().getBoolean("settings.velocity-support.enabled")) {
+        if (Bukkit.spigot().getSpigotConfig().getBoolean("settings.bungeecord")
+                || Bukkit.spigot()
+                        .getPaperConfig()
+                        .getBoolean("settings.velocity-support.enabled")) {
             getLogger().error("!!!This server is running under a proxy, LibreLogin won't start!!!");
-            getLogger().error("If you want to use LibreLogin under a proxy, place it on the proxy and remove it from the server.");
+            getLogger()
+                    .error(
+                            "If you want to use LibreLogin under a proxy, place it on the proxy and"
+                                    + " remove it from the server.");
             disable();
             return;
         }
@@ -149,11 +158,13 @@ public class PaperLibreLogin extends AuthenticLibreLogin<Player, World> {
 
         var provider = getEventProvider();
 
-        provider.subscribe(provider.getTypes().authenticated, event -> {
-            var player = event.getPlayer();
-            if (player == null) return;
-            player.setInvisible(false);
-        });
+        provider.subscribe(
+                provider.getTypes().authenticated,
+                event -> {
+                    var player = event.getPlayer();
+                    if (player == null) return;
+                    player.setInvisible(false);
+                });
 
         listeners = new PaperListeners(this);
 
@@ -192,14 +203,18 @@ public class PaperLibreLogin extends AuthenticLibreLogin<Player, World> {
 
     @Override
     public CancellableTask delay(Runnable runnable, long delayInMillis) {
-        var task = Bukkit.getScheduler().runTaskLaterAsynchronously(bootstrap, runnable, delayInMillis / 50);
+        var task =
+                Bukkit.getScheduler()
+                        .runTaskLaterAsynchronously(bootstrap, runnable, delayInMillis / 50);
         return task::cancel;
     }
 
     @Override
     public CancellableTask repeat(Runnable runnable, long delayInMillis, long repeatInMillis) {
-        var task = Bukkit.getScheduler()
-                .runTaskTimerAsynchronously(bootstrap, runnable, delayInMillis / 50, repeatInMillis / 50);
+        var task =
+                Bukkit.getScheduler()
+                        .runTaskTimerAsynchronously(
+                                bootstrap, runnable, delayInMillis / 50, repeatInMillis / 50);
         return task::cancel;
     }
 

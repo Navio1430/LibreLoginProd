@@ -9,16 +9,15 @@ package xyz.kyngs.librelogin.velocity;
 import com.google.common.base.MoreObjects;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
-import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.text.Component;
-import xyz.kyngs.librelogin.api.PlatformHandle;
-import xyz.kyngs.librelogin.api.server.ServerPing;
-
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
+import xyz.kyngs.librelogin.api.PlatformHandle;
+import xyz.kyngs.librelogin.api.server.ServerPing;
 
 public class VelocityPlatformHandle implements PlatformHandle<Player, RegisteredServer> {
     private final VelocityLibreLogin plugin;
@@ -39,17 +38,30 @@ public class VelocityPlatformHandle implements PlatformHandle<Player, Registered
 
     @Override
     public CompletableFuture<Throwable> movePlayer(Player player, RegisteredServer to) {
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                var result = player.createConnectionRequest(to).connect().get();
-                var reason = result.getReasonComponent();
-                return result.isSuccessful() ? null : reason.map(component -> new RuntimeException("Failed to move player: " + Component.empty().append(component).content())).orElseGet(() -> new RuntimeException("Failed to move player"));
-            } catch (InterruptedException ignored) {
-                return null;
-            } catch (ExecutionException e) {
-                return e.getCause();
-            }
-        });
+        return CompletableFuture.supplyAsync(
+                () -> {
+                    try {
+                        var result = player.createConnectionRequest(to).connect().get();
+                        var reason = result.getReasonComponent();
+                        return result.isSuccessful()
+                                ? null
+                                : reason.map(
+                                                component ->
+                                                        new RuntimeException(
+                                                                "Failed to move player: "
+                                                                        + Component.empty()
+                                                                                .append(component)
+                                                                                .content()))
+                                        .orElseGet(
+                                                () ->
+                                                        new RuntimeException(
+                                                                "Failed to move player"));
+                    } catch (InterruptedException ignored) {
+                        return null;
+                    } catch (ExecutionException e) {
+                        return e.getCause();
+                    }
+                });
     }
 
     @Override
@@ -60,8 +72,7 @@ public class VelocityPlatformHandle implements PlatformHandle<Player, Registered
     @Override
     public RegisteredServer getServer(String name, boolean limbo) {
         Optional<RegisteredServer> serverOptional = plugin.getServer().getServer(name);
-        if (serverOptional.isPresent())
-            return serverOptional.get();
+        if (serverOptional.isPresent()) return serverOptional.get();
         if (limbo && plugin.getLimboIntegration() != null)
             return plugin.getLimboIntegration().createLimbo(name);
         return null;
@@ -87,7 +98,13 @@ public class VelocityPlatformHandle implements PlatformHandle<Player, Registered
         try {
             var players = server.ping().get().getPlayers();
 
-            return players.map(value -> new ServerPing(value.getMax() == -1 ? Integer.MAX_VALUE : value.getMax())).orElse(null);
+            return players.map(
+                            value ->
+                                    new ServerPing(
+                                            value.getMax() == -1
+                                                    ? Integer.MAX_VALUE
+                                                    : value.getMax()))
+                    .orElse(null);
 
         } catch (InterruptedException | ExecutionException e) {
             plugin.getLogger().debug("Failed to ping server " + e.getMessage());
@@ -114,7 +131,8 @@ public class VelocityPlatformHandle implements PlatformHandle<Player, Registered
     public String getPlayersServerName(Player player) {
         var server = player.getCurrentServer();
 
-        return server.map(serverConnection -> serverConnection.getServerInfo().getName()).orElse(null);
+        return server.map(serverConnection -> serverConnection.getServerInfo().getName())
+                .orElse(null);
     }
 
     @Override
@@ -139,13 +157,17 @@ public class VelocityPlatformHandle implements PlatformHandle<Player, Registered
         return new ProxyData(
                 plugin.getServer().getVersion().toString(),
                 getServers().stream().map(Object::toString).toList(),
-                plugin.getServer().getPluginManager().getPlugins().stream().map(plugin ->
-                        MoreObjects.toStringHelper(plugin.getInstance().orElse(null))
-                                .add("desc", plugin.getDescription().toString())
-                                .toString()
-                ).toList(),
+                plugin.getServer().getPluginManager().getPlugins().stream()
+                        .map(
+                                plugin ->
+                                        MoreObjects.toStringHelper(
+                                                        plugin.getInstance().orElse(null))
+                                                .add("desc", plugin.getDescription().toString())
+                                                .toString())
+                        .toList(),
                 plugin.getServerHandler().getLimboServers().stream().map(Object::toString).toList(),
-                plugin.getServerHandler().getLobbyServers().values().stream().map(Object::toString).toList()
-        );
+                plugin.getServerHandler().getLobbyServers().values().stream()
+                        .map(Object::toString)
+                        .toList());
     }
 }

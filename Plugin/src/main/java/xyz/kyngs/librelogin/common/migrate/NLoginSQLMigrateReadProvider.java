@@ -6,6 +6,10 @@
 
 package xyz.kyngs.librelogin.common.migrate;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.Collection;
+import java.util.HashSet;
 import xyz.kyngs.librelogin.api.Logger;
 import xyz.kyngs.librelogin.api.crypto.HashedPassword;
 import xyz.kyngs.librelogin.api.database.User;
@@ -14,78 +18,74 @@ import xyz.kyngs.librelogin.common.database.AuthenticUser;
 import xyz.kyngs.librelogin.common.util.CryptoUtil;
 import xyz.kyngs.librelogin.common.util.GeneralUtil;
 
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.Collection;
-import java.util.HashSet;
-
 public class NLoginSQLMigrateReadProvider extends SQLMigrateReadProvider {
-    public NLoginSQLMigrateReadProvider(String tableName, Logger logger, SQLDatabaseConnector connector) {
+    public NLoginSQLMigrateReadProvider(
+            String tableName, Logger logger, SQLDatabaseConnector connector) {
         super(tableName, logger, connector);
     }
 
     @Override
     public Collection<User> getAllUsers() {
-        return connector.runQuery(connection -> {
-            var ps = connection.prepareStatement("SELECT * FROM `%s`".formatted(tableName));
+        return connector.runQuery(
+                connection -> {
+                    var ps = connection.prepareStatement("SELECT * FROM `%s`".formatted(tableName));
 
-            var rs = ps.executeQuery();
+                    var rs = ps.executeQuery();
 
-            var users = new HashSet<User>();
+                    var users = new HashSet<User>();
 
-            while (rs.next()) {
-                try {
-                    var uniqueIdString = rs.getString("unique_id");
-                    var premiumIdString = rs.getString("mojang_id");
-                    var lastNickname = rs.getString("last_name");
-                    var lastSeen = rs.getTimestamp("last_seen");
-                    var firstSeen = rs.getTimestamp("creation_date");
-                    var rawPassword = rs.getString("password");
-                    var ip = rs.getString("last_ip");
+                    while (rs.next()) {
+                        try {
+                            var uniqueIdString = rs.getString("unique_id");
+                            var premiumIdString = rs.getString("mojang_id");
+                            var lastNickname = rs.getString("last_name");
+                            var lastSeen = rs.getTimestamp("last_seen");
+                            var firstSeen = rs.getTimestamp("creation_date");
+                            var rawPassword = rs.getString("password");
+                            var ip = rs.getString("last_ip");
 
-                    if (lastNickname == null) continue; //Yes this may happen
-                    if (uniqueIdString == null) continue; //Yes this may happen
+                            if (lastNickname == null) continue; // Yes this may happen
+                            if (uniqueIdString == null) continue; // Yes this may happen
 
-                    HashedPassword password = null;
+                            HashedPassword password = null;
 
-                    if (rawPassword != null) {
-                        if (rawPassword.startsWith("$SHA512$")) {
-                            var split = rawPassword.substring(8).split("\\$");
-                            password = new HashedPassword(
-                                    split[0],
-                                    split[1],
-                                    "SHA-512"
-                            );
-                        }else if(rawPassword.startsWith("$2a$")){
-                            password = CryptoUtil.convertFromBCryptRaw(rawPassword);
-                        }else{
-                            logger.error("User %s has invalid algorithm %s, omitting".formatted(lastNickname, rawPassword));
-                            continue;
+                            if (rawPassword != null) {
+                                if (rawPassword.startsWith("$SHA512$")) {
+                                    var split = rawPassword.substring(8).split("\\$");
+                                    password = new HashedPassword(split[0], split[1], "SHA-512");
+                                } else if (rawPassword.startsWith("$2a$")) {
+                                    password = CryptoUtil.convertFromBCryptRaw(rawPassword);
+                                } else {
+                                    logger.error(
+                                            "User %s has invalid algorithm %s, omitting"
+                                                    .formatted(lastNickname, rawPassword));
+                                    continue;
+                                }
+                            }
+
+                            users.add(
+                                    new AuthenticUser(
+                                            GeneralUtil.fromUnDashedUUID(uniqueIdString),
+                                            premiumIdString == null
+                                                    ? null
+                                                    : GeneralUtil.fromUnDashedUUID(premiumIdString),
+                                            password,
+                                            lastNickname,
+                                            firstSeen,
+                                            lastSeen,
+                                            null,
+                                            ip,
+                                            Timestamp.from(Instant.EPOCH),
+                                            null,
+                                            null));
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            logger.error("Error while reading user from database");
                         }
-
                     }
 
-                    users.add(new AuthenticUser(
-                            GeneralUtil.fromUnDashedUUID(uniqueIdString),
-                            premiumIdString == null ? null : GeneralUtil.fromUnDashedUUID(premiumIdString),
-                            password,
-                            lastNickname,
-                            firstSeen,
-                            lastSeen,
-                            null,
-                            ip,
-                            Timestamp.from(Instant.EPOCH),
-                            null,
-                            null
-                    ));
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    logger.error("Error while reading user from database");
-                }
-            }
-
-            return users;
-        });
+                    return users;
+                });
     }
 }

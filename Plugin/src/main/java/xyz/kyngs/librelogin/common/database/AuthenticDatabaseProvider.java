@@ -10,7 +10,8 @@ import xyz.kyngs.librelogin.api.database.ReadWriteDatabaseProvider;
 import xyz.kyngs.librelogin.api.database.connector.DatabaseConnector;
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 
-public abstract class AuthenticDatabaseProvider<C extends DatabaseConnector<?, ?>> implements ReadWriteDatabaseProvider {
+public abstract class AuthenticDatabaseProvider<C extends DatabaseConnector<?, ?>>
+        implements ReadWriteDatabaseProvider {
 
     protected final C connector;
     protected final AuthenticLibreLogin<?, ?> plugin;
@@ -20,7 +21,5 @@ public abstract class AuthenticDatabaseProvider<C extends DatabaseConnector<?, ?
         this.plugin = plugin;
     }
 
-    public void validateSchema() {
-    }
-
+    public void validateSchema() {}
 }

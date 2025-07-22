@@ -34,9 +34,10 @@ public interface AuthorizationProvider<P> {
     boolean isAwaiting2FA(P player);
 
     /**
-     * Authorizes the player, if the player is not already authorized. Implementation must make sure that {@link #isAuthorized(P)} returns false.
+     * Authorizes the player, if the player is not already authorized. Implementation must make sure
+     * that {@link #isAuthorized(P)} returns false.
      *
-     * @param user   The user.
+     * @param user The user.
      * @param player The player.
      * @param reason The reason for authorization.
      */
@@ -46,8 +47,8 @@ public interface AuthorizationProvider<P> {
      * Finishes the 2FA enabling process.
      *
      * @param player The player.
-     * @param code   The code.
-     * @param user   The user.
+     * @param code The code.
+     * @param user The user.
      * @return whether the code is valid.
      */
     boolean confirmTwoFactorAuth(P player, Integer code, User user);

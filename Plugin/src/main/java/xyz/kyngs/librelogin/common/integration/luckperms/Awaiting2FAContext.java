@@ -25,14 +25,12 @@ public class Awaiting2FAContext<P> implements ContextCalculator<P> {
 
     @Override
     public void calculate(@NonNull P player, @NonNull ContextConsumer consumer) {
-        consumer.accept(KEY, Boolean.toString(plugin.getAuthorizationProvider().isAwaiting2FA(player)));
+        consumer.accept(
+                KEY, Boolean.toString(plugin.getAuthorizationProvider().isAwaiting2FA(player)));
     }
 
     @Override
     public @NonNull ContextSet estimatePotentialContexts() {
-        return ImmutableContextSet.builder()
-                .add(KEY, "true")
-                .add(KEY, "false")
-                .build();
+        return ImmutableContextSet.builder().add(KEY, "true").add(KEY, "false").build();
     }
 }

@@ -27,5 +27,4 @@ public class LuckPermsIntegration<P, S> {
         contextMgr.unregisterCalculator(authorizedContext);
         contextMgr.unregisterCalculator(awaiting2faContext);
     }
-
 }

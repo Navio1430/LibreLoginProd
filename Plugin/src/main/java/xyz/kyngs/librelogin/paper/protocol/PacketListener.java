@@ -23,8 +23,8 @@ public class PacketListener extends PacketListenerAbstract {
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
         if (event.isCancelled()) return;
-        if (event.getPacketType() != PacketType.Login.Client.LOGIN_START && event.getPacketType() != PacketType.Login.Client.ENCRYPTION_RESPONSE)
-            return;
+        if (event.getPacketType() != PacketType.Login.Client.LOGIN_START
+                && event.getPacketType() != PacketType.Login.Client.ENCRYPTION_RESPONSE) return;
 
         delegate.onPacketReceive(event);
     }

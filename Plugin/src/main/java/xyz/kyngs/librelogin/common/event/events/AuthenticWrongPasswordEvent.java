@@ -7,17 +7,21 @@
 package xyz.kyngs.librelogin.common.event.events;
 
 import org.jetbrains.annotations.Nullable;
-
 import xyz.kyngs.librelogin.api.LibreLoginPlugin;
 import xyz.kyngs.librelogin.api.database.User;
 import xyz.kyngs.librelogin.api.event.events.WrongPasswordEvent;
 import xyz.kyngs.librelogin.common.event.AuthenticPlayerBasedEvent;
 
-public class AuthenticWrongPasswordEvent<P, S> extends AuthenticPlayerBasedEvent<P, S> implements WrongPasswordEvent<P, S> {
+public class AuthenticWrongPasswordEvent<P, S> extends AuthenticPlayerBasedEvent<P, S>
+        implements WrongPasswordEvent<P, S> {
 
     private final AuthenticationSource source;
 
-    public AuthenticWrongPasswordEvent(@Nullable User user, P player, LibreLoginPlugin<P, S> plugin, AuthenticationSource source) {
+    public AuthenticWrongPasswordEvent(
+            @Nullable User user,
+            P player,
+            LibreLoginPlugin<P, S> plugin,
+            AuthenticationSource source) {
         super(user, player, plugin);
         this.source = source;
     }
@@ -26,5 +30,4 @@ public class AuthenticWrongPasswordEvent<P, S> extends AuthenticPlayerBasedEvent
     public AuthenticationSource getSource() {
         return source;
     }
-
 }

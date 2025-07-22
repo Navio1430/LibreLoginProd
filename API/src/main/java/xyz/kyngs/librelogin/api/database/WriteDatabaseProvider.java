@@ -42,5 +42,4 @@ public interface WriteDatabaseProvider {
      * @param user The player to delete.
      */
     void deleteUser(User user);
-
 }

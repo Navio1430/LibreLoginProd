@@ -22,10 +22,9 @@ public class PaperBootstrap extends JavaPlugin implements LibreLoginProvider<Pla
     private PaperLibreLogin libreLogin;
 
     @Override
-    public @Nullable ChunkGenerator getDefaultWorldGenerator(@NotNull String worldName, @Nullable String id) {
-        return id == null ?
-                null
-                : id.equals("void") ? new VoidWorldGenerator() : null;
+    public @Nullable ChunkGenerator getDefaultWorldGenerator(
+            @NotNull String worldName, @Nullable String id) {
+        return id == null ? null : id.equals("void") ? new VoidWorldGenerator() : null;
     }
 
     @Override
@@ -42,7 +41,12 @@ public class PaperBootstrap extends JavaPlugin implements LibreLoginProvider<Pla
             unsupportedSetup();
         }
 
-        getLogger().info("Detected Adventure-compatible server distribution - " + getServer().getName() + " " + getServer().getVersion());
+        getLogger()
+                .info(
+                        "Detected Adventure-compatible server distribution - "
+                                + getServer().getName()
+                                + " "
+                                + getServer().getVersion());
 
         LibraryManager libraryManager;
 
@@ -58,7 +62,8 @@ public class PaperBootstrap extends JavaPlugin implements LibreLoginProvider<Pla
         try {
             libraryManager.configureFromJSON();
         } catch (Exception e) {
-            getSLF4JLogger().error("Failed to load libraries, stopping server to prevent damage", e);
+            getSLF4JLogger()
+                    .error("Failed to load libraries, stopping server to prevent damage", e);
             stopServer();
         }
 
@@ -74,7 +79,10 @@ public class PaperBootstrap extends JavaPlugin implements LibreLoginProvider<Pla
     private void unsupportedSetup() {
         getLogger().severe("***********************************************************");
 
-        getLogger().severe("Detected an unsupported server distribution. Please use Paper or its forks. SPIGOT IS NOT SUPPORTED!");
+        getLogger()
+                .severe(
+                        "Detected an unsupported server distribution. Please use Paper or its"
+                                + " forks. SPIGOT IS NOT SUPPORTED!");
 
         getLogger().severe("***********************************************************");
 
@@ -103,5 +111,4 @@ public class PaperBootstrap extends JavaPlugin implements LibreLoginProvider<Pla
     protected void disable() {
         setEnabled(false);
     }
-
 }

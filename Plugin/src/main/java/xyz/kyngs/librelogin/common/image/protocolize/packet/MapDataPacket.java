@@ -6,19 +6,18 @@
 
 package xyz.kyngs.librelogin.common.image.protocolize.packet;
 
+import static dev.simplix.protocolize.api.mapping.AbstractProtocolMapping.rangedIdMapping;
+import static dev.simplix.protocolize.api.util.ProtocolUtil.readVarInt;
+import static dev.simplix.protocolize.api.util.ProtocolVersions.*;
+
 import dev.simplix.protocolize.api.PacketDirection;
 import dev.simplix.protocolize.api.mapping.ProtocolIdMapping;
 import dev.simplix.protocolize.api.packet.AbstractPacket;
 import dev.simplix.protocolize.api.util.ProtocolUtil;
 import io.netty.buffer.ByteBuf;
-import xyz.kyngs.librelogin.common.image.protocolize.MapData;
-
 import java.util.Arrays;
 import java.util.List;
-
-import static dev.simplix.protocolize.api.mapping.AbstractProtocolMapping.rangedIdMapping;
-import static dev.simplix.protocolize.api.util.ProtocolUtil.readVarInt;
-import static dev.simplix.protocolize.api.util.ProtocolVersions.*;
+import xyz.kyngs.librelogin.common.image.protocolize.MapData;
 
 /**
  * Used to send a map data packet to the client.
@@ -27,19 +26,20 @@ import static dev.simplix.protocolize.api.util.ProtocolVersions.*;
  */
 public class MapDataPacket extends AbstractPacket {
 
-    public static final List<ProtocolIdMapping> MAPPINGS = Arrays.asList(
-            rangedIdMapping(MINECRAFT_1_13, MINECRAFT_1_14_4, 0x26),
-            rangedIdMapping(MINECRAFT_1_15, MINECRAFT_1_15_2, 0x27),
-            rangedIdMapping(MINECRAFT_1_16, MINECRAFT_1_16_1, 0x26),
-            rangedIdMapping(MINECRAFT_1_16_2, MINECRAFT_1_16_5, 0x25),
-            rangedIdMapping(MINECRAFT_1_17, MINECRAFT_1_18_2, 0x27),
-            rangedIdMapping(MINECRAFT_1_19, MINECRAFT_1_19, 0x24),
-            rangedIdMapping(760, 760, 0x26), // 1.19.2
-            rangedIdMapping(761, 761, 0x25), // 1.19.3
-            rangedIdMapping(762, 763, 0x29), // 1.19.4 - 1.20.(1)
-            rangedIdMapping(764, 765, 0x2a), // 1.20.2 - 1.20.4
-            rangedIdMapping(766, 767, 0x2c) // 1.20.5 - 1.21.1
-    );
+    public static final List<ProtocolIdMapping> MAPPINGS =
+            Arrays.asList(
+                    rangedIdMapping(MINECRAFT_1_13, MINECRAFT_1_14_4, 0x26),
+                    rangedIdMapping(MINECRAFT_1_15, MINECRAFT_1_15_2, 0x27),
+                    rangedIdMapping(MINECRAFT_1_16, MINECRAFT_1_16_1, 0x26),
+                    rangedIdMapping(MINECRAFT_1_16_2, MINECRAFT_1_16_5, 0x25),
+                    rangedIdMapping(MINECRAFT_1_17, MINECRAFT_1_18_2, 0x27),
+                    rangedIdMapping(MINECRAFT_1_19, MINECRAFT_1_19, 0x24),
+                    rangedIdMapping(760, 760, 0x26), // 1.19.2
+                    rangedIdMapping(761, 761, 0x25), // 1.19.3
+                    rangedIdMapping(762, 763, 0x29), // 1.19.4 - 1.20.(1)
+                    rangedIdMapping(764, 765, 0x2a), // 1.20.2 - 1.20.4
+                    rangedIdMapping(766, 767, 0x2c) // 1.20.5 - 1.21.1
+                    );
 
     private int mapID;
     private byte scale;
@@ -58,8 +58,7 @@ public class MapDataPacket extends AbstractPacket {
         locked = false;
     }
 
-    public MapDataPacket() {
-    }
+    public MapDataPacket() {}
 
     @Override
     public void read(ByteBuf byteBuf, PacketDirection packetDirection, int protocol) {
@@ -79,16 +78,18 @@ public class MapDataPacket extends AbstractPacket {
             trackingPosition = byteBuf.readBoolean();
         }
 
-        iconData = new IconData[(protocol < MINECRAFT_1_17 || trackingPosition) ? readVarInt(byteBuf) : 0];
+        iconData =
+                new IconData
+                        [(protocol < MINECRAFT_1_17 || trackingPosition) ? readVarInt(byteBuf) : 0];
 
         for (int i = 0; i < iconData.length; i++) {
-            iconData[i] = new IconData(
-                    readVarInt(byteBuf),
-                    byteBuf.readByte(),
-                    byteBuf.readByte(),
-                    byteBuf.readByte(),
-                    byteBuf.readBoolean() ? ProtocolUtil.readString(byteBuf) : null
-            );
+            iconData[i] =
+                    new IconData(
+                            readVarInt(byteBuf),
+                            byteBuf.readByte(),
+                            byteBuf.readByte(),
+                            byteBuf.readByte(),
+                            byteBuf.readBoolean() ? ProtocolUtil.readString(byteBuf) : null);
         }
 
         var columns = byteBuf.readUnsignedByte();
@@ -149,9 +150,7 @@ public class MapDataPacket extends AbstractPacket {
             byteBuf.writeByte(mapData.posZ());
             ProtocolUtil.writeByteArray(byteBuf, mapData.data());
         }
-
     }
 
-    private record IconData(int type, byte x, byte z, byte direction, String displayName) {
-    }
+    private record IconData(int type, byte x, byte z, byte direction, String displayName) {}
 }

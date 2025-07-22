@@ -7,6 +7,9 @@
 package xyz.kyngs.librelogin.common.command.commands.mail;
 
 import co.aikar.commands.annotation.*;
+import java.util.UUID;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.TimeUnit;
 import net.kyori.adventure.audience.Audience;
 import xyz.kyngs.librelogin.api.event.events.WrongPasswordEvent.AuthenticationSource;
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
@@ -16,10 +19,6 @@ import xyz.kyngs.librelogin.common.config.ConfigurationKeys;
 import xyz.kyngs.librelogin.common.event.events.AuthenticWrongPasswordEvent;
 import xyz.kyngs.librelogin.common.util.GeneralUtil;
 import xyz.kyngs.librelogin.common.util.RateLimiter;
-
-import java.util.UUID;
-import java.util.concurrent.CompletionStage;
-import java.util.concurrent.TimeUnit;
 
 @CommandAlias("setemail")
 public class SetEMailCommand<P> extends EMailCommand<P> {
@@ -33,40 +32,57 @@ public class SetEMailCommand<P> extends EMailCommand<P> {
     @Default
     @Syntax("{@@syntax.set-email}")
     @CommandCompletion("%autocomplete.set-email")
-    public CompletionStage<Void> onSetMail(Audience sender, P player, UUID uuid, String mail, @Single String password) {
-        return runAsync(() -> {
-            var user = getUser(player);
+    public CompletionStage<Void> onSetMail(
+            Audience sender, P player, UUID uuid, String mail, @Single String password) {
+        return runAsync(
+                () -> {
+                    var user = getUser(player);
 
-            var hashed = user.getHashedPassword();
-            var crypto = getCrypto(hashed);
+                    var hashed = user.getHashedPassword();
+                    var crypto = getCrypto(hashed);
 
-            if (!crypto.matches(password, hashed)) {
-                plugin.getEventProvider()
-                        .unsafeFire(plugin.getEventTypes().wrongPassword,
-                                new AuthenticWrongPasswordEvent<>(user, player, plugin, AuthenticationSource.SET_EMAIL));
-                throw new InvalidCommandArgument(getMessage("error-password-wrong"));
-            }
+                    if (!crypto.matches(password, hashed)) {
+                        plugin.getEventProvider()
+                                .unsafeFire(
+                                        plugin.getEventTypes().wrongPassword,
+                                        new AuthenticWrongPasswordEvent<>(
+                                                user,
+                                                player,
+                                                plugin,
+                                                AuthenticationSource.SET_EMAIL));
+                        throw new InvalidCommandArgument(getMessage("error-password-wrong"));
+                    }
 
-            if (limiter.tryAndLimit(uuid)) {
-                throw new InvalidCommandArgument(getMessage("error-mail-throttle"));
-            }
+                    if (limiter.tryAndLimit(uuid)) {
+                        throw new InvalidCommandArgument(getMessage("error-mail-throttle"));
+                    }
 
-            var token = GeneralUtil.generateAlphanumericText(16);
+                    var token = GeneralUtil.generateAlphanumericText(16);
 
-            sender.sendMessage(getMessage("info-mail-sending"));
+                    sender.sendMessage(getMessage("info-mail-sending"));
 
-            try {
-                mailHandler.sendVerificationMail(mail, token, user.getLastNickname());
-                getAuthorizationProvider().getEmailConfirmCache().put(uuid, new AuthenticAuthorizationProvider.EmailVerifyData(mail, token, uuid));
-            } catch (Exception e) {
-                if (plugin.getConfiguration().get(ConfigurationKeys.DEBUG)) {
-                    getLogger().debug("Cannot send verification mail to " + mail + " for " + player);
-                    e.printStackTrace();
-                }
-                throw new InvalidCommandArgument(getMessage("error-mail-not-sent"));
-            }
+                    try {
+                        mailHandler.sendVerificationMail(mail, token, user.getLastNickname());
+                        getAuthorizationProvider()
+                                .getEmailConfirmCache()
+                                .put(
+                                        uuid,
+                                        new AuthenticAuthorizationProvider.EmailVerifyData(
+                                                mail, token, uuid));
+                    } catch (Exception e) {
+                        if (plugin.getConfiguration().get(ConfigurationKeys.DEBUG)) {
+                            getLogger()
+                                    .debug(
+                                            "Cannot send verification mail to "
+                                                    + mail
+                                                    + " for "
+                                                    + player);
+                            e.printStackTrace();
+                        }
+                        throw new InvalidCommandArgument(getMessage("error-mail-not-sent"));
+                    }
 
-            sender.sendMessage(getMessage("info-verification-mail-sent"));
-        });
+                    sender.sendMessage(getMessage("info-verification-mail-sent"));
+                });
     }
 }

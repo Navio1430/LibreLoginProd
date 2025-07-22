@@ -6,19 +6,19 @@
 
 package xyz.kyngs.librelogin.common.event;
 
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 import xyz.kyngs.librelogin.api.event.Event;
 import xyz.kyngs.librelogin.api.event.EventProvider;
 import xyz.kyngs.librelogin.api.event.EventType;
 import xyz.kyngs.librelogin.common.AuthenticHandler;
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Consumer;
-
-public class AuthenticEventProvider<P, S> extends AuthenticHandler<P, S> implements EventProvider<P, S> {
+public class AuthenticEventProvider<P, S> extends AuthenticHandler<P, S>
+        implements EventProvider<P, S> {
 
     private final Map<EventType<P, S, ?>, Set<Consumer<Event<P, S>>>> listeners;
 
@@ -28,7 +28,8 @@ public class AuthenticEventProvider<P, S> extends AuthenticHandler<P, S> impleme
     }
 
     @Override
-    public <E extends Event<P, S>> Consumer<E> subscribe(EventType<P, S, E> type, Consumer<E> handler) {
+    public <E extends Event<P, S>> Consumer<E> subscribe(
+            EventType<P, S, E> type, Consumer<E> handler) {
         listeners.computeIfAbsent(type, x -> new HashSet<>()).add((Consumer<Event<P, S>>) handler);
         return handler;
     }

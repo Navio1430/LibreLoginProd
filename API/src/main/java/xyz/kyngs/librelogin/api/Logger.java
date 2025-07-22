@@ -23,7 +23,7 @@ public interface Logger {
     /**
      * Logs a message, and a throwable at the INFO level.
      *
-     * @param message   The message to log.
+     * @param message The message to log.
      * @param throwable The throwable to log.
      */
     void info(String message, Throwable throwable);
@@ -38,7 +38,7 @@ public interface Logger {
     /**
      * Logs a message, and a throwable at the WARNING level.
      *
-     * @param message   The message to log.
+     * @param message The message to log.
      * @param throwable The throwable to log.
      */
     void warn(String message, Throwable throwable);
@@ -53,7 +53,7 @@ public interface Logger {
     /**
      * Logs a message, and a throwable at the ERROR level.
      *
-     * @param message   The message to log.
+     * @param message The message to log.
      * @param throwable The throwable to log.
      */
     void error(String message, Throwable throwable);
@@ -68,9 +68,8 @@ public interface Logger {
     /**
      * Logs a message, and a throwable at the DEBUG level.
      *
-     * @param message   The message to log.
+     * @param message The message to log.
      * @param throwable The throwable to log.
      */
     void debug(String message, Throwable throwable);
-
 }

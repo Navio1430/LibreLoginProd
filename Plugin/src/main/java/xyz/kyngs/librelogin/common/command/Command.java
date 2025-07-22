@@ -8,6 +8,7 @@ package xyz.kyngs.librelogin.common.command;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.MessageKeys;
+import java.util.concurrent.CompletionStage;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.TextComponent;
 import xyz.kyngs.librelogin.api.Logger;
@@ -19,8 +20,6 @@ import xyz.kyngs.librelogin.api.database.User;
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 import xyz.kyngs.librelogin.common.authorization.AuthenticAuthorizationProvider;
 import xyz.kyngs.librelogin.common.util.GeneralUtil;
-
-import java.util.concurrent.CompletionStage;
 
 public class Command<P> extends BaseCommand {
 
@@ -66,11 +65,13 @@ public class Command<P> extends BaseCommand {
 
     protected User getUser(P player) {
         if (player == null)
-            throw new co.aikar.commands.InvalidCommandArgument(MessageKeys.NOT_ALLOWED_ON_CONSOLE, false);
+            throw new co.aikar.commands.InvalidCommandArgument(
+                    MessageKeys.NOT_ALLOWED_ON_CONSOLE, false);
 
         var uuid = plugin.getPlatformHandle().getUUIDForPlayer(player);
 
-        if (plugin.fromFloodgate(uuid)) throw new InvalidCommandArgument(getMessage("error-from-floodgate"));
+        if (plugin.fromFloodgate(uuid))
+            throw new InvalidCommandArgument(getMessage("error-from-floodgate"));
 
         return plugin.getDatabaseProvider().getByUUID(uuid);
     }
@@ -91,5 +92,4 @@ public class Command<P> extends BaseCommand {
 
         user.setHashedPassword(hash);
     }
-
 }

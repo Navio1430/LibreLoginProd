@@ -12,7 +12,7 @@ package xyz.kyngs.librelogin.api.util;
  * @param major The major version.
  * @param minor The minor version.
  * @param patch The patch version.
- * @param dev   Whether this is a development version.
+ * @param dev Whether this is a development version.
  * @author kyngs
  */
 public record SemanticVersion(int major, int minor, int patch, boolean dev) {
@@ -25,14 +25,19 @@ public record SemanticVersion(int major, int minor, int patch, boolean dev) {
      */
     public static SemanticVersion parse(String version) {
         String[] split = version.replace("-SNAPSHOT", "").split("\\.");
-        return new SemanticVersion(Integer.parseInt(split[0]), Integer.parseInt(split[1]), Integer.parseInt(split[2]), version.endsWith("-SNAPSHOT"));
+        return new SemanticVersion(
+                Integer.parseInt(split[0]),
+                Integer.parseInt(split[1]),
+                Integer.parseInt(split[2]),
+                version.endsWith("-SNAPSHOT"));
     }
 
     /**
      * Compares this version with the specified version.
      *
      * @param other the version to compare to
-     * @return -1 if this version is less than the specified version, 0 if they are equal, and 1 if this version is greater
+     * @return -1 if this version is less than the specified version, 0 if they are equal, and 1 if
+     *     this version is greater
      */
     public int compare(SemanticVersion other) {
         if (major != other.major) {
@@ -44,10 +49,7 @@ public record SemanticVersion(int major, int minor, int patch, boolean dev) {
         if (patch != other.patch) {
             return patch < other.patch ? -1 : 1;
         }
-        return dev ?
-                (other.dev ? 0 : -1)
-                :
-                (other.dev ? 1 : 0);
+        return dev ? (other.dev ? 0 : -1) : (other.dev ? 1 : 0);
     }
 
     @Override

@@ -7,31 +7,25 @@
 package xyz.kyngs.librelogin.common.crypto;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import javax.annotation.Nullable;
 import xyz.kyngs.librelogin.api.crypto.CryptoProvider;
 import xyz.kyngs.librelogin.api.crypto.HashedPassword;
 import xyz.kyngs.librelogin.common.util.CryptoUtil;
 
-import javax.annotation.Nullable;
-
 public class BCrypt2ACryptoProvider implements CryptoProvider {
 
-    public static final BCrypt.Hasher HASHER = BCrypt
-            .with(BCrypt.Version.VERSION_2A);
-    public static final BCrypt.Verifyer VERIFIER = BCrypt
-            .verifyer(BCrypt.Version.VERSION_2A);
+    public static final BCrypt.Hasher HASHER = BCrypt.with(BCrypt.Version.VERSION_2A);
+    public static final BCrypt.Verifyer VERIFIER = BCrypt.verifyer(BCrypt.Version.VERSION_2A);
 
     @Override
-    @Nullable
-    public HashedPassword createHash(String password) {
+    @Nullable public HashedPassword createHash(String password) {
         String hash;
         try {
             hash = HASHER.hashToString(10, password.toCharArray());
         } catch (IllegalArgumentException e) {
             return null;
         }
-        return CryptoUtil.convertFromBCryptRaw(
-                hash
-        );
+        return CryptoUtil.convertFromBCryptRaw(hash);
     }
 
     @Override
@@ -39,9 +33,7 @@ public class BCrypt2ACryptoProvider implements CryptoProvider {
         var raw = CryptoUtil.rawBcryptFromHashed(password).toCharArray();
         BCrypt.Result result;
         try {
-            result = VERIFIER.verify(input.toCharArray(),
-                    raw
-            );
+            result = VERIFIER.verify(input.toCharArray(), raw);
         } catch (IllegalArgumentException e) {
             return false;
         }
@@ -53,5 +45,4 @@ public class BCrypt2ACryptoProvider implements CryptoProvider {
     public String getIdentifier() {
         return "BCrypt-2A";
     }
-
 }

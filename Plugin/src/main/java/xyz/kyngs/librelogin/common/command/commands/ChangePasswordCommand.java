@@ -7,6 +7,7 @@
 package xyz.kyngs.librelogin.common.command.commands;
 
 import co.aikar.commands.annotation.*;
+import java.util.concurrent.CompletionStage;
 import net.kyori.adventure.audience.Audience;
 import xyz.kyngs.librelogin.api.event.events.WrongPasswordEvent.AuthenticationSource;
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
@@ -14,8 +15,6 @@ import xyz.kyngs.librelogin.common.command.Command;
 import xyz.kyngs.librelogin.common.command.InvalidCommandArgument;
 import xyz.kyngs.librelogin.common.event.events.AuthenticPasswordChangeEvent;
 import xyz.kyngs.librelogin.common.event.events.AuthenticWrongPasswordEvent;
-
-import java.util.concurrent.CompletionStage;
 
 @CommandAlias("changepassword|changepass|passwd|passch")
 public class ChangePasswordCommand<P> extends Command<P> {
@@ -26,32 +25,42 @@ public class ChangePasswordCommand<P> extends Command<P> {
     @Default
     @Syntax("{@@syntax.change-password}")
     @CommandCompletion("%autocomplete.change-password")
-    public CompletionStage<Void> onPasswordChange(Audience sender, P player, String oldPass, @Single String newPass) {
-        return runAsync(() -> {
-            var user = getUser(player);
+    public CompletionStage<Void> onPasswordChange(
+            Audience sender, P player, String oldPass, @Single String newPass) {
+        return runAsync(
+                () -> {
+                    var user = getUser(player);
 
-            if (!user.isRegistered()) {
-                throw new InvalidCommandArgument(getMessage("error-no-password"));
-            }
+                    if (!user.isRegistered()) {
+                        throw new InvalidCommandArgument(getMessage("error-no-password"));
+                    }
 
-            var hashed = user.getHashedPassword();
-            var crypto = getCrypto(hashed);
+                    var hashed = user.getHashedPassword();
+                    var crypto = getCrypto(hashed);
 
-            if (!crypto.matches(oldPass, hashed)) {
-                plugin.getEventProvider()
-                        .unsafeFire(plugin.getEventTypes().wrongPassword,
-                                new AuthenticWrongPasswordEvent<>(user, player, plugin, AuthenticationSource.CHANGE_PASSWORD));
-                throw new InvalidCommandArgument(getMessage("error-password-wrong"));
-            }
+                    if (!crypto.matches(oldPass, hashed)) {
+                        plugin.getEventProvider()
+                                .unsafeFire(
+                                        plugin.getEventTypes().wrongPassword,
+                                        new AuthenticWrongPasswordEvent<>(
+                                                user,
+                                                player,
+                                                plugin,
+                                                AuthenticationSource.CHANGE_PASSWORD));
+                        throw new InvalidCommandArgument(getMessage("error-password-wrong"));
+                    }
 
-            setPassword(sender, user, newPass, "info-editing");
+                    setPassword(sender, user, newPass, "info-editing");
 
-            getDatabaseProvider().updateUser(user);
+                    getDatabaseProvider().updateUser(user);
 
-            sender.sendMessage(getMessage("info-edited"));
+                    sender.sendMessage(getMessage("info-edited"));
 
-            plugin.getEventProvider().unsafeFire(plugin.getEventTypes().passwordChange, new AuthenticPasswordChangeEvent<>(user, player, plugin, hashed));
-        });
+                    plugin.getEventProvider()
+                            .unsafeFire(
+                                    plugin.getEventTypes().passwordChange,
+                                    new AuthenticPasswordChangeEvent<>(
+                                            user, player, plugin, hashed));
+                });
     }
-
 }

@@ -7,11 +7,10 @@
 package xyz.kyngs.librelogin.api.server;
 
 import com.google.common.collect.Multimap;
+import java.util.Collection;
 import org.jetbrains.annotations.Nullable;
 import xyz.kyngs.librelogin.api.database.User;
 import xyz.kyngs.librelogin.api.event.exception.EventCancelledException;
-
-import java.util.Collection;
 
 /**
  * An interface which manages lobby and limbo servers.
@@ -22,8 +21,8 @@ import java.util.Collection;
 public interface ServerHandler<P, S> {
 
     /**
-     * Gets the latest ping of the server, returns null if the server is not online.
-     * Can block if the server has not yet been pinged.
+     * Gets the latest ping of the server, returns null if the server is not online. Can block if
+     * the server has not yet been pinged.
      *
      * @param server The server to ping
      * @return The data of the server, or null if the server is not online
@@ -31,32 +30,39 @@ public interface ServerHandler<P, S> {
     ServerPing getLatestPing(S server);
 
     /**
-     * Chooses an optimal lobby server to connect the player to. Usually the one with the lowest player count.
+     * Chooses an optimal lobby server to connect the player to. Usually the one with the lowest
+     * player count.
      *
-     * @param user     The user of the player, or null if the player is from bedrock
-     * @param player   The player we're choosing the server for
+     * @param user The user of the player, or null if the player is from bedrock
+     * @param player The player we're choosing the server for
      * @param remember Whether to respect the remember last server option
      * @param fallback Whether to select fallback server or not
-     * @throws xyz.kyngs.librelogin.api.event.exception.EventCancelledException If lobby choose event is cancelled
+     * @throws xyz.kyngs.librelogin.api.event.exception.EventCancelledException If lobby choose
+     *     event is cancelled
      * @return An optimal lobby server, or null if there are no lobby servers
      */
-    S chooseLobbyServer(@Nullable User user, P player, boolean remember, boolean fallback) throws EventCancelledException;
+    S chooseLobbyServer(@Nullable User user, P player, boolean remember, boolean fallback)
+            throws EventCancelledException;
 
     /**
-     * Chooses an optimal lobby server to connect the player to. Usually the one with the lowest player count.
+     * Chooses an optimal lobby server to connect the player to. Usually the one with the lowest
+     * player count.
      *
-     * @param user     The user of the player, or null if the player is from bedrock
-     * @param player   The player we're choosing the server for
+     * @param user The user of the player, or null if the player is from bedrock
+     * @param player The player we're choosing the server for
      * @param remember Whether to respect the remember last server option
-     * @throws xyz.kyngs.librelogin.api.event.exception.EventCancelledException If lobby choose event is cancelled
+     * @throws xyz.kyngs.librelogin.api.event.exception.EventCancelledException If lobby choose
+     *     event is cancelled
      * @return An optimal lobby server, or null if there are no lobby servers
      */
-    S chooseLobbyServer(@Nullable User user, P player, boolean remember) throws EventCancelledException;
+    S chooseLobbyServer(@Nullable User user, P player, boolean remember)
+            throws EventCancelledException;
 
     /**
-     * Chooses an optimal limbo server to connect the player to. Usually the one with the lowest player count.
+     * Chooses an optimal limbo server to connect the player to. Usually the one with the lowest
+     * player count.
      *
-     * @param user   The user of the player
+     * @param user The user of the player
      * @param player The player we're choosing the server for
      * @return An optimal limbo server, or null if there are no limbo servers
      */
@@ -79,7 +85,7 @@ public interface ServerHandler<P, S> {
     /**
      * Registers a new lobby server.
      *
-     * @param server     The server to register
+     * @param server The server to register
      * @param forcedHost The forced host
      */
     void registerLobbyServer(S server, String forcedHost);
@@ -99,5 +105,4 @@ public interface ServerHandler<P, S> {
      * @param server The server to register
      */
     void registerLimboServer(S server);
-
 }

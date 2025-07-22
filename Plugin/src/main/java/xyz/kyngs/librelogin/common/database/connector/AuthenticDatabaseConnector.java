@@ -10,7 +10,8 @@ import xyz.kyngs.librelogin.api.database.connector.DatabaseConnector;
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 import xyz.kyngs.librelogin.common.config.key.ConfigurationKey;
 
-public abstract class AuthenticDatabaseConnector<E extends Exception, I> implements DatabaseConnector<E, I> {
+public abstract class AuthenticDatabaseConnector<E extends Exception, I>
+        implements DatabaseConnector<E, I> {
 
     protected final AuthenticLibreLogin<?, ?> plugin;
     private final String prefix;
@@ -30,5 +31,4 @@ public abstract class AuthenticDatabaseConnector<E extends Exception, I> impleme
         var value = key.getter().apply(plugin.getConfiguration().getHelper(), prefix + key.key());
         return value == null ? key.defaultValue() : value;
     }
-
 }

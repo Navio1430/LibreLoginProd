@@ -10,7 +10,8 @@ import xyz.kyngs.librelogin.api.event.CancellableEvent;
 import xyz.kyngs.librelogin.api.event.ServerChooseEvent;
 
 /**
- * Allows you to determine to which server player should be sent after authentication, or after being kicked.
+ * Allows you to determine to which server player should be sent after authentication, or after
+ * being kicked.
  *
  * @author kyngs
  * @see ServerChooseEvent#setServer
@@ -21,7 +22,6 @@ public interface LobbyServerChooseEvent<P, S> extends ServerChooseEvent<P, S>, C
      * Checks if the event was called to select a fallback server
      *
      * @return Whether is this event called to select fallback server or null if unknown
-     * */
+     */
     Boolean isFallback();
-
 }

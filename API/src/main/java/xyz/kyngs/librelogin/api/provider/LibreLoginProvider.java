@@ -22,5 +22,4 @@ public interface LibreLoginProvider<P, S> {
      * @return the instance of the plugin
      */
     LibreLoginPlugin<P, S> getLibreLogin();
-
 }

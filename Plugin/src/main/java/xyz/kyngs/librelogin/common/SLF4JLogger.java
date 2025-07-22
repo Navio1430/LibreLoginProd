@@ -6,9 +6,8 @@
 
 package xyz.kyngs.librelogin.common;
 
-import xyz.kyngs.librelogin.api.Logger;
-
 import java.util.function.Supplier;
+import xyz.kyngs.librelogin.api.Logger;
 
 public class SLF4JLogger implements Logger {
 

@@ -21,5 +21,4 @@ public class AuthorizationCommand<P> extends Command<P> {
             throw new InvalidCommandArgument(getMessage("error-already-authorized"));
         }
     }
-
 }

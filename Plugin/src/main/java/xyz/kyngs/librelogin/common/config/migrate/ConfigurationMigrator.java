@@ -18,5 +18,4 @@ public interface ConfigurationMigrator {
         helper.set(to.key(), to.getter().apply(helper, from));
         helper.set(from, null);
     }
-
 }

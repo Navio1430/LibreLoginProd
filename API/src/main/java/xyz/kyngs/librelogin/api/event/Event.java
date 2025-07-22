@@ -29,5 +29,4 @@ public interface Event<P, S> {
      * @return the platform handle
      */
     PlatformHandle<P, S> getPlatformHandle();
-
 }

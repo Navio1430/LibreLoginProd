@@ -8,6 +8,14 @@ package xyz.kyngs.librelogin.common.authorization;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
@@ -20,16 +28,8 @@ import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 import xyz.kyngs.librelogin.common.config.ConfigurationKeys;
 import xyz.kyngs.librelogin.common.event.events.AuthenticAuthenticatedEvent;
 
-import java.sql.Timestamp;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
-
-public class AuthenticAuthorizationProvider<P, S> extends AuthenticHandler<P, S> implements AuthorizationProvider<P> {
+public class AuthenticAuthorizationProvider<P, S> extends AuthenticHandler<P, S>
+        implements AuthorizationProvider<P> {
 
     private final Map<P, Boolean> unAuthorized;
     private final Map<P, String> awaiting2FA;
@@ -41,7 +41,9 @@ public class AuthenticAuthorizationProvider<P, S> extends AuthenticHandler<P, S>
         unAuthorized = new ConcurrentHashMap<>();
         awaiting2FA = new ConcurrentHashMap<>();
 
-        var millis = plugin.getConfiguration().get(ConfigurationKeys.MILLISECONDS_TO_REFRESH_NOTIFICATION);
+        var millis =
+                plugin.getConfiguration()
+                        .get(ConfigurationKeys.MILLISECONDS_TO_REFRESH_NOTIFICATION);
 
         if (millis > 0) {
             plugin.repeat(this::notifyUnauthorized, 0, millis);
@@ -49,13 +51,9 @@ public class AuthenticAuthorizationProvider<P, S> extends AuthenticHandler<P, S>
 
         plugin.repeat(this::broadcastActionbars, 0, 1000);
 
-        emailConfirmCache = Caffeine.newBuilder()
-                .expireAfterWrite(10, TimeUnit.MINUTES)
-                .build();
+        emailConfirmCache = Caffeine.newBuilder().expireAfterWrite(10, TimeUnit.MINUTES).build();
 
-        passwordResetCache = Caffeine.newBuilder()
-                .expireAfterWrite(10, TimeUnit.MINUTES)
-                .build();
+        passwordResetCache = Caffeine.newBuilder().expireAfterWrite(10, TimeUnit.MINUTES).build();
     }
 
     public Cache<UUID, EmailVerifyData> getEmailConfirmCache() {
@@ -98,7 +96,10 @@ public class AuthenticAuthorizationProvider<P, S> extends AuthenticHandler<P, S>
 
         audience.clearTitle();
         audience.sendActionBar(Component.empty());
-        plugin.getEventProvider().fire(plugin.getEventTypes().authenticated, new AuthenticAuthenticatedEvent<>(user, player, plugin, reason));
+        plugin.getEventProvider()
+                .fire(
+                        plugin.getEventTypes().authenticated,
+                        new AuthenticAuthenticatedEvent<>(user, player, plugin, reason));
         plugin.authorize(player, user, audience);
     }
 
@@ -118,18 +119,27 @@ public class AuthenticAuthorizationProvider<P, S> extends AuthenticHandler<P, S>
 
         unAuthorized.put(player, user.isRegistered());
 
-        plugin.cancelOnExit(plugin.delay(() -> {
-            if (!unAuthorized.containsKey(player)) return;
-            sendInfoMessage(user.isRegistered(), audience);
-        }, 250), player);
+        plugin.cancelOnExit(
+                plugin.delay(
+                        () -> {
+                            if (!unAuthorized.containsKey(player)) return;
+                            sendInfoMessage(user.isRegistered(), audience);
+                        },
+                        250),
+                player);
 
         var limit = plugin.getConfiguration().get(ConfigurationKeys.SECONDS_TO_AUTHORIZE);
 
         if (limit > 0) {
-            plugin.cancelOnExit(plugin.delay(() -> {
-                if (!unAuthorized.containsKey(player)) return;
-                platformHandle.kick(player, plugin.getMessages().getMessage("kick-time-limit"));
-            }, limit * 1000L), player);
+            plugin.cancelOnExit(
+                    plugin.delay(
+                            () -> {
+                                if (!unAuthorized.containsKey(player)) return;
+                                platformHandle.kick(
+                                        player, plugin.getMessages().getMessage("kick-time-limit"));
+                            },
+                            limit * 1000L),
+                    player);
         }
 
         sendInfoMessage(user.isRegistered(), audience);
@@ -137,44 +147,47 @@ public class AuthenticAuthorizationProvider<P, S> extends AuthenticHandler<P, S>
 
     private void broadcastActionbars() {
         var wrong = new HashSet<P>();
-        unAuthorized.forEach((player, registered) -> {
-            var audience = platformHandle.getAudienceForPlayer(player);
+        unAuthorized.forEach(
+                (player, registered) -> {
+                    var audience = platformHandle.getAudienceForPlayer(player);
 
-            if (audience == null) {
-                wrong.add(player);
-                return;
-            }
+                    if (audience == null) {
+                        wrong.add(player);
+                        return;
+                    }
 
-            sendActionBar(registered, audience);
-
-        });
+                    sendActionBar(registered, audience);
+                });
 
         wrong.forEach(unAuthorized::remove);
     }
 
     private void sendActionBar(boolean registered, Audience audience) {
         if (plugin.getConfiguration().get(ConfigurationKeys.USE_ACTION_BAR)) {
-            audience.sendActionBar(plugin.getMessages().getMessage(registered ? "action-bar-login" : "action-bar-register"));
+            audience.sendActionBar(
+                    plugin.getMessages()
+                            .getMessage(registered ? "action-bar-login" : "action-bar-register"));
         }
     }
 
     private void sendInfoMessage(boolean registered, Audience audience) {
-        audience.sendMessage(plugin.getMessages().getMessage(registered ? "prompt-login" : "prompt-register"));
+        audience.sendMessage(
+                plugin.getMessages().getMessage(registered ? "prompt-login" : "prompt-register"));
         if (!plugin.getConfiguration().get(ConfigurationKeys.USE_TITLES)) return;
-        var toRefresh = plugin.getConfiguration().get(ConfigurationKeys.MILLISECONDS_TO_REFRESH_NOTIFICATION);
+        var toRefresh =
+                plugin.getConfiguration()
+                        .get(ConfigurationKeys.MILLISECONDS_TO_REFRESH_NOTIFICATION);
         //noinspection UnstableApiUsage
-        audience.showTitle(Title.title(
-                plugin.getMessages().getMessage(registered ? "title-login" : "title-register"),
-                plugin.getMessages().getMessage(registered ? "sub-title-login" : "sub-title-register"),
-                Title.Times.of(
-                        Duration.ofMillis(0),
-                        Duration.ofMillis(toRefresh > 0 ?
-                                (long) (toRefresh * 1.1) :
-                                10000
-                        ),
-                        Duration.ofMillis(0)
-                )
-        ));
+        audience.showTitle(
+                Title.title(
+                        plugin.getMessages()
+                                .getMessage(registered ? "title-login" : "title-register"),
+                        plugin.getMessages()
+                                .getMessage(registered ? "sub-title-login" : "sub-title-register"),
+                        Title.Times.of(
+                                Duration.ofMillis(0),
+                                Duration.ofMillis(toRefresh > 0 ? (long) (toRefresh * 1.1) : 10000),
+                                Duration.ofMillis(0))));
     }
 
     public void stopTracking(P player) {
@@ -183,23 +196,22 @@ public class AuthenticAuthorizationProvider<P, S> extends AuthenticHandler<P, S>
 
     public void notifyUnauthorized() {
         var wrong = new HashSet<P>();
-        unAuthorized.forEach((player, registered) -> {
-            var audience = platformHandle.getAudienceForPlayer(player);
+        unAuthorized.forEach(
+                (player, registered) -> {
+                    var audience = platformHandle.getAudienceForPlayer(player);
 
-            if (audience == null) {
-                wrong.add(player);
-                return;
-            }
+                    if (audience == null) {
+                        wrong.add(player);
+                        return;
+                    }
 
-            sendInfoMessage(registered, audience);
-
-        });
+                    sendInfoMessage(registered, audience);
+                });
 
         wrong.forEach(unAuthorized::remove);
     }
 
-    public record EmailVerifyData(String email, String token, UUID uuid) {
-    }
+    public record EmailVerifyData(String email, String token, UUID uuid) {}
 
     public void beginTwoFactorAuth(User user, P player, TOTPData data) {
         awaiting2FA.put(player, data.secret());
@@ -211,8 +223,11 @@ public class AuthenticAuthorizationProvider<P, S> extends AuthenticHandler<P, S>
             return;
         }
 
-        platformHandle.movePlayer(player, limbo).whenComplete((t, e) -> {
-            if (t != null || e != null) awaiting2FA.remove(player);
-        });
+        platformHandle
+                .movePlayer(player, limbo)
+                .whenComplete(
+                        (t, e) -> {
+                            if (t != null || e != null) awaiting2FA.remove(player);
+                        });
     }
 }

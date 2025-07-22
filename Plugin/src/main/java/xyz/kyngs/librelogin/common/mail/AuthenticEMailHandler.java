@@ -33,9 +33,13 @@ public class AuthenticEMailHandler implements EmailHandler {
             mail.setHostName(config.get(ConfigurationKeys.MAIL_HOST));
             mail.setSmtpPort(port);
             mail.setSubject(subject);
-            mail.setAuthentication(config.get(ConfigurationKeys.MAIL_USERNAME), config.get(ConfigurationKeys.MAIL_PASSWORD));
+            mail.setAuthentication(
+                    config.get(ConfigurationKeys.MAIL_USERNAME),
+                    config.get(ConfigurationKeys.MAIL_PASSWORD));
             mail.addTo(email);
-            mail.setFrom(config.get(ConfigurationKeys.MAIL_EMAIL), config.get(ConfigurationKeys.MAIL_SENDER));
+            mail.setFrom(
+                    config.get(ConfigurationKeys.MAIL_EMAIL),
+                    config.get(ConfigurationKeys.MAIL_SENDER));
 
             switch (port) {
                 case 465 -> {
@@ -59,12 +63,14 @@ public class AuthenticEMailHandler implements EmailHandler {
         } catch (EmailException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @Override
     public void sendTestMail(String email) {
-        sendEmail(email, "LibreLogin test mail", """
+        sendEmail(
+                email,
+                "LibreLogin test mail",
+                """
                 Congratulations! You have successfully configured email sending in LibreLogin!<br>
                 Now, your users can reset their passwords.<br>
                 <i>If you have no idea what this means, block the sender.</i>
@@ -73,26 +79,38 @@ public class AuthenticEMailHandler implements EmailHandler {
 
     @Override
     public void sendPasswordResetMail(String email, String token, String username, String ip) {
-        sendEmail(email,
-                plugin.getMessages().getRawMessage("email-password-reset-subject")
-                        .replace("%server%", plugin.getConfiguration().get(ConfigurationKeys.MAIL_SENDER)),
-                plugin.getMessages().getRawMessage("email-password-reset-content")
-                        .replace("%server%", plugin.getConfiguration().get(ConfigurationKeys.MAIL_SENDER))
+        sendEmail(
+                email,
+                plugin.getMessages()
+                        .getRawMessage("email-password-reset-subject")
+                        .replace(
+                                "%server%",
+                                plugin.getConfiguration().get(ConfigurationKeys.MAIL_SENDER)),
+                plugin.getMessages()
+                        .getRawMessage("email-password-reset-content")
+                        .replace(
+                                "%server%",
+                                plugin.getConfiguration().get(ConfigurationKeys.MAIL_SENDER))
                         .replace("%code%", token)
                         .replace("%ip%", ip)
-                        .replace("%name%", username)
-        );
+                        .replace("%name%", username));
     }
 
     @Override
     public void sendVerificationMail(String email, String token, String username) {
-        sendEmail(email,
-                plugin.getMessages().getRawMessage("email-verification-subject")
-                        .replace("%server%", plugin.getConfiguration().get(ConfigurationKeys.MAIL_SENDER)),
-                plugin.getMessages().getRawMessage("email-verification-content")
+        sendEmail(
+                email,
+                plugin.getMessages()
+                        .getRawMessage("email-verification-subject")
+                        .replace(
+                                "%server%",
+                                plugin.getConfiguration().get(ConfigurationKeys.MAIL_SENDER)),
+                plugin.getMessages()
+                        .getRawMessage("email-verification-content")
                         .replace("%name%", username)
-                        .replace("%server%", plugin.getConfiguration().get(ConfigurationKeys.MAIL_SENDER))
-                        .replace("%code%", token)
-        );
+                        .replace(
+                                "%server%",
+                                plugin.getConfiguration().get(ConfigurationKeys.MAIL_SENDER))
+                        .replace("%code%", token));
     }
 }

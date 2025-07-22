@@ -6,6 +6,12 @@
 
 package xyz.kyngs.librelogin.api;
 
+import java.io.File;
+import java.io.InputStream;
+import java.sql.Timestamp;
+import java.util.Map;
+import java.util.UUID;
+import javax.annotation.Nullable;
 import xyz.kyngs.librelogin.api.authorization.AuthorizationProvider;
 import xyz.kyngs.librelogin.api.configuration.Messages;
 import xyz.kyngs.librelogin.api.crypto.CryptoProvider;
@@ -22,13 +28,6 @@ import xyz.kyngs.librelogin.api.server.ServerHandler;
 import xyz.kyngs.librelogin.api.totp.TOTPProvider;
 import xyz.kyngs.librelogin.api.util.SemanticVersion;
 import xyz.kyngs.librelogin.api.util.ThrowableFunction;
-
-import java.io.File;
-import java.io.InputStream;
-import java.sql.Timestamp;
-import java.util.Map;
-import java.util.UUID;
-import javax.annotation.Nullable;
 
 /**
  * The main plugin interface.
@@ -121,7 +120,7 @@ public interface LibreLoginPlugin<P, S> {
      * Allows you to migrate the database.
      *
      * @param from The database to migrate from
-     * @param to   The database to migrate to
+     * @param to The database to migrate to
      */
     void migrate(ReadDatabaseProvider from, WriteDatabaseProvider to);
 
@@ -133,9 +132,9 @@ public interface LibreLoginPlugin<P, S> {
     Map<String, ReadDatabaseProviderRegistration<?, ?, ?>> getReadProviders();
 
     /**
-     * Allows you to use your own read providers.
-     * <br>
-     * <b>If a {@link ReadWriteDatabaseProvider} is passed, it can also be used as the main database provider for the plugin.</b>
+     * Allows you to use your own read providers. <br>
+     * <b>If a {@link ReadWriteDatabaseProvider} is passed, it can also be used as the main database
+     * provider for the plugin.</b>
      *
      * @param registration The registration of the provider
      */
@@ -151,13 +150,16 @@ public interface LibreLoginPlugin<P, S> {
     /**
      * Registers a new database connector.
      *
-     * @param factory The factory used to create the connector. The string parameter is the configuration prefix.
-     * @param clazz   The class the connector will be registered for. (e.g. {@link xyz.kyngs.librelogin.api.database.connector.MySQLDatabaseConnector})
-     * @param <C>     The type of the connector
-     * @param <E>     The type of the exception
-     * @param id      The ID of the connector
+     * @param factory The factory used to create the connector. The string parameter is the
+     *     configuration prefix.
+     * @param clazz The class the connector will be registered for. (e.g. {@link
+     *     xyz.kyngs.librelogin.api.database.connector.MySQLDatabaseConnector})
+     * @param <C> The type of the connector
+     * @param <E> The type of the exception
+     * @param id The ID of the connector
      */
-    <E extends Exception, C extends DatabaseConnector<E, ?>> void registerDatabaseConnector(Class<?> clazz, ThrowableFunction<String, C, E> factory, String id);
+    <E extends Exception, C extends DatabaseConnector<E, ?>> void registerDatabaseConnector(
+            Class<?> clazz, ThrowableFunction<String, C, E> factory, String id);
 
     /**
      * Gets the data folder of the plugin.
@@ -166,9 +168,7 @@ public interface LibreLoginPlugin<P, S> {
      */
     File getDataFolder();
 
-    /**
-     * Checks whether the data folder exists.
-     */
+    /** Checks whether the data folder exists. */
     void checkDataFolder();
 
     /**
@@ -209,8 +209,8 @@ public interface LibreLoginPlugin<P, S> {
     boolean validPassword(String password);
 
     /**
-     * Gets a player by their UUID.
-     * <b>This cannot be used as a substitute for {@link #isPresent(UUID)} due to the possibility of multiple proxies.</b>
+     * Gets a player by their UUID. <b>This cannot be used as a substitute for {@link
+     * #isPresent(UUID)} due to the possibility of multiple proxies.</b>
      *
      * @param uuid The UUID of the player
      * @return The player, or null if the player is not present on this proxy
@@ -225,8 +225,7 @@ public interface LibreLoginPlugin<P, S> {
     PlatformHandle<P, S> getPlatformHandle();
 
     /**
-     * Gets the server handler.
-     * <br>
+     * Gets the server handler. <br>
      * <b>This can be used for registering servers</b>
      *
      * @return The server handler
@@ -234,24 +233,20 @@ public interface LibreLoginPlugin<P, S> {
     ServerHandler<P, S> getServerHandler();
 
     /**
-     * Gets the email handler.
-     * <br>
+     * Gets the email handler. <br>
      * <b>This can be used for sending emails</b>
      *
      * @return The email handler, or null if email support is disabled
      */
-    @Nullable
-    EmailHandler getEmailHandler();
+    @Nullable EmailHandler getEmailHandler();
 
     /**
-     * Gets the limbo provider integration.
-     * <br>
+     * Gets the limbo provider integration. <br>
      * <b>This can be used for creating limbo's</b>
      *
      * @return The limbo provider, or null if no integration was found
      */
-    @Nullable
-    LimboIntegration<S> getLimboIntegration();
+    @Nullable LimboIntegration<S> getLimboIntegration();
 
     /**
      * Gets the event types.
@@ -265,17 +260,17 @@ public interface LibreLoginPlugin<P, S> {
     /**
      * Returns an implementation of {@link User} containing the given parameters.
      *
-     * @param uuid               The UUID of the user, not null
-     * @param premiumUUID        The UUID of the user's premium account, nullable
-     * @param hashedPassword     The hashed password of the user, nullable
-     * @param lastNickname       The last nickname of the user, not null
-     * @param joinDate           The join date of the user, not null
-     * @param lastSeen           The last seen date of the user, not null
-     * @param secret             The TOTP secret of the user, nullable
-     * @param ip                 The last IP of the user, nullable
+     * @param uuid The UUID of the user, not null
+     * @param premiumUUID The UUID of the user's premium account, nullable
+     * @param hashedPassword The hashed password of the user, nullable
+     * @param lastNickname The last nickname of the user, not null
+     * @param joinDate The join date of the user, not null
+     * @param lastSeen The last seen date of the user, not null
+     * @param secret The TOTP secret of the user, nullable
+     * @param ip The last IP of the user, nullable
      * @param lastAuthentication The last authentication date of the user, nullable
-     * @param lastServer         The last server of the user, nullable
-     * @param email              The email of the user, nullable
+     * @param lastServer The last server of the user, nullable
+     * @param email The email of the user, nullable
      * @return an implementation of {@link User} containing the given parameters.
      */
     User createUser(
@@ -289,6 +284,5 @@ public interface LibreLoginPlugin<P, S> {
             String ip,
             Timestamp lastAuthentication,
             String lastServer,
-            String email
-    );
+            String email);
 }

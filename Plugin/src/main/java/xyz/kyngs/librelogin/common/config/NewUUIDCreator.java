@@ -12,7 +12,7 @@ package xyz.kyngs.librelogin.common.config;
  * @author kyngs
  */
 public enum NewUUIDCreator {
-
-    RANDOM, MOJANG, CRACKED
-
+    RANDOM,
+    MOJANG,
+    CRACKED
 }

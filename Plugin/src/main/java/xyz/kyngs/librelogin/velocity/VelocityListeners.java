@@ -20,17 +20,17 @@ import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.util.GameProfile;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
+import java.lang.reflect.Field;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 import net.kyori.adventure.text.Component;
 import xyz.kyngs.librelogin.api.event.exception.EventCancelledException;
 import xyz.kyngs.librelogin.common.config.ConfigurationKeys;
 import xyz.kyngs.librelogin.common.listener.AuthenticListeners;
 import xyz.kyngs.librelogin.common.util.GeneralUtil;
 
-import java.lang.reflect.Field;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-
-public class VelocityListeners extends AuthenticListeners<VelocityLibreLogin, Player, RegisteredServer> {
+public class VelocityListeners
+        extends AuthenticListeners<VelocityLibreLogin, Player, RegisteredServer> {
 
     private static final AttributeKey<?> FLOODGATE_ATTR = AttributeKey.valueOf("floodgate-player");
     private static final Field INITIAL_MINECRAFT_CONNECTION;
@@ -39,9 +39,13 @@ public class VelocityListeners extends AuthenticListeners<VelocityLibreLogin, Pl
 
     static {
         try {
-            Class<?> initialConnection = Class.forName("com.velocitypowered.proxy.connection.client.InitialInboundConnection");
-            Class<?> minecraftConnection = Class.forName("com.velocitypowered.proxy.connection.MinecraftConnection");
-            INITIAL_MINECRAFT_CONNECTION = GeneralUtil.getFieldByType(initialConnection, minecraftConnection);
+            Class<?> initialConnection =
+                    Class.forName(
+                            "com.velocitypowered.proxy.connection.client.InitialInboundConnection");
+            Class<?> minecraftConnection =
+                    Class.forName("com.velocitypowered.proxy.connection.MinecraftConnection");
+            INITIAL_MINECRAFT_CONNECTION =
+                    GeneralUtil.getFieldByType(initialConnection, minecraftConnection);
             if (INITIAL_MINECRAFT_CONNECTION != null) {
                 INITIAL_MINECRAFT_CONNECTION.setAccessible(true);
             }
@@ -49,7 +53,9 @@ public class VelocityListeners extends AuthenticListeners<VelocityLibreLogin, Pl
             // Since Velocity 3.1.0
             Class<?> loginInboundConnection;
             try {
-                loginInboundConnection = Class.forName("com.velocitypowered.proxy.connection.client.LoginInboundConnection");
+                loginInboundConnection =
+                        Class.forName(
+                                "com.velocitypowered.proxy.connection.client.LoginInboundConnection");
             } catch (ClassNotFoundException e) {
                 loginInboundConnection = null;
             }
@@ -59,8 +65,7 @@ public class VelocityListeners extends AuthenticListeners<VelocityLibreLogin, Pl
                 INITIAL_CONNECTION_DELEGATE.setAccessible(true);
                 Objects.requireNonNull(
                         INITIAL_CONNECTION_DELEGATE,
-                        "initial inbound connection delegate cannot be null"
-                );
+                        "initial inbound connection delegate cannot be null");
             } else {
                 INITIAL_CONNECTION_DELEGATE = null;
             }
@@ -98,16 +103,17 @@ public class VelocityListeners extends AuthenticListeners<VelocityLibreLogin, Pl
 
         var gProfile = event.getOriginalProfile();
 
-        event.setGameProfile(new GameProfile(profile.getUuid(), gProfile.getName(), gProfile.getProperties()));
+        event.setGameProfile(
+                new GameProfile(profile.getUuid(), gProfile.getName(), gProfile.getProperties()));
     }
 
     @Subscribe(order = PostOrder.LAST)
     public void onPreLogin(PreLoginEvent event) {
 
-        if (!event.getResult().isAllowed())
-            return;
+        if (!event.getResult().isAllowed()) return;
 
-        // If floodgate is present, attempt to extract the floodgate player from the connection channel.
+        // If floodgate is present, attempt to extract the floodgate player from the connection
+        // channel.
         if (plugin.floodgateEnabled()) {
             Channel channel;
             InboundConnection connection = event.getConnection();
@@ -125,12 +131,16 @@ public class VelocityListeners extends AuthenticListeners<VelocityLibreLogin, Pl
             } catch (Exception e) {
                 plugin.getLogger().warn("Failed to check if player is coming from Floodgate.");
                 e.printStackTrace();
-                event.setResult(PreLoginEvent.PreLoginComponentResult.denied(Component.text("Internal LibreLogin error")));
+                event.setResult(
+                        PreLoginEvent.PreLoginComponentResult.denied(
+                                Component.text("Internal LibreLogin error")));
                 return;
             }
         }
 
-        var result = onPreLogin(event.getUsername(), event.getConnection().getRemoteAddress().getAddress());
+        var result =
+                onPreLogin(
+                        event.getUsername(), event.getConnection().getRemoteAddress().getAddress());
 
         event.setResult(
                 switch (result.state()) {
@@ -140,9 +150,7 @@ public class VelocityListeners extends AuthenticListeners<VelocityLibreLogin, Pl
                     }
                     case FORCE_ONLINE -> PreLoginEvent.PreLoginComponentResult.forceOnlineMode();
                     case FORCE_OFFLINE -> PreLoginEvent.PreLoginComponentResult.forceOfflineMode();
-                }
-        );
-
+                });
     }
 
     @Subscribe(order = PostOrder.LAST)
@@ -150,28 +158,44 @@ public class VelocityListeners extends AuthenticListeners<VelocityLibreLogin, Pl
         var server = chooseServer(event.getPlayer(), null, null);
 
         if (server.value() == null) {
-            event.getPlayer().disconnect(plugin.getMessages().getMessage("kick-no-" + (server.key() ? "lobby" : "limbo")));
+            event.getPlayer()
+                    .disconnect(
+                            plugin.getMessages()
+                                    .getMessage("kick-no-" + (server.key() ? "lobby" : "limbo")));
             event.setInitialServer(null);
         } else {
             event.setInitialServer(server.value());
         }
-
     }
 
     @Subscribe(order = PostOrder.EARLY)
     public void onKick(KickedFromServerEvent event) {
         var reason = event.getServerKickReason().orElse(Component.text("null"));
-        var message = plugin.getMessages().getMessage("info-kick").replaceText(builder -> builder.matchLiteral("%reason%").replacement(reason));
+        var message =
+                plugin.getMessages()
+                        .getMessage("info-kick")
+                        .replaceText(
+                                builder -> builder.matchLiteral("%reason%").replacement(reason));
         var player = event.getPlayer();
 
         if (event.kickedDuringServerConnect()) {
             event.setResult(KickedFromServerEvent.Notify.create(message));
         } else {
-            if (!plugin.getConfiguration().get(ConfigurationKeys.FALLBACK) || plugin.getServerHandler().getLobbyServers().containsValue(event.getServer())) {
+            if (!plugin.getConfiguration().get(ConfigurationKeys.FALLBACK)
+                    || plugin.getServerHandler()
+                            .getLobbyServers()
+                            .containsValue(event.getServer())) {
                 event.setResult(KickedFromServerEvent.DisconnectPlayer.create(message));
             } else {
                 try {
-                    var server = plugin.getServerHandler().chooseLobbyServer(plugin.getDatabaseProvider().getByUUID(player.getUniqueId()), player, false, true);
+                    var server =
+                            plugin.getServerHandler()
+                                    .chooseLobbyServer(
+                                            plugin.getDatabaseProvider()
+                                                    .getByUUID(player.getUniqueId()),
+                                            player,
+                                            false,
+                                            true);
 
                     if (server == null) throw new NoSuchElementException();
 
@@ -182,6 +206,4 @@ public class VelocityListeners extends AuthenticListeners<VelocityLibreLogin, Pl
             }
         }
     }
-
-
 }

@@ -8,17 +8,18 @@ package xyz.kyngs.librelogin.common.database.connector;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.SQLTransientConnectionException;
 import xyz.kyngs.librelogin.api.database.connector.PostgreSQLDatabaseConnector;
 import xyz.kyngs.librelogin.api.util.ThrowableFunction;
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 import xyz.kyngs.librelogin.common.config.ConfigurateHelper;
 import xyz.kyngs.librelogin.common.config.key.ConfigurationKey;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.SQLTransientConnectionException;
-
-public class AuthenticPostgreSQLDatabaseConnector extends AuthenticDatabaseConnector<SQLException, Connection> implements PostgreSQLDatabaseConnector {
+public class AuthenticPostgreSQLDatabaseConnector
+        extends AuthenticDatabaseConnector<SQLException, Connection>
+        implements PostgreSQLDatabaseConnector {
 
     private final HikariConfig hikariConfig;
     private HikariDataSource dataSource;
@@ -38,14 +39,21 @@ public class AuthenticPostgreSQLDatabaseConnector extends AuthenticDatabaseConne
 
         hikariConfig.setUsername(get(Configuration.USER));
         hikariConfig.setPassword(get(Configuration.PASSWORD));
-        hikariConfig.setJdbcUrl("jdbc:postgresql://" + get(Configuration.HOST) + ":" + get(Configuration.PORT) + "/" + get(Configuration.NAME) + "?sslmode=disable&autoReconnect=true&zeroDateTimeBehavior=convertToNull&ssl=false");
+        hikariConfig.setJdbcUrl(
+                "jdbc:postgresql://"
+                        + get(Configuration.HOST)
+                        + ":"
+                        + get(Configuration.PORT)
+                        + "/"
+                        + get(Configuration.NAME)
+                        + "?sslmode=disable&autoReconnect=true&zeroDateTimeBehavior=convertToNull&ssl=false");
         hikariConfig.setMaxLifetime(get(Configuration.MAX_LIFE_TIME));
     }
 
     @Override
     public void connect() throws SQLException {
         dataSource = new HikariDataSource(hikariConfig);
-        obtainInterface().close(); //Verify connection
+        obtainInterface().close(); // Verify connection
         connected = true;
     }
 
@@ -62,16 +70,20 @@ public class AuthenticPostgreSQLDatabaseConnector extends AuthenticDatabaseConne
     }
 
     @Override
-    public <V> V runQuery(ThrowableFunction<Connection, V, SQLException> function) throws IllegalStateException {
+    public <V> V runQuery(ThrowableFunction<Connection, V, SQLException> function)
+            throws IllegalStateException {
         try {
             try (var connection = obtainInterface()) {
                 return function.apply(connection);
             }
         } catch (SQLTransientConnectionException e) {
-            plugin.getLogger().error("!! LOST CONNECTION TO THE DATABASE, THE PROXY IS GOING TO SHUT DOWN TO PREVENT DAMAGE !!");
+            plugin.getLogger()
+                    .error(
+                            "!! LOST CONNECTION TO THE DATABASE, THE PROXY IS GOING TO SHUT DOWN TO"
+                                    + " PREVENT DAMAGE !!");
             e.printStackTrace();
             System.exit(1);
-            //Won't return anyway
+            // Won't return anyway
             return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -80,46 +92,41 @@ public class AuthenticPostgreSQLDatabaseConnector extends AuthenticDatabaseConne
 
     public static final class Configuration {
 
-        public static final ConfigurationKey<String> HOST = new ConfigurationKey<>(
-                "host",
-                "localhost",
-                "The host of the database.",
-                ConfigurateHelper::getString
-        );
+        public static final ConfigurationKey<String> HOST =
+                new ConfigurationKey<>(
+                        "host",
+                        "localhost",
+                        "The host of the database.",
+                        ConfigurateHelper::getString);
 
-        public static final ConfigurationKey<String> NAME = new ConfigurationKey<>(
-                "database",
-                "librelogin",
-                "The name of the database.",
-                ConfigurateHelper::getString
-        );
+        public static final ConfigurationKey<String> NAME =
+                new ConfigurationKey<>(
+                        "database",
+                        "librelogin",
+                        "The name of the database.",
+                        ConfigurateHelper::getString);
 
-        public static final ConfigurationKey<String> PASSWORD = new ConfigurationKey<>(
-                "password",
-                "",
-                "The password of the database.",
-                ConfigurateHelper::getString
-        );
+        public static final ConfigurationKey<String> PASSWORD =
+                new ConfigurationKey<>(
+                        "password",
+                        "",
+                        "The password of the database.",
+                        ConfigurateHelper::getString);
 
-        public static final ConfigurationKey<Integer> PORT = new ConfigurationKey<>(
-                "port",
-                5432,
-                "The port of the database.",
-                ConfigurateHelper::getInt
-        );
+        public static final ConfigurationKey<Integer> PORT =
+                new ConfigurationKey<>(
+                        "port", 5432, "The port of the database.", ConfigurateHelper::getInt);
 
-        public static final ConfigurationKey<String> USER = new ConfigurationKey<>(
-                "user",
-                "root",
-                "The user of the database.",
-                ConfigurateHelper::getString
-        );
+        public static final ConfigurationKey<String> USER =
+                new ConfigurationKey<>(
+                        "user", "root", "The user of the database.", ConfigurateHelper::getString);
 
-        public static final ConfigurationKey<Integer> MAX_LIFE_TIME = new ConfigurationKey<>(
-                "max-life-time",
-                600000,
-                "The maximum lifetime of a database connection in milliseconds. Don't touch this if you don't know what you're doing.",
-                ConfigurateHelper::getInt
-        );
+        public static final ConfigurationKey<Integer> MAX_LIFE_TIME =
+                new ConfigurationKey<>(
+                        "max-life-time",
+                        600000,
+                        "The maximum lifetime of a database connection in milliseconds. Don't touch"
+                                + " this if you don't know what you're doing.",
+                        ConfigurateHelper::getInt);
     }
 }

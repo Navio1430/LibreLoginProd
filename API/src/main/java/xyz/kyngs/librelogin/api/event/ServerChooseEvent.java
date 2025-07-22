@@ -20,8 +20,7 @@ public interface ServerChooseEvent<P, S> extends PlayerBasedEvent<P, S> {
      *
      * @return null, if default will be used
      */
-    @Nullable
-    S getServer();
+    @Nullable S getServer();
 
     /**
      * Set the server
@@ -29,5 +28,4 @@ public interface ServerChooseEvent<P, S> extends PlayerBasedEvent<P, S> {
      * @param server the server, if null, the default will be used
      */
     void setServer(@Nullable S server);
-
 }

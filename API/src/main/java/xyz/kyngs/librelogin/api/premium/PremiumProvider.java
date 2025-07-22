@@ -32,5 +32,4 @@ public interface PremiumProvider {
      * @throws PremiumException If the user could not be fetched.
      */
     PremiumUser getUserForUUID(UUID uuid) throws PremiumException;
-
 }

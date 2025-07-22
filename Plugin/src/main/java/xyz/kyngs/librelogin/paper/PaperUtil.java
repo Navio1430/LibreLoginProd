@@ -6,10 +6,9 @@
 
 package xyz.kyngs.librelogin.paper;
 
-import org.bukkit.Bukkit;
-
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import org.bukkit.Bukkit;
 
 public class PaperUtil {
 
@@ -18,10 +17,13 @@ public class PaperUtil {
             runnable.run();
         } else {
             var future = new CompletableFuture<Void>();
-            Bukkit.getScheduler().runTask(plugin.getBootstrap(), () -> {
-                runnable.run();
-                future.complete(null);
-            });
+            Bukkit.getScheduler()
+                    .runTask(
+                            plugin.getBootstrap(),
+                            () -> {
+                                runnable.run();
+                                future.complete(null);
+                            });
             try {
                 future.get();
             } catch (InterruptedException | ExecutionException e) {
@@ -29,5 +31,4 @@ public class PaperUtil {
             }
         }
     }
-
 }

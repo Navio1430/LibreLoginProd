@@ -6,11 +6,10 @@
 
 package xyz.kyngs.librelogin.api.event;
 
+import java.util.UUID;
 import net.kyori.adventure.audience.Audience;
 import org.jetbrains.annotations.Nullable;
 import xyz.kyngs.librelogin.api.database.User;
-
-import java.util.UUID;
 
 /**
  * An abstract event for events, that include player info
@@ -31,13 +30,13 @@ public interface PlayerBasedEvent<P, S> extends Event<P, S> {
      *
      * @return the player, or null if the affected player did not execute the change
      */
-    @Nullable
-    P getPlayer();
+    @Nullable P getPlayer();
 
     /**
      * Gets the audience
      *
-     * @return audience of the player, all messages, titles etc. sent to this audience should be sent to the player
+     * @return audience of the player, all messages, titles etc. sent to this audience should be
+     *     sent to the player
      */
     Audience getAudience();
 
@@ -46,7 +45,5 @@ public interface PlayerBasedEvent<P, S> extends Event<P, S> {
      *
      * @return player's database profile or null if the player comes from floodgate
      */
-    @Nullable
-    User getUser();
-
+    @Nullable User getUser();
 }

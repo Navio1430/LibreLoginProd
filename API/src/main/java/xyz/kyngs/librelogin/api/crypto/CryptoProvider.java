@@ -9,7 +9,8 @@ package xyz.kyngs.librelogin.api.crypto;
 import javax.annotation.Nullable;
 
 /**
- * This interface manages passwords for its own algorithm. Each algorithm must implement this interface.
+ * This interface manages passwords for its own algorithm. Each algorithm must implement this
+ * interface.
  *
  * @author kyngs
  */
@@ -21,13 +22,12 @@ public interface CryptoProvider {
      * @param password The password (in plaintext).
      * @return Hashed password or null if hashing failed (e.g. password is too long).
      */
-    @Nullable
-    HashedPassword createHash(String password);
+    @Nullable HashedPassword createHash(String password);
 
     /**
      * Verifies a password against a {@link HashedPassword}.
      *
-     * @param input    The password (in plaintext).
+     * @param input The password (in plaintext).
      * @param password The hashed password.
      * @return True if the password is correct, false otherwise.
      */
@@ -39,5 +39,4 @@ public interface CryptoProvider {
      * @return The name of the algorithm.
      */
     String getIdentifier();
-
 }

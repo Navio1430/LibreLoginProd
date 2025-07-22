@@ -18,15 +18,14 @@ import com.velocitypowered.api.plugin.PluginDescription;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
-import net.byteflux.libby.VelocityLibraryManager;
-import org.slf4j.Logger;
-import xyz.kyngs.librelogin.api.LibreLoginPlugin;
-import xyz.kyngs.librelogin.api.provider.LibreLoginProvider;
-
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import net.byteflux.libby.VelocityLibraryManager;
+import org.slf4j.Logger;
+import xyz.kyngs.librelogin.api.LibreLoginPlugin;
+import xyz.kyngs.librelogin.api.provider.LibreLoginProvider;
 
 @Plugin(
         id = "librelogin",
@@ -35,43 +34,51 @@ import java.util.concurrent.Executors;
         // TODO: Update authors
         authors = "sapphirecode",
         dependencies = {
-                @Dependency(id = "floodgate", optional = true),
-                @Dependency(id = "luckperms", optional = true),
-                @Dependency(id = "protocolize", optional = true),
-                @Dependency(id = "redisbungee", optional = true),
-                // TODO: Remove nano limbo plugin support
-                @Dependency(id = "nanolimbovelocity", optional = true)
-        }
-)
+            @Dependency(id = "floodgate", optional = true),
+            @Dependency(id = "luckperms", optional = true),
+            @Dependency(id = "protocolize", optional = true),
+            @Dependency(id = "redisbungee", optional = true),
+            // TODO: Remove nano limbo plugin support
+            @Dependency(id = "nanolimbovelocity", optional = true)
+        })
 public class VelocityBootstrap implements LibreLoginProvider<Player, RegisteredServer> {
 
     ProxyServer server;
     private final VelocityLibreLogin libreLogin;
 
     @Inject
-    public VelocityBootstrap(ProxyServer server, Injector injector, Logger logger, PluginContainer container) {
+    public VelocityBootstrap(
+            ProxyServer server, Injector injector, Logger logger, PluginContainer container) {
         this.server = server;
 
         // This is a very ugly hack to be able to load libraries in the constructor
-        // We cannot pass this as a parameter to the constructor because the plugin is technically still not loaded
-        // And, we cannot past the container as a parameter to the constructor because the proxy still did not assign the instance to it.
-        // So, we have to "mock" the container and pass this as the instance. I'm kinda surprised this works, but in theory could break in the future.
-        var libraryManager = new VelocityLibraryManager<>(logger, Path.of("plugins", "librelogin"), server.getPluginManager(), new PluginContainer() {
-            @Override
-            public PluginDescription getDescription() {
-                return container.getDescription();
-            }
+        // We cannot pass this as a parameter to the constructor because the plugin is technically
+        // still not loaded
+        // And, we cannot past the container as a parameter to the constructor because the proxy
+        // still did not assign the instance to it.
+        // So, we have to "mock" the container and pass this as the instance. I'm kinda surprised
+        // this works, but in theory could break in the future.
+        var libraryManager =
+                new VelocityLibraryManager<>(
+                        logger,
+                        Path.of("plugins", "librelogin"),
+                        server.getPluginManager(),
+                        new PluginContainer() {
+                            @Override
+                            public PluginDescription getDescription() {
+                                return container.getDescription();
+                            }
 
-            @Override
-            public Optional<?> getInstance() {
-                return Optional.of(this);
-            }
+                            @Override
+                            public Optional<?> getInstance() {
+                                return Optional.of(this);
+                            }
 
-            @Override
-            public ExecutorService getExecutorService() {
-                return Executors.newSingleThreadExecutor();
-            }
-        });
+                            @Override
+                            public ExecutorService getExecutorService() {
+                                return Executors.newSingleThreadExecutor();
+                            }
+                        });
 
         logger.info("Loading libraries...");
 
@@ -85,7 +92,13 @@ public class VelocityBootstrap implements LibreLoginProvider<Player, RegisteredS
     public void onInitialization(ProxyInitializeEvent event) {
         libreLogin.enable();
 
-        server.getEventManager().register(this, new Blockers(libreLogin.getAuthorizationProvider(), libreLogin.getConfiguration(), libreLogin.getMessages()));
+        server.getEventManager()
+                .register(
+                        this,
+                        new Blockers(
+                                libreLogin.getAuthorizationProvider(),
+                                libreLogin.getConfiguration(),
+                                libreLogin.getMessages()));
         server.getEventManager().register(this, new VelocityListeners(libreLogin));
     }
 

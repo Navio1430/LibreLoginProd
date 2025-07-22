@@ -6,6 +6,9 @@
 
 package xyz.kyngs.librelogin.common.config;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Collection;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationOptions;
@@ -17,32 +20,38 @@ import xyz.kyngs.librelogin.common.config.key.ConfigurationKey;
 import xyz.kyngs.librelogin.common.config.migrate.ConfigurationMigrator;
 import xyz.kyngs.librelogin.common.util.GeneralUtil;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Collection;
-
 public class ConfigurateConfiguration {
 
     private final ConfigurateHelper helper;
     private final boolean newlyCreated;
     private final HoconConfigurationLoader loader;
 
-    public ConfigurateConfiguration(File dataFolder, String name, Collection<BiHolder<Class<?>, String>> defaultKeys, String comment, Logger logger, ConfigurationMigrator... migrators) throws IOException, CorruptedConfigurationException {
+    public ConfigurateConfiguration(
+            File dataFolder,
+            String name,
+            Collection<BiHolder<Class<?>, String>> defaultKeys,
+            String comment,
+            Logger logger,
+            ConfigurationMigrator... migrators)
+            throws IOException, CorruptedConfigurationException {
         var revision = migrators.length;
         var file = new File(dataFolder, name);
 
         if (!file.exists()) {
             newlyCreated = true;
-            if (!file.createNewFile()) throw new IOException("Could not create configuration file!");
+            if (!file.createNewFile())
+                throw new IOException("Could not create configuration file!");
         } else newlyCreated = false;
 
-        var refHelper = new ConfigurateHelper(CommentedConfigurationNode.root()
-                .comment(comment)
-        );
+        var refHelper = new ConfigurateHelper(CommentedConfigurationNode.root().comment(comment));
 
-        var extractedKeys = defaultKeys.stream()
-                .map(data -> new BiHolder<>(GeneralUtil.extractKeys(data.key()), data.value()))
-                .toList();
+        var extractedKeys =
+                defaultKeys.stream()
+                        .map(
+                                data ->
+                                        new BiHolder<>(
+                                                GeneralUtil.extractKeys(data.key()), data.value()))
+                        .toList();
 
         for (var key : extractedKeys) {
             for (ConfigurationKey<?> configurationKey : key.key()) {
@@ -52,22 +61,17 @@ public class ConfigurateConfiguration {
 
         var ref = refHelper.configuration();
 
-        var builder = HoconConfigurationLoader.builder()
-                .defaultOptions(
-                        ConfigurationOptions
-                                .defaults()
-                                .header(ref.comment())
-                )
-                .file(file)
-                .emitComments(true)
-                .prettyPrinting(true);
-
+        var builder =
+                HoconConfigurationLoader.builder()
+                        .defaultOptions(ConfigurationOptions.defaults().header(ref.comment()))
+                        .file(file)
+                        .emitComments(true)
+                        .prettyPrinting(true);
 
         loader = builder.build();
 
         try {
-            helper = new ConfigurateHelper(loader.load()
-                    .mergeFrom(ref));
+            helper = new ConfigurateHelper(loader.load().mergeFrom(ref));
         } catch (ConfigurateException e) {
             throw new CorruptedConfigurationException(e);
         }
@@ -84,7 +88,8 @@ public class ConfigurateConfiguration {
 
         helper.configuration().mergeFrom(ref);
 
-        helper.configuration().node("revision")
+        helper.configuration()
+                .node("revision")
                 .set(revision)
                 .comment("The config revision number. !!DO NOT TOUCH THIS!!");
 
@@ -108,6 +113,4 @@ public class ConfigurateConfiguration {
     public void save() throws IOException {
         loader.save(helper.configuration());
     }
-
-
 }

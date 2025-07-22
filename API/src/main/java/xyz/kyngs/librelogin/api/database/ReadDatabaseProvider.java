@@ -54,5 +54,4 @@ public interface ReadDatabaseProvider {
      * @return A collection of all players which used the specified IP.
      */
     Collection<User> getByIP(String ip);
-
 }
