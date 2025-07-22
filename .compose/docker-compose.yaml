@@ -38,7 +38,7 @@ services:
       - VERSION=1.21.7
       - ONLINE_MODE=FALSE
       - MODRINTH_PROJECTS=luckperms:beta,viaversion:beta,viabackwards:beta
-#      - JVM_OPTS=-Dlog4j.configurationFile=log4j2.xml
+      - JVM_OPTS=-Dlog4j.configurationFile=log4j2.xml
       - JVM_XX_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
     volumes:
       - ./data/paper:/data/

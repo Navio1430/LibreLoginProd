@@ -47,6 +47,7 @@ public class PaperLibreLogin extends AuthenticLibreLogin<Player, World> {
         PacketEvents.setAPI(SpigotPacketEventsBuilder.build(bootstrap));
 
         PacketEvents.getAPI().getSettings()
+//                .debug(true)
                 .checkForUpdates(false)
                 .bStats(false);
 
@@ -185,7 +186,8 @@ public class PaperLibreLogin extends AuthenticLibreLogin<Player, World> {
             var finalLocation = location;
             PaperUtil.runSyncAndWait(() -> player.teleportAsync(finalLocation), this);
 
-        } catch (EventCancelledException ignored) {}
+        } catch (EventCancelledException ignored) {
+        }
     }
 
     @Override
