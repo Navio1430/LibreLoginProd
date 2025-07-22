@@ -119,7 +119,7 @@ public class MessageKeys {
 
     public static final ConfigurationKey<String> KICK_NO_LIMBO = new ConfigurationKey<>(
             "kick-no-limbo",
-            "There's no available limbo to connect you to. Please try again later. If you're the server administrator, please install NanoLimboPlugin.",
+            "There's no available limbo to connect you to. Please try again later. If you're the server administrator, please setup a NanoLimbo server.",
             "This message is displayed when the player is kicked because there is not any limbo available.",
             ConfigurateHelper::getString
     );
