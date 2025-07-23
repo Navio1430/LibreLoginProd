@@ -51,10 +51,9 @@ alt="Contributors listed"></img>
 ### What does prod mean?
 This means that the project is a heavily modified version intended for production use.
 
-### Why is the plugin almost 36MB?
-It's because the libby (gradle plugin) has been removed.
-It was responsible for downloading dependencies at runtime.
-In the future there will be a similar solution.
+### Why is the plugin almost 5MB?
+We are currently trying to go down to 500KB, but first we need
+to divide whole project into submodules.
 
 # License
 
