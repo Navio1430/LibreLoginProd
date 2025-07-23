@@ -1,5 +1,5 @@
 
-# LibreLoginProd
+# LibreLoginProd ⭐
 
 Fork of the **LibreLogin** (previously LibrePremium) which has caused many problems with newest minecraft versions.
 LibreLogin did not meet our expectations, which is why this fork was created.
