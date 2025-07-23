@@ -13,7 +13,7 @@ dependencies {
     compileOnly("net.kyori:adventure-platform-bungeecord:4.1.2")
     compileOnly("com.google.guava:guava:32.0.0-jre")
 
-    testImplementation(platform("org.junit:junit-bom:5.9.1"))
+    testImplementation(platform("org.junit:junit-bom:5.13.4"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 

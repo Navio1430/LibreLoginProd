@@ -101,7 +101,7 @@ dependencies {
     compileOnly("com.github.ProxioDev.ValioBungee:RedisBungee-Bungee:0.13.0")
 
     //MySQL
-    libby("org.mariadb.jdbc:mariadb-java-client:3.5.1")
+    libby("org.mariadb.jdbc:mariadb-java-client:3.5.4")
     libby("com.zaxxer:HikariCP:6.3.2")
 
     //SQLite
@@ -116,11 +116,11 @@ dependencies {
 
     //Utils
     libby("com.github.ben-manes.caffeine:caffeine:3.2.0")
-    libby("org.spongepowered:configurate-hocon:4.1.2")
+    libby("org.spongepowered:configurate-hocon:4.2.0")
     libby("at.favre.lib:bcrypt:0.10.2")
     libby("dev.samstevens.totp:totp:1.7.1")
     compileOnly("dev.simplix:protocolize-api:2.4.2")
-    libby("org.bouncycastle:bcprov-jdk18on:1.80")
+    libby("org.bouncycastle:bcprov-jdk18on:1.81")
     libby("org.apache.commons:commons-email:1.6.0")
     libby("net.kyori:adventure-text-minimessage:4.22.0")
     libby("com.github.kyngs:LegacyMessage:0.2.0")
