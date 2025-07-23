@@ -108,7 +108,7 @@ dependencies {
     libby("org.xerial:sqlite-jdbc:3.47.1.0")
 
     //PostgreSQL
-    libby("org.postgresql:postgresql:42.7.5")
+    libby("org.postgresql:postgresql:42.7.7")
 
     //ACF
     libby("com.github.kyngs.commands:acf-velocity:7d5bf7cac0")
