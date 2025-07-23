@@ -116,7 +116,7 @@ dependencies {
 
     //Utils
     libby("com.github.ben-manes.caffeine:caffeine:3.2.0")
-    libby("org.spongepowered:configurate-hocon:4.1.2")
+    libby("org.spongepowered:configurate-hocon:4.2.0")
     libby("at.favre.lib:bcrypt:0.10.2")
     libby("dev.samstevens.totp:totp:1.7.1")
     compileOnly("dev.simplix:protocolize-api:2.4.2")
