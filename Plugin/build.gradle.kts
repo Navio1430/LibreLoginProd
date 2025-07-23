@@ -105,7 +105,7 @@ dependencies {
     libby("com.zaxxer:HikariCP:6.3.2")
 
     //SQLite
-    libby("org.xerial:sqlite-jdbc:3.47.1.0")
+    libby("org.xerial:sqlite-jdbc:3.50.3.0")
 
     //PostgreSQL
     libby("org.postgresql:postgresql:42.7.7")
