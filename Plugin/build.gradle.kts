@@ -131,8 +131,8 @@ dependencies {
     compileOnly("net.luckperms:api:5.5")
 
     //BStats
-    libby("org.bstats:bstats-velocity:3.0.2")
-    libby("org.bstats:bstats-bukkit:3.0.2")
+    libby("org.bstats:bstats-velocity:3.1.0")
+    libby("org.bstats:bstats-bukkit:3.1.0")
 
     //Paper
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
