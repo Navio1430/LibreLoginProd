@@ -6,13 +6,12 @@ on:
   pull_request:
     branches: [ "*" ]
 
-# Prevent overlapping triggers
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   build:
+    # Prevent overlapping triggers
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
 
     runs-on: ubuntu-latest
     permissions:
@@ -37,6 +36,10 @@ jobs:
       run: ./gradlew shadowJar
 
   dependency-submission:
+    # Prevent overlapping triggers
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
 
     runs-on: ubuntu-latest
     permissions:
