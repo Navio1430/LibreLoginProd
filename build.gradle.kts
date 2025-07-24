@@ -49,7 +49,6 @@ subprojects {
                 .aosp()
                 .reflowLongStrings()
                 .reorderImports(false)
-            formatAnnotations()
         }
     }
 }
