@@ -22,7 +22,7 @@ public class MessageKeys {
                     "The Mojang API is rate limiting our server, please try joining again in a"
                             + " while!",
                     "This message is displayed when the Mojang API is rate limiting us, therefore"
-                        + " we cannot verify whether there is an account with the given username.",
+                            + " we cannot verify whether there is an account with the given username.",
                     ConfigurateHelper::getString);
 
     public static final ConfigurationKey<String> KICK_PREMIUM_ERROR_UNDEFINED =
@@ -325,7 +325,7 @@ See the configuration key "ip-limit" for more information.\
                     "The Mojang API is rate limiting our server, please try the command again in a"
                             + " while!",
                     "This message is displayed when the Mojang API is rate limiting us, therefore"
-                        + " we cannot verify whether there is an account with the given username.",
+                            + " we cannot verify whether there is an account with the given username.",
                     ConfigurateHelper::getString);
 
     public static final ConfigurationKey<String> ERROR_PREMIUM_UNKNOWN =
@@ -773,9 +773,9 @@ This message is displayed when the player executes /librelogin about.
             new ConfigurationKey<>(
                     "prompt-confirm",
                     "You are about to enable premium autologin, please take note, that you &4WILL"
-                        + " NOT&r be able to connect to your account from cracked client. You can"
-                        + " turn this off later by using /cracked. To confirm this action, you have"
-                        + " 5 minutes to run /confirmpremium",
+                            + " NOT&r be able to connect to your account from cracked client. You can"
+                            + " turn this off later by using /cracked. To confirm this action, you have"
+                            + " 5 minutes to run /confirmpremium",
                     "This message is displayed when the player is prompted to confirm autologin.",
                     ConfigurateHelper::getString);
 
