@@ -7,12 +7,18 @@ on:
     branches: [ "*" ]
 
 jobs:
-  build:
-    # Prevent overlapping triggers
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
-      cancel-in-progress: true
+  pre_job:
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@v5
+        with:
+          concurrent_skipping: 'same_content_newer'
+          skip_after_successful_duplicate: 'true'
 
+  build:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -36,11 +42,6 @@ jobs:
       run: ./gradlew shadowJar
 
   dependency-submission:
-    # Prevent overlapping triggers
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
-      cancel-in-progress: true
-
     runs-on: ubuntu-latest
     permissions:
       contents: write
