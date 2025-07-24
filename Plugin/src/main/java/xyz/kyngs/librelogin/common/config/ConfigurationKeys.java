@@ -49,7 +49,7 @@ public class ConfigurationKeys {
             new ConfigurationKey<>(
                     "lobby",
                     LOBBY_DEFAULT,
-                    """
+"""
 !!WHEN USING PAPER, PUT ALL WORLDS UNDER "root"!!
 On Paper, players will be spawned on the world spawn.
 
@@ -68,7 +68,7 @@ See: https://github.com/kyngs/LibrePremium/wiki/Configuring-Servers
             new ConfigurationKey<>(
                     "ignore-max-players-from-backend-ping",
                     false,
-                    """
+"""
 By default, when choosing available lobby/limbos LibreLogin will rule out all the servers which are full.
 Sometimes this may not work as expected. In such case, you can enable this option, which will ignore the max players field obtained by pinging the backend server.
 """,
@@ -78,7 +78,7 @@ Sometimes this may not work as expected. In such case, you can enable this optio
             new ConfigurationKey<>(
                     "default-crypto-provider",
                     "BCrypt-2A",
-                    """
+"""
 The default crypto provider. This is used for hashing passwords. Available Providers:
 SHA-256 - Older, not recommended. Kept for compatibility reasons.
 SHA-512 - More safer than SHA-256, but still not recommended. Kept for compatibility reasons.
@@ -91,7 +91,7 @@ Argon-2ID - Newest, should be safer than BCrypt-2A, however, it can slow down th
             new ConfigurationKey<>(
                     "profile-conflict-resolution-strategy",
                     "BLOCK",
-                    """
+"""
 Sets the strategy for resolving profile conflicts. Available strategies:
 BLOCK - Kick both players with the message key "kick-name-mismatch". An admin must resolve the conflict manually.
 USE_OFFLINE - Use the offline profile. When both of the players attempt to join, they will be provided with a login screen and will be able to login with the offline player's password. The online player will have to change their nickname to a available one in order to recover their account. Beware, that there's a 30 days cool down for changing nicknames.
@@ -138,7 +138,7 @@ OVERWRITE - Overwrite the offline profile's data with the online profile's data.
             new ConfigurationKey<>(
                     "new-uuid-creator",
                     "CRACKED",
-                    """
+"""
 Sets which method should be used for creating fixed UUID when a new player is created.
 See the wiki for further information: https://github.com/kyngs/LibreLogin/wiki/UUID-Creators
 Available Creators:
@@ -152,7 +152,7 @@ MOJANG - If the player exists in the Mojang's database, it will be used. Otherwi
             new ConfigurationKey<>(
                     "ip-limit",
                     -1,
-                    """
+"""
 Sets the maximum amount of accounts that can be registered from the same IP address.
 Set to zero or less to disable.
 !!THIS IS NOT RECOMMENDED!! Due to the lack of IPv4 addresses, sometimes even entire villages share the same IP address.
@@ -173,7 +173,7 @@ Set to zero or less to disable.
             new ConfigurationKey<>(
                     "milliseconds-to-refresh-notification",
                     10000,
-                    """
+"""
 This specifies how often players should be notified when not authenticated. Set to negative to disable.
 This includes (but is not limited to):
 - Message in chat
@@ -196,7 +196,7 @@ This includes (but is not limited to):
             new ConfigurationKey<>(
                     "database.type",
                     "librelogin-sqlite",
-                    """
+"""
 The type of the database. Built-in types:
 librelogin-mysql - MySQL database, you must fill out the mysql section below.
 librelogin-postgresql - PostgreSQL database, you must fill out the postgresql section below.
@@ -207,7 +207,7 @@ librelogin-sqlite - SQLite database, default file is "database.db", you can chan
     public static final ConfigurationKey<?> MIGRATION =
             ConfigurationKey.getComment(
                     "migration",
-                    """
+"""
 This is used for migrating the database from other plugins.
 Please see the wiki for further information: https://github.com/kyngs/LibreLogin/wiki/Database-Migration
 """);
@@ -223,7 +223,7 @@ Please see the wiki for further information: https://github.com/kyngs/LibreLogin
             new ConfigurationKey<>(
                     "migration.type",
                     "authme-sqlite",
-                    """
+"""
 The type of the migration. Available Types:
 jpremium-mysql - Can convert from MySQL JPremium SHA256, SHA512 and BCrypt
 authme-mysql - Can convert from MySQL AuthMe BCrypt and SHA256
@@ -263,7 +263,7 @@ librelogin-sqlite - Can convert from SQLite LibreLogin, useful for migrating to 
     public static final ConfigurationKey<?> TOTP =
             ConfigurationKey.getComment(
                     "totp",
-                    """
+"""
 This section is used for 2FA configuration.
 !! YOU MUST HAVE PROTOCOLIZE INSTALLED FOR THIS TO WORK !!
 
@@ -274,7 +274,7 @@ You can find more information on the wiki: https://github.com/kyngs/LibreLogin/w
             new ConfigurationKey<>(
                     "totp.enabled",
                     true,
-                    """
+"""
 Should we enable TOTP-Based Two-Factor Authentication? If you don't know what this is, this is the 2FA used in applications like Google Authenticator etc.
 I heavily suggest you to read this wiki page: https://github.com/kyngs/LibreLogin/wiki/2FA
 """,
@@ -404,7 +404,7 @@ I heavily suggest you to read this wiki page: https://github.com/kyngs/LibreLogi
             new ConfigurationKey<>(
                     "allow-proxy-connections",
                     true,
-                    """
+"""
 !!!THIS ONLY AFFECTS PAPER!!!
 Verifies whether the IP the players had used when authenticating to Mojang matches the IP they are connecting from. Disabling this may break LibreLogin if the server is running under a reverse proxy/VPN.
 """,
