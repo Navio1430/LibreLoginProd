@@ -31,12 +31,12 @@ public class PaperBootstrap extends JavaPlugin implements LibreLoginProvider<Pla
     public void onLoad() {
         getLogger().info("Analyzing server setup...");
 
-        try {
-            var adventureClass = Class.forName("net.kyori.adventure.audience.Audience");
+         try {
+             var adventureClass = Class.forName("net.kyori.adventure.audience.Audience");
 
-            if (!adventureClass.isAssignableFrom(Player.class)) {
+               if (!adventureClass.isAssignableFrom(Player.class)) {
                 throw new ClassNotFoundException();
-            }
+              }
         } catch (ClassNotFoundException e) {
             unsupportedSetup();
         }
