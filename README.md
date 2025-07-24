@@ -1,32 +1,37 @@
+<div display="flex" justify-content="space-between" align="center">
+  <img width="763" height="186" alt="banner" src="https://github.com/user-attachments/assets/a84bde68-05c0-4a9c-9230-951b53f91aaa" />
+</div>
 
-# LibreLoginProd ⭐
+<div display="flex" justify-content="space-between" align="center">
+ <h1>LibreLoginProd 🔐 - autologin plugin</h1>
+  <p>Fork of the <b>LibreLogin</b> (previously LibrePremium) which has caused many problems with newest minecraft versions.
+LibreLogin did not meet our expectations, which is why this fork was created.</p>
+</div>
+<br>
+<br>
 
-Fork of the **LibreLogin** (previously LibrePremium) which has caused many problems with newest minecraft versions.
-LibreLogin did not meet our expectations, which is why this fork was created.
+# Maintenance 🚀
 
-# Maintenance
+The project is currently maintained by the **Sapphire Code sp. z o.o.** company team.
 
-Project is currently maintained by the **Sapphire Code sp. z o.o.** company team.
-
-# Quick information
+# Quick information 📌
 
 <img src="https://img.shields.io/badge/Java%20version-%2017+-blue?style=for-the-badge&logo=java&logoColor=white"
 alt="Plugin requires Java 17 or newer"></img>
-
 <a href="https://discord.gg/WTtEQneRJb">
-<img src="https://img.shields.io/badge/Discord-%20SUPPORT-blue?style=for-the-badge&logo=discord&logoColor=white" 
+<img src="https://img.shields.io/badge/Discord-%20SUPPORT-purple?style=for-the-badge&logo=discord&logoColor=white" 
 alt="Support available on Discord"></img>
 </a>
-<a href="https://github.com/Navio1430/LibreLoginProd/wiki">
-<img src="https://img.shields.io/badge/Documentation-555555?style=for-the-badge&logo=wikipedia" alt="Documentation on the Wiki"></img>
-</a>
-
 <a href="https://github.com/Navio1430/LibreLoginProd/graphs/contributors">
 <img src="https://img.shields.io/badge/Contributors-Credits-blue?style=for-the-badge" 
 alt="Contributors listed"></img>
 </a>
 
-## Basic set of features
+<a href="https://github.com/Navio1430/LibreLoginProd/wiki">
+<img src="https://img.shields.io/badge/Documentation-Docs-orange?style=for-the-badge&logo=wikipedia" alt="Documentation on the Wiki"></img>
+</a>
+
+## Basic set of features 🎯
 
 - AutoLogin for premium players
 - TOTP 2FA (Authy, Google Authenticator...) [details](https://github.com/Navio1430/LibreLoginProd/wiki/2FA)
@@ -36,15 +41,17 @@ alt="Contributors listed"></img>
 - Migration of a player's data by using one command
 - Geyser (Bedrock) support using [Floodgate](https://github.com/Navio1430/LibreLoginProd/wiki/Floodgate)
 
-## Platforms
+## Platforms ⚙️
 - [✔️] Velocity - up to 1.21.8
 - [✔️] Paper - up to 1.21.8
 - [❌] BungeeCord - no longer supported, do not use it for production
 
-## Main changes
+## Main changes 
 
-- [❌] BungeeCord
-- [❌] NanoLimboPlugin (should not be used on prod)
+- [📚] Support for the newest Minecraft Paper and Velocity versions
+
+- [❌] No more support for BungeeCord (maybe will be brought back in future)
+- [❌] Removed compatibility with NanoLimboPlugin (should not be used on prod)
 
 # FAQ
 
@@ -54,6 +61,9 @@ This means that the project is a heavily modified version intended for productio
 ### Why is the plugin almost 5MB?
 We are currently trying to go down to 500KB, but first we need
 to divide whole project into submodules.
+
+### Will the folder name change after installation?
+No, we use the same folder and config names as original the **LibreLogin**.
 
 # License
 
