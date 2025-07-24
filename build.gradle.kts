@@ -21,7 +21,7 @@ subprojects {
     tasks.configureEach {
         if (name.contains("jar", true)) {
             dependsOn("updateLicenses")
-            dependsOn("spotlessJavaApply")
+//            dependsOn("spotlessJavaApply")
         }
     }
 
