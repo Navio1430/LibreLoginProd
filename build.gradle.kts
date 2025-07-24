@@ -21,7 +21,7 @@ subprojects {
     tasks.configureEach {
         if (name.contains("jar", true)) {
             dependsOn("updateLicenses")
-            dependsOn("spotlessJavaApply")
+//            dependsOn("spotlessJavaApply")
         }
     }
 
@@ -49,7 +49,6 @@ subprojects {
                 .aosp()
                 .reflowLongStrings()
                 .reorderImports(false)
-            formatAnnotations()
         }
     }
 }

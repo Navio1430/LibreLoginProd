@@ -128,7 +128,8 @@ public abstract class LibreLoginSQLDatabaseProvider
                 });
     }
 
-    @Nullable private User getUserFromResult(ResultSet rs) throws SQLException {
+    @Nullable
+    private User getUserFromResult(ResultSet rs) throws SQLException {
         if (rs.next()) {
             var id = UUID.fromString(rs.getString("uuid"));
             var premiumUUID = rs.getString("premium_uuid");

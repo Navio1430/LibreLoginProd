@@ -1,0 +1,17 @@
+name: Format
+
+on:
+  push:
+
+jobs:
+
+  formatting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4 # v2 minimum required
+      - uses: axel-op/googlejavaformat-action@v4
+        with:
+          args: "--replace --skip-sorting-imports --aosp"
+          skip-commit: false
+#      - name: Print diffs
+#        run: git --no-pager diff --exit-code

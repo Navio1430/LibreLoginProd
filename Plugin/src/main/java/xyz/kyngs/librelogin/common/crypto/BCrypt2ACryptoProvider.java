@@ -18,7 +18,8 @@ public class BCrypt2ACryptoProvider implements CryptoProvider {
     public static final BCrypt.Verifyer VERIFIER = BCrypt.verifyer(BCrypt.Version.VERSION_2A);
 
     @Override
-    @Nullable public HashedPassword createHash(String password) {
+    @Nullable
+    public HashedPassword createHash(String password) {
         String hash;
         try {
             hash = HASHER.hashToString(10, password.toCharArray());

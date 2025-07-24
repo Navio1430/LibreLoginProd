@@ -238,7 +238,8 @@ public interface LibreLoginPlugin<P, S> {
      *
      * @return The email handler, or null if email support is disabled
      */
-    @Nullable EmailHandler getEmailHandler();
+    @Nullable
+    EmailHandler getEmailHandler();
 
     /**
      * Gets the limbo provider integration. <br>
@@ -246,7 +247,8 @@ public interface LibreLoginPlugin<P, S> {
      *
      * @return The limbo provider, or null if no integration was found
      */
-    @Nullable LimboIntegration<S> getLimboIntegration();
+    @Nullable
+    LimboIntegration<S> getLimboIntegration();
 
     /**
      * Gets the event types.

@@ -22,7 +22,8 @@ public interface CryptoProvider {
      * @param password The password (in plaintext).
      * @return Hashed password or null if hashing failed (e.g. password is too long).
      */
-    @Nullable HashedPassword createHash(String password);
+    @Nullable
+    HashedPassword createHash(String password);
 
     /**
      * Verifies a password against a {@link HashedPassword}.

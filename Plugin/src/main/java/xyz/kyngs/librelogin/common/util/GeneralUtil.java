@@ -61,7 +61,8 @@ public class GeneralUtil {
                         new BigInteger(id.substring(16, 32), 16).longValue());
     }
 
-    @Nullable public static TextComponent formatComponent(
+    @Nullable
+    public static TextComponent formatComponent(
             @Nullable TextComponent component, Map<String, String> replacements) {
         if (component == null) return null;
 

@@ -26,7 +26,8 @@ public class Argon2IDCryptoProvider implements CryptoProvider {
         random = new SecureRandom();
     }
 
-    @Nullable @Override
+    @Nullable
+    @Override
     public HashedPassword createHash(String password) {
         var start = System.currentTimeMillis();
         var salt = new byte[16];

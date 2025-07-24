@@ -30,9 +30,10 @@ public class MessageKeys {
                     "kick-premium-error-undefined",
                     "There was some issue while communicating with Mojang, if the problem persists,"
                             + " contact the server administrators!",
-                    """
+"""
 This message is displayed when there was an unknown issue while communicating with Mojang, therefore we cannot verify whether there is an account with the given username.
-The error will be printed to the console""",
+The error will be printed to the console\
+""",
                     ConfigurateHelper::getString);
 
     public static final ConfigurationKey<String> KICK_PREMIUM_INFO_ENABLED =
@@ -59,9 +60,10 @@ The error will be printed to the console""",
             new ConfigurationKey<>(
                     "kick-invalid-case-username",
                     "Please, change your username to &c%username%",
-                    """
+"""
 This message is displayed when the player's username is not in the correct case.
-See https://github.com/kyngs/LibreLogin/wiki/Name-Validation for more information.""",
+See https://github.com/kyngs/LibreLogin/wiki/Name-Validation for more information.\
+""",
                     ConfigurateHelper::getString);
 
     public static final ConfigurationKey<String> KICK_OCCUPIED_USERNAME =
@@ -69,7 +71,8 @@ See https://github.com/kyngs/LibreLogin/wiki/Name-Validation for more informatio
                     "kick-occupied-username",
                     "Please, change your username to &c%username%",
                     """
-                    This message is displayed when the player's username is already taken.""",
+                    This message is displayed when the player's username is already taken.\
+                    """,
                     ConfigurateHelper::getString);
 
     public static final ConfigurationKey<String> KICK_ILLEGAL_USERNAME =
@@ -77,9 +80,10 @@ See https://github.com/kyngs/LibreLogin/wiki/Name-Validation for more informatio
                     "kick-illegal-username",
                     "You have illegal characters in your username or/and your username is longer"
                             + " than 16 characters!",
-                    """
+"""
 This message is displayed when the player's username is not allowed.
-See https://github.com/kyngs/LibreLogin/wiki/Name-Validation for more information.""",
+See https://github.com/kyngs/LibreLogin/wiki/Name-Validation for more information.\
+""",
                     ConfigurateHelper::getString);
 
     public static final ConfigurationKey<String> KICK_NAME_MISMATCH =
@@ -88,9 +92,10 @@ See https://github.com/kyngs/LibreLogin/wiki/Name-Validation for more informatio
                     "Oh no! It looks like an premium user with activated auto login changed their"
                             + " nickname to %nickname%, therefore there are 2 colliding accounts."
                             + " Please contact support immediately.",
-                    """
+"""
 This occurs, when there is a profile conflict.
-See https://github.com/kyngs/LibreLogin/wiki/Profile-Conflicts for more information.""",
+See https://github.com/kyngs/LibreLogin/wiki/Profile-Conflicts for more information.\
+""",
                     ConfigurateHelper::getString);
 
     public static final ConfigurationKey<String> KICK_SHORT_USERNAME =
@@ -99,7 +104,8 @@ See https://github.com/kyngs/LibreLogin/wiki/Profile-Conflicts for more informat
                     "Your username is too short! The minimum length is %length% letters.",
                     """
                     This message is displayed when the player's username is too short.
-                    See the configuration key "minimum-username-length" for more information.""",
+                    See the configuration key "minimum-username-length" for more information.\
+                    """,
                     ConfigurateHelper::getString);
 
     /*
@@ -110,9 +116,10 @@ See https://github.com/kyngs/LibreLogin/wiki/Profile-Conflicts for more informat
             new ConfigurationKey<>(
                     "kick-ip-limit",
                     "You have reached the maximum amount of accounts per IP!",
-                    """
+"""
 This message is displayed when the player's IP has reached the maximum amount of accounts.
-See the configuration key "ip-limit" for more information.""",
+See the configuration key "ip-limit" for more information.\
+""",
                     ConfigurateHelper::getString);
 
     public static final ConfigurationKey<String> KICK_NO_LOBBY =
@@ -326,9 +333,10 @@ See the configuration key "ip-limit" for more information.""",
                     "error-premium-unknown",
                     "There was an unknown error while communicating with the mojang API, please"
                             + " check console for further details!",
-                    """
+"""
 This message is displayed when there was an unknown issue while communicating with Mojang, therefore we cannot verify whether there is an account with the given username.
-The error will be printed to the console""",
+The error will be printed to the console\
+""",
                     ConfigurateHelper::getString);
 
     public static final ConfigurationKey<String> ERROR_THROTTLE =
@@ -668,7 +676,8 @@ The error will be printed to the console""",
                     2FA: %2fa%
                     EMail: %email%
                     IP: %ip%
-                    Last Authenticated: %last_authenticated%""",
+                    Last Authenticated: %last_authenticated%\
+                    """,
                     "This message is displayed when the player's information is requested.",
                     ConfigurateHelper::getString);
 
@@ -680,10 +689,12 @@ The error will be printed to the console""",
                     Version: %version%
                     Authors: kyngs, and other contributors
                     Source: https://github.com/kyngs/LibreLogin
-                    License: Mozilla Public License 2.0""",
-                    """
+                    License: Mozilla Public License 2.0\
+                    """,
+"""
 This message is displayed when the player executes /librelogin about.
-!! Clearing this message, or somehow making the command unexecutable is not only cringe, but also considered a violation of the license. !!""",
+!! Clearing this message, or somehow making the command unexecutable is not only cringe, but also considered a violation of the license. !!\
+""",
                     ConfigurateHelper::getString);
 
     public static final ConfigurationKey<String> INFO_NO_ALTS =
@@ -835,10 +846,11 @@ This message is displayed when the player executes /librelogin about.
     public static final ConfigurationKey<String> TOTP_SHOW_INFO =
             new ConfigurationKey<>(
                     "totp-show-info",
-                    """
+"""
 Please scan the QR code on the map into your 2FA app. For example, Google Authenticator or Authy.
 When you are complete, please execute the /2faconfirm <code> command to finish the process.
-Disconnect to abort.""",
+Disconnect to abort.\
+""",
                     "This message is displayed when the player is prompted to scan the 2FA QR"
                             + " code.",
                     ConfigurateHelper::getString);
@@ -1108,7 +1120,7 @@ Disconnect to abort.""",
     public static final ConfigurationKey<?> AUTOCOMPLETE =
             ConfigurationKey.getComment(
                     "autocomplete",
-                    """
+"""
 This section contains autocompletes for commands. It is pretty large, so most people leave the defaults.
 !!DO NOT TRANSLATE @players!! It is used to hint out all players online.
 """);

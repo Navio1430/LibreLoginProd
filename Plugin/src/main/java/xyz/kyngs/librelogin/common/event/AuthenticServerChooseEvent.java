@@ -21,7 +21,8 @@ public class AuthenticServerChooseEvent<P, S> extends AuthenticPlayerBasedEvent<
         super(user, player, plugin);
     }
 
-    @Nullable @Override
+    @Nullable
+    @Override
     public S getServer() {
         return server;
     }

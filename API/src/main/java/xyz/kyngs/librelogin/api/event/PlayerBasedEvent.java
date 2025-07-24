@@ -30,7 +30,8 @@ public interface PlayerBasedEvent<P, S> extends Event<P, S> {
      *
      * @return the player, or null if the affected player did not execute the change
      */
-    @Nullable P getPlayer();
+    @Nullable
+    P getPlayer();
 
     /**
      * Gets the audience
@@ -45,5 +46,6 @@ public interface PlayerBasedEvent<P, S> extends Event<P, S> {
      *
      * @return player's database profile or null if the player comes from floodgate
      */
-    @Nullable User getUser();
+    @Nullable
+    User getUser();
 }
