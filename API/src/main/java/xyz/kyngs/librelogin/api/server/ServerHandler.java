@@ -7,10 +7,13 @@
 package xyz.kyngs.librelogin.api.server;
 
 import com.google.common.collect.Multimap;
-import java.util.Collection;
+
 import org.jetbrains.annotations.Nullable;
+
 import xyz.kyngs.librelogin.api.database.User;
 import xyz.kyngs.librelogin.api.event.exception.EventCancelledException;
+
+import java.util.Collection;
 
 /**
  * An interface which manages lobby and limbo servers.

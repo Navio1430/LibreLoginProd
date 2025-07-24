@@ -6,10 +6,12 @@
 
 package xyz.kyngs.librelogin.api.database;
 
+import org.jetbrains.annotations.Nullable;
+
+import xyz.kyngs.librelogin.api.crypto.HashedPassword;
+
 import java.sql.Timestamp;
 import java.util.UUID;
-import org.jetbrains.annotations.Nullable;
-import xyz.kyngs.librelogin.api.crypto.HashedPassword;
 
 /**
  * A user in the database.
@@ -23,7 +25,8 @@ public interface User {
      *
      * @return the secret string
      */
-    @Nullable String getSecret();
+    @Nullable
+    String getSecret();
 
     /**
      * Sets the TOTP secret string.
@@ -37,7 +40,8 @@ public interface User {
      *
      * @return the IP address of the current user as a string
      */
-    @Nullable String getIp();
+    @Nullable
+    String getIp();
 
     /**
      * Sets the IP address of the current user.
@@ -51,7 +55,8 @@ public interface User {
      *
      * @return the IP address of the last server
      */
-    @Nullable String getLastServer();
+    @Nullable
+    String getLastServer();
 
     /**
      * Sets the IP address of the last server the current user connected to.
@@ -65,7 +70,8 @@ public interface User {
      *
      * @return the timestamp of the last authentication
      */
-    @Nullable Timestamp getLastAuthentication();
+    @Nullable
+    Timestamp getLastAuthentication();
 
     /**
      * Sets the timestamp of the last authentication of the current user.
@@ -107,7 +113,8 @@ public interface User {
      *
      * @return the hashed password as a HashedPassword object
      */
-    @Nullable HashedPassword getHashedPassword();
+    @Nullable
+    HashedPassword getHashedPassword();
 
     /**
      * Sets the hashed password for the current user.
@@ -128,7 +135,8 @@ public interface User {
      *
      * @return the premium UUID of the current user as a UUID object
      */
-    @Nullable UUID getPremiumUUID();
+    @Nullable
+    UUID getPremiumUUID();
 
     /**
      * Sets the premium UUID (Universally Unique Identifier) of the current user.
@@ -170,7 +178,8 @@ public interface User {
      *
      * @return the email address as a string
      */
-    @Nullable String getEmail();
+    @Nullable
+    String getEmail();
 
     /**
      * Sets the email address for the current user.

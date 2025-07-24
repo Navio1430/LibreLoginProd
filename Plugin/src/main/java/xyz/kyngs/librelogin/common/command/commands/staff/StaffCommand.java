@@ -7,6 +7,7 @@
 package xyz.kyngs.librelogin.common.command.commands.staff;
 
 import org.jetbrains.annotations.NotNull;
+
 import xyz.kyngs.librelogin.api.database.User;
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 import xyz.kyngs.librelogin.common.command.Command;
@@ -17,7 +18,8 @@ public class StaffCommand<P> extends Command<P> {
         super(plugin);
     }
 
-    @NotNull protected User getUserOtherWiseInform(String name) {
+    @NotNull
+    protected User getUserOtherWiseInform(String name) {
         var user = plugin.getDatabaseProvider().getByName(name);
 
         if (user == null) throw new InvalidCommandArgument(getMessage("error-unknown-user"));

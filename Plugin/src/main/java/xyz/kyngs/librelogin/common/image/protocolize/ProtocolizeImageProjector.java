@@ -13,11 +13,13 @@ import dev.simplix.protocolize.api.util.ProtocolVersions;
 import dev.simplix.protocolize.data.ItemType;
 import dev.simplix.protocolize.data.packets.HeldItemChange;
 import dev.simplix.protocolize.data.packets.SetSlot;
-import java.awt.image.BufferedImage;
+
 import xyz.kyngs.librelogin.api.image.ImageProjector;
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 import xyz.kyngs.librelogin.common.image.AuthenticImageProjector;
 import xyz.kyngs.librelogin.common.image.protocolize.packet.MapDataPacket;
+
+import java.awt.image.BufferedImage;
 
 public class ProtocolizeImageProjector<P, S> extends AuthenticImageProjector<P, S>
         implements ImageProjector<P> {

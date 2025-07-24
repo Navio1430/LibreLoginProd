@@ -8,12 +8,15 @@ package xyz.kyngs.librelogin.common.command.commands.tfa;
 
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
-import java.util.concurrent.CompletionStage;
+
 import net.kyori.adventure.audience.Audience;
+
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 import xyz.kyngs.librelogin.common.command.Command;
 import xyz.kyngs.librelogin.common.command.InvalidCommandArgument;
 import xyz.kyngs.librelogin.common.config.ConfigurationKeys;
+
+import java.util.concurrent.CompletionStage;
 
 @CommandAlias("2fa|2fauth|2fauthcode")
 public class TwoFactorAuthCommand<P> extends Command<P> {

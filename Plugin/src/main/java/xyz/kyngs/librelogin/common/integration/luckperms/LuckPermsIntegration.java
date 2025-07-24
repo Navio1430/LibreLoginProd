@@ -7,6 +7,7 @@
 package xyz.kyngs.librelogin.common.integration.luckperms;
 
 import net.luckperms.api.LuckPermsProvider;
+
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 
 public class LuckPermsIntegration<P, S> {

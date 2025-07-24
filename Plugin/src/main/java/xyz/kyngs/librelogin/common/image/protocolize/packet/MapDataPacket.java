@@ -14,10 +14,13 @@ import dev.simplix.protocolize.api.PacketDirection;
 import dev.simplix.protocolize.api.mapping.ProtocolIdMapping;
 import dev.simplix.protocolize.api.packet.AbstractPacket;
 import dev.simplix.protocolize.api.util.ProtocolUtil;
+
 import io.netty.buffer.ByteBuf;
+
+import xyz.kyngs.librelogin.common.image.protocolize.MapData;
+
 import java.util.Arrays;
 import java.util.List;
-import xyz.kyngs.librelogin.common.image.protocolize.MapData;
 
 /**
  * Used to send a map data packet to the client.

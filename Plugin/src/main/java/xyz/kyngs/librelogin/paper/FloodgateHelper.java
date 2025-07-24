@@ -8,9 +8,11 @@ package xyz.kyngs.librelogin.paper;
 
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.wrapper.login.client.WrapperLoginClientLoginStart;
+
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.util.AttributeKey;
+
 import org.geysermc.floodgate.api.player.FloodgatePlayer;
 
 public class FloodgateHelper {

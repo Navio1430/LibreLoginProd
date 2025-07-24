@@ -11,6 +11,7 @@ import dev.simplix.protocolize.api.Protocol;
 import dev.simplix.protocolize.api.module.ProtocolizeModule;
 import dev.simplix.protocolize.api.providers.MappingProvider;
 import dev.simplix.protocolize.api.providers.ProtocolRegistrationProvider;
+
 import xyz.kyngs.librelogin.common.image.protocolize.packet.MapDataPacket;
 
 public class ProtocolizeImageModule implements ProtocolizeModule {

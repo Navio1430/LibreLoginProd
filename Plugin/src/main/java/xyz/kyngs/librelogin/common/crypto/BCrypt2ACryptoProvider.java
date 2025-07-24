@@ -7,10 +7,12 @@
 package xyz.kyngs.librelogin.common.crypto;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import javax.annotation.Nullable;
+
 import xyz.kyngs.librelogin.api.crypto.CryptoProvider;
 import xyz.kyngs.librelogin.api.crypto.HashedPassword;
 import xyz.kyngs.librelogin.common.util.CryptoUtil;
+
+import javax.annotation.Nullable;
 
 public class BCrypt2ACryptoProvider implements CryptoProvider {
 
@@ -18,7 +20,8 @@ public class BCrypt2ACryptoProvider implements CryptoProvider {
     public static final BCrypt.Verifyer VERIFIER = BCrypt.verifyer(BCrypt.Version.VERSION_2A);
 
     @Override
-    @Nullable public HashedPassword createHash(String password) {
+    @Nullable
+    public HashedPassword createHash(String password) {
         String hash;
         try {
             hash = HASHER.hashToString(10, password.toCharArray());

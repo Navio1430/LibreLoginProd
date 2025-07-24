@@ -7,8 +7,10 @@
 package xyz.kyngs.librelogin.velocity;
 
 import com.imaginarycode.minecraft.redisbungee.RedisBungeeAPI;
-import java.util.UUID;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
+
+import java.util.UUID;
 
 public class VelocityRedisBungeeIntegration {
 

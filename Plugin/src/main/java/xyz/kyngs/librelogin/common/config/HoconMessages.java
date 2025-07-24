@@ -6,14 +6,12 @@
 
 package xyz.kyngs.librelogin.common.config;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+
 import org.spongepowered.configurate.CommentedConfigurationNode;
+
 import xyz.kyngs.librelogin.api.BiHolder;
 import xyz.kyngs.librelogin.api.LibreLoginPlugin;
 import xyz.kyngs.librelogin.api.Logger;
@@ -24,6 +22,11 @@ import xyz.kyngs.librelogin.common.config.migrate.messages.SecondMessagesMigrato
 import xyz.kyngs.librelogin.common.config.migrate.messages.ThirdMessagesMigrator;
 import xyz.kyngs.librelogin.common.util.GeneralUtil;
 import xyz.kyngs.utils.legacymessage.LegacyMessage;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class HoconMessages implements Messages {
 
@@ -71,7 +74,7 @@ public class HoconMessages implements Messages {
                         plugin.getDataFolder(),
                         "messages.conf",
                         Set.of(new BiHolder<>(MessageKeys.class, "")),
-                        """
+"""
   !!THIS FILE IS WRITTEN IN THE HOCON FORMAT!!
   The hocon format is very similar to JSON, but it has some extra features.
   You can find more information about the format on the sponge wiki:

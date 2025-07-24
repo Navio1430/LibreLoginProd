@@ -6,10 +6,6 @@
 
 package xyz.kyngs.librelogin.common.migrate;
 
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.Collection;
-import java.util.HashSet;
 import xyz.kyngs.librelogin.api.Logger;
 import xyz.kyngs.librelogin.api.crypto.HashedPassword;
 import xyz.kyngs.librelogin.api.database.User;
@@ -17,6 +13,11 @@ import xyz.kyngs.librelogin.api.database.connector.SQLDatabaseConnector;
 import xyz.kyngs.librelogin.common.database.AuthenticUser;
 import xyz.kyngs.librelogin.common.util.CryptoUtil;
 import xyz.kyngs.librelogin.common.util.GeneralUtil;
+
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.Collection;
+import java.util.HashSet;
 
 public class NLoginSQLMigrateReadProvider extends SQLMigrateReadProvider {
     public NLoginSQLMigrateReadProvider(

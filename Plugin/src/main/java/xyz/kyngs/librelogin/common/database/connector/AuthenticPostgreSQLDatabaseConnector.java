@@ -8,14 +8,16 @@ package xyz.kyngs.librelogin.common.database.connector;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.SQLTransientConnectionException;
+
 import xyz.kyngs.librelogin.api.database.connector.PostgreSQLDatabaseConnector;
 import xyz.kyngs.librelogin.api.util.ThrowableFunction;
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 import xyz.kyngs.librelogin.common.config.ConfigurateHelper;
 import xyz.kyngs.librelogin.common.config.key.ConfigurationKey;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.SQLTransientConnectionException;
 
 public class AuthenticPostgreSQLDatabaseConnector
         extends AuthenticDatabaseConnector<SQLException, Connection>

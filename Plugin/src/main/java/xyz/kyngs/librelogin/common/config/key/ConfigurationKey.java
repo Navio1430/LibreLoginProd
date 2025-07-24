@@ -6,8 +6,9 @@
 
 package xyz.kyngs.librelogin.common.config.key;
 
-import java.util.function.BiFunction;
 import xyz.kyngs.librelogin.common.config.ConfigurateHelper;
+
+import java.util.function.BiFunction;
 
 public class ConfigurationKey<T> {
 

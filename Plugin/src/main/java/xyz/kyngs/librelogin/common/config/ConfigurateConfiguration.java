@@ -6,19 +6,21 @@
 
 package xyz.kyngs.librelogin.common.config;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Collection;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
+
 import xyz.kyngs.librelogin.api.BiHolder;
 import xyz.kyngs.librelogin.api.Logger;
 import xyz.kyngs.librelogin.api.configuration.CorruptedConfigurationException;
 import xyz.kyngs.librelogin.common.config.key.ConfigurationKey;
 import xyz.kyngs.librelogin.common.config.migrate.ConfigurationMigrator;
 import xyz.kyngs.librelogin.common.util.GeneralUtil;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Collection;
 
 public class ConfigurateConfiguration {
 

@@ -6,12 +6,6 @@
 
 package xyz.kyngs.librelogin.api;
 
-import java.io.File;
-import java.io.InputStream;
-import java.sql.Timestamp;
-import java.util.Map;
-import java.util.UUID;
-import javax.annotation.Nullable;
 import xyz.kyngs.librelogin.api.authorization.AuthorizationProvider;
 import xyz.kyngs.librelogin.api.configuration.Messages;
 import xyz.kyngs.librelogin.api.crypto.CryptoProvider;
@@ -28,6 +22,14 @@ import xyz.kyngs.librelogin.api.server.ServerHandler;
 import xyz.kyngs.librelogin.api.totp.TOTPProvider;
 import xyz.kyngs.librelogin.api.util.SemanticVersion;
 import xyz.kyngs.librelogin.api.util.ThrowableFunction;
+
+import java.io.File;
+import java.io.InputStream;
+import java.sql.Timestamp;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.annotation.Nullable;
 
 /**
  * The main plugin interface.
@@ -238,7 +240,8 @@ public interface LibreLoginPlugin<P, S> {
      *
      * @return The email handler, or null if email support is disabled
      */
-    @Nullable EmailHandler getEmailHandler();
+    @Nullable
+    EmailHandler getEmailHandler();
 
     /**
      * Gets the limbo provider integration. <br>
@@ -246,7 +249,8 @@ public interface LibreLoginPlugin<P, S> {
      *
      * @return The limbo provider, or null if no integration was found
      */
-    @Nullable LimboIntegration<S> getLimboIntegration();
+    @Nullable
+    LimboIntegration<S> getLimboIntegration();
 
     /**
      * Gets the event types.

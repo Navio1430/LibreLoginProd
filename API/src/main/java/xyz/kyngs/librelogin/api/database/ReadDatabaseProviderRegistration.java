@@ -7,6 +7,7 @@
 package xyz.kyngs.librelogin.api.database;
 
 import org.jetbrains.annotations.Nullable;
+
 import xyz.kyngs.librelogin.api.database.connector.DatabaseConnector;
 import xyz.kyngs.librelogin.api.util.ThrowableFunction;
 

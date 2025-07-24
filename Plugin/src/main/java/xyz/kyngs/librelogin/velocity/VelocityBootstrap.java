@@ -18,14 +18,18 @@ import com.velocitypowered.api.plugin.PluginDescription;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
+
+import net.byteflux.libby.VelocityLibraryManager;
+
+import org.slf4j.Logger;
+
+import xyz.kyngs.librelogin.api.LibreLoginPlugin;
+import xyz.kyngs.librelogin.api.provider.LibreLoginProvider;
+
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import net.byteflux.libby.VelocityLibraryManager;
-import org.slf4j.Logger;
-import xyz.kyngs.librelogin.api.LibreLoginPlugin;
-import xyz.kyngs.librelogin.api.provider.LibreLoginProvider;
 
 @Plugin(
         id = "librelogin",

@@ -6,9 +6,10 @@
 
 package xyz.kyngs.librelogin.common.integration;
 
-import java.util.UUID;
 import org.geysermc.floodgate.api.FloodgateApi;
 import org.geysermc.floodgate.api.player.FloodgatePlayer;
+
+import java.util.UUID;
 
 public class FloodgateIntegration {
 

@@ -6,11 +6,12 @@
 
 package xyz.kyngs.librelogin.paper;
 
-import java.util.Random;
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.generator.WorldInfo;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Random;
 
 public class VoidWorldGenerator extends ChunkGenerator {
 

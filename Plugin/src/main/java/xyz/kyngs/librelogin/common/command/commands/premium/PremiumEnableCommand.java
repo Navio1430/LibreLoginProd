@@ -7,13 +7,16 @@
 package xyz.kyngs.librelogin.common.command.commands.premium;
 
 import co.aikar.commands.annotation.*;
-import java.util.UUID;
-import java.util.concurrent.CompletionStage;
+
 import net.kyori.adventure.audience.Audience;
+
 import xyz.kyngs.librelogin.api.event.events.WrongPasswordEvent.AuthenticationSource;
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 import xyz.kyngs.librelogin.common.command.InvalidCommandArgument;
 import xyz.kyngs.librelogin.common.event.events.AuthenticWrongPasswordEvent;
+
+import java.util.UUID;
+import java.util.concurrent.CompletionStage;
 
 @CommandAlias("premium|autologin")
 public class PremiumEnableCommand<P> extends PremiumCommand<P> {
