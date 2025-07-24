@@ -6,17 +6,15 @@
 
 package xyz.kyngs.librelogin.common.crypto;
 
+import java.security.SecureRandom;
+import java.util.Arrays;
 import org.bouncycastle.crypto.generators.Argon2BytesGenerator;
 import org.bouncycastle.crypto.params.Argon2Parameters;
 import org.jetbrains.annotations.Nullable;
-
 import xyz.kyngs.librelogin.api.Logger;
 import xyz.kyngs.librelogin.api.crypto.CryptoProvider;
 import xyz.kyngs.librelogin.api.crypto.HashedPassword;
 import xyz.kyngs.librelogin.common.util.CryptoUtil;
-
-import java.security.SecureRandom;
-import java.util.Arrays;
 
 public class Argon2IDCryptoProvider implements CryptoProvider {
 

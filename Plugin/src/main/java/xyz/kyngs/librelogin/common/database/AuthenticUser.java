@@ -6,12 +6,11 @@
 
 package xyz.kyngs.librelogin.common.database;
 
-import xyz.kyngs.librelogin.api.crypto.HashedPassword;
-import xyz.kyngs.librelogin.api.database.User;
-
 import java.sql.Timestamp;
 import java.util.Objects;
 import java.util.UUID;
+import xyz.kyngs.librelogin.api.crypto.HashedPassword;
+import xyz.kyngs.librelogin.api.database.User;
 
 public class AuthenticUser implements User {
 

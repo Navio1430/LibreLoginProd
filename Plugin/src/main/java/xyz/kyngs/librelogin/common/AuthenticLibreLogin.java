@@ -10,18 +10,24 @@ import static xyz.kyngs.librelogin.common.config.ConfigurationKeys.*;
 
 import co.aikar.commands.CommandIssuer;
 import co.aikar.commands.CommandManager;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-
+import java.io.*;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.sql.Timestamp;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ForkJoinPool;
 import net.kyori.adventure.audience.Audience;
-
 import org.bstats.charts.CustomChart;
 import org.jetbrains.annotations.Nullable;
-
 import xyz.kyngs.librelogin.api.BiHolder;
 import xyz.kyngs.librelogin.api.LibreLoginPlugin;
 import xyz.kyngs.librelogin.api.Logger;
@@ -74,17 +80,6 @@ import xyz.kyngs.librelogin.common.server.AuthenticServerHandler;
 import xyz.kyngs.librelogin.common.totp.AuthenticTOTPProvider;
 import xyz.kyngs.librelogin.common.util.CancellableTask;
 import xyz.kyngs.librelogin.common.util.GeneralUtil;
-
-import java.io.*;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.sql.Timestamp;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ForkJoinPool;
 
 public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S> {
 

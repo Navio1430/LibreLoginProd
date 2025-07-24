@@ -7,21 +7,17 @@
 package xyz.kyngs.librelogin.paper;
 
 import com.google.common.base.MoreObjects;
-
-import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.text.Component;
-
-import org.bukkit.*;
-import org.bukkit.entity.Player;
-
-import xyz.kyngs.librelogin.api.PlatformHandle;
-import xyz.kyngs.librelogin.api.server.ServerPing;
-
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
+import org.bukkit.*;
+import org.bukkit.entity.Player;
+import xyz.kyngs.librelogin.api.PlatformHandle;
+import xyz.kyngs.librelogin.api.server.ServerPing;
 
 public class PaperPlatformHandle implements PlatformHandle<Player, World> {
 

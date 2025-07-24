@@ -7,14 +7,11 @@
 package xyz.kyngs.librelogin.common.command.commands.authorization;
 
 import co.aikar.commands.annotation.*;
-
+import java.util.concurrent.CompletionStage;
 import net.kyori.adventure.audience.Audience;
-
 import xyz.kyngs.librelogin.api.event.events.AuthenticatedEvent;
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 import xyz.kyngs.librelogin.common.command.InvalidCommandArgument;
-
-import java.util.concurrent.CompletionStage;
 
 @CommandAlias("register|reg")
 public class RegisterCommand<P> extends AuthorizationCommand<P> {

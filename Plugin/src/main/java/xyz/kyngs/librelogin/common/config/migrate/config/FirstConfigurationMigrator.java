@@ -6,11 +6,10 @@
 
 package xyz.kyngs.librelogin.common.config.migrate.config;
 
+import java.util.List;
 import xyz.kyngs.librelogin.api.Logger;
 import xyz.kyngs.librelogin.common.config.ConfigurateHelper;
 import xyz.kyngs.librelogin.common.config.migrate.ConfigurationMigrator;
-
-import java.util.List;
 
 public class FirstConfigurationMigrator implements ConfigurationMigrator {
     @Override

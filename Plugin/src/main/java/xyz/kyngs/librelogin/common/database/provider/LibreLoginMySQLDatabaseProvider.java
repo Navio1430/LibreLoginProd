@@ -6,14 +6,13 @@
 
 package xyz.kyngs.librelogin.common.database.provider;
 
-import xyz.kyngs.librelogin.api.database.connector.MySQLDatabaseConnector;
-import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
-import xyz.kyngs.librelogin.common.database.connector.AuthenticMySQLDatabaseConnector;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import xyz.kyngs.librelogin.api.database.connector.MySQLDatabaseConnector;
+import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
+import xyz.kyngs.librelogin.common.database.connector.AuthenticMySQLDatabaseConnector;
 
 public class LibreLoginMySQLDatabaseProvider extends LibreLoginSQLDatabaseProvider {
     public LibreLoginMySQLDatabaseProvider(

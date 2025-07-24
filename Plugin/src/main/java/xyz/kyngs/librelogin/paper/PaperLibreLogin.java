@@ -12,20 +12,18 @@ import co.aikar.commands.BukkitCommandIssuer;
 import co.aikar.commands.CommandIssuer;
 import co.aikar.commands.CommandManager;
 import co.aikar.commands.PaperCommandManager;
-
 import com.github.retrooper.packetevents.PacketEvents;
-
 import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
-
+import java.io.File;
+import java.io.InputStream;
+import java.util.UUID;
 import net.kyori.adventure.audience.Audience;
-
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.CustomChart;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-
 import xyz.kyngs.librelogin.api.Logger;
 import xyz.kyngs.librelogin.api.database.User;
 import xyz.kyngs.librelogin.api.event.exception.EventCancelledException;
@@ -34,10 +32,6 @@ import xyz.kyngs.librelogin.common.SLF4JLogger;
 import xyz.kyngs.librelogin.common.image.AuthenticImageProjector;
 import xyz.kyngs.librelogin.common.util.CancellableTask;
 import xyz.kyngs.librelogin.paper.protocol.PacketListener;
-
-import java.io.File;
-import java.io.InputStream;
-import java.util.UUID;
 
 public class PaperLibreLogin extends AuthenticLibreLogin<Player, World> {
 

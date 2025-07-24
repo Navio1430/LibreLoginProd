@@ -6,11 +6,10 @@
 
 package xyz.kyngs.librelogin.common.migrate;
 
-import xyz.kyngs.librelogin.api.database.ReadDatabaseProvider;
-import xyz.kyngs.librelogin.api.database.User;
-
 import java.util.Collection;
 import java.util.UUID;
+import xyz.kyngs.librelogin.api.database.ReadDatabaseProvider;
+import xyz.kyngs.librelogin.api.database.User;
 
 public abstract class MigrateReadProvider implements ReadDatabaseProvider {
 

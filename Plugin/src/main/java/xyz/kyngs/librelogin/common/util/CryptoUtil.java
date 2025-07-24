@@ -6,12 +6,10 @@
 
 package xyz.kyngs.librelogin.common.util;
 
+import java.util.Base64;
 import org.bouncycastle.crypto.params.Argon2Parameters;
-
 import xyz.kyngs.librelogin.api.BiHolder;
 import xyz.kyngs.librelogin.api.crypto.HashedPassword;
-
-import java.util.Base64;
 
 public class CryptoUtil {
 

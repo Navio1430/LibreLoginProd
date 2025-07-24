@@ -6,15 +6,13 @@
 
 package xyz.kyngs.librelogin.api;
 
-import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.text.Component;
-
-import xyz.kyngs.librelogin.api.server.ServerPing;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
+import xyz.kyngs.librelogin.api.server.ServerPing;
 
 /**
  * Platform-specific things that are used to interact with platform's objects

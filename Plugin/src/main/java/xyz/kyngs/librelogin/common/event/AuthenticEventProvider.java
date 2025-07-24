@@ -6,17 +6,16 @@
 
 package xyz.kyngs.librelogin.common.event;
 
-import xyz.kyngs.librelogin.api.event.Event;
-import xyz.kyngs.librelogin.api.event.EventProvider;
-import xyz.kyngs.librelogin.api.event.EventType;
-import xyz.kyngs.librelogin.common.AuthenticHandler;
-import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
-
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
+import xyz.kyngs.librelogin.api.event.Event;
+import xyz.kyngs.librelogin.api.event.EventProvider;
+import xyz.kyngs.librelogin.api.event.EventType;
+import xyz.kyngs.librelogin.common.AuthenticHandler;
+import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 
 public class AuthenticEventProvider<P, S> extends AuthenticHandler<P, S>
         implements EventProvider<P, S> {

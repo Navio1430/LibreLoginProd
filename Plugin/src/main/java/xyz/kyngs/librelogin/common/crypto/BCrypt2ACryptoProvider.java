@@ -7,12 +7,10 @@
 package xyz.kyngs.librelogin.common.crypto;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-
+import javax.annotation.Nullable;
 import xyz.kyngs.librelogin.api.crypto.CryptoProvider;
 import xyz.kyngs.librelogin.api.crypto.HashedPassword;
 import xyz.kyngs.librelogin.common.util.CryptoUtil;
-
-import javax.annotation.Nullable;
 
 public class BCrypt2ACryptoProvider implements CryptoProvider {
 

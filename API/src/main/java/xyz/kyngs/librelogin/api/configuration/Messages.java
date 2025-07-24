@@ -6,11 +6,9 @@
 
 package xyz.kyngs.librelogin.api.configuration;
 
-import net.kyori.adventure.text.TextComponent;
-
-import xyz.kyngs.librelogin.api.LibreLoginPlugin;
-
 import java.io.IOException;
+import net.kyori.adventure.text.TextComponent;
+import xyz.kyngs.librelogin.api.LibreLoginPlugin;
 
 /**
  * This interface manages the messages of the plugin.

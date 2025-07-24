@@ -6,6 +6,9 @@
 
 package xyz.kyngs.librelogin.common.migrate;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.UUID;
 import xyz.kyngs.librelogin.api.Logger;
 import xyz.kyngs.librelogin.api.database.User;
 import xyz.kyngs.librelogin.api.database.connector.SQLDatabaseConnector;
@@ -13,10 +16,6 @@ import xyz.kyngs.librelogin.api.premium.PremiumException;
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 import xyz.kyngs.librelogin.common.database.AuthenticUser;
 import xyz.kyngs.librelogin.common.util.GeneralUtil;
-
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.UUID;
 
 public class UniqueCodeAuthSQLMigrateReadProvider extends SQLMigrateReadProvider {
 

@@ -6,13 +6,12 @@
 
 package xyz.kyngs.librelogin.common.database.provider;
 
-import xyz.kyngs.librelogin.api.database.connector.PostgreSQLDatabaseConnector;
-import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import xyz.kyngs.librelogin.api.database.connector.PostgreSQLDatabaseConnector;
+import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 
 public class LibreLoginPostgreSQLDatabaseProvider extends LibreLoginSQLDatabaseProvider {
     public LibreLoginPostgreSQLDatabaseProvider(

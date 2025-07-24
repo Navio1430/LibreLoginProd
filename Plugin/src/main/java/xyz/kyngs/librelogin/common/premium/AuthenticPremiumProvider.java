@@ -9,14 +9,6 @@ package xyz.kyngs.librelogin.common.premium;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.google.gson.JsonObject;
-
-import xyz.kyngs.librelogin.api.premium.PremiumException;
-import xyz.kyngs.librelogin.api.premium.PremiumProvider;
-import xyz.kyngs.librelogin.api.premium.PremiumUser;
-import xyz.kyngs.librelogin.api.util.ThrowableFunction;
-import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
-import xyz.kyngs.librelogin.common.util.GeneralUtil;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -26,6 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import xyz.kyngs.librelogin.api.premium.PremiumException;
+import xyz.kyngs.librelogin.api.premium.PremiumProvider;
+import xyz.kyngs.librelogin.api.premium.PremiumUser;
+import xyz.kyngs.librelogin.api.util.ThrowableFunction;
+import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
+import xyz.kyngs.librelogin.common.util.GeneralUtil;
 
 public class AuthenticPremiumProvider implements PremiumProvider {
 

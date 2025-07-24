@@ -12,7 +12,6 @@ import static io.github.retrooper.packetevents.util.SpigotReflectionUtil.NETWORK
 import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.manager.server.ServerVersion;
 import com.github.retrooper.packetevents.util.reflection.ReflectionObject;
-
 import io.github.retrooper.packetevents.util.SpigotReflectionUtil;
 import io.netty.channel.Channel;
 

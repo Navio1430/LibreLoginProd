@@ -10,22 +10,8 @@ import static xyz.kyngs.librelogin.common.AuthenticLibreLogin.DATE_TIME_FORMATTE
 import static xyz.kyngs.librelogin.common.AuthenticLibreLogin.GSON;
 
 import co.aikar.commands.annotation.*;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
-import net.kyori.adventure.audience.Audience;
-
-import xyz.kyngs.librelogin.api.configuration.CorruptedConfigurationException;
-import xyz.kyngs.librelogin.api.database.User;
-import xyz.kyngs.librelogin.api.event.events.AuthenticatedEvent;
-import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
-import xyz.kyngs.librelogin.common.command.InvalidCommandArgument;
-import xyz.kyngs.librelogin.common.database.AuthenticUser;
-import xyz.kyngs.librelogin.common.event.events.AuthenticPasswordChangeEvent;
-import xyz.kyngs.librelogin.common.event.events.AuthenticPremiumLoginSwitchEvent;
-import xyz.kyngs.librelogin.common.util.GeneralUtil;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -35,6 +21,16 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.CompletionStage;
+import net.kyori.adventure.audience.Audience;
+import xyz.kyngs.librelogin.api.configuration.CorruptedConfigurationException;
+import xyz.kyngs.librelogin.api.database.User;
+import xyz.kyngs.librelogin.api.event.events.AuthenticatedEvent;
+import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
+import xyz.kyngs.librelogin.common.command.InvalidCommandArgument;
+import xyz.kyngs.librelogin.common.database.AuthenticUser;
+import xyz.kyngs.librelogin.common.event.events.AuthenticPasswordChangeEvent;
+import xyz.kyngs.librelogin.common.event.events.AuthenticPremiumLoginSwitchEvent;
+import xyz.kyngs.librelogin.common.util.GeneralUtil;
 
 @CommandAlias("librelogin")
 public class LibreLoginCommand<P> extends StaffCommand<P> {

@@ -7,7 +7,6 @@
 package xyz.kyngs.librelogin.common.event.events;
 
 import org.jetbrains.annotations.Nullable;
-
 import xyz.kyngs.librelogin.api.LibreLoginPlugin;
 import xyz.kyngs.librelogin.api.database.User;
 import xyz.kyngs.librelogin.api.event.events.PremiumLoginSwitchEvent;

@@ -8,14 +8,14 @@ package xyz.kyngs.librelogin.common.command;
 
 import co.aikar.commands.CommandManager;
 import co.aikar.commands.MessageKeys;
-
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-
+import java.util.HashMap;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-
 import xyz.kyngs.librelogin.api.database.User;
 import xyz.kyngs.librelogin.common.AuthenticHandler;
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
@@ -33,10 +33,6 @@ import xyz.kyngs.librelogin.common.command.commands.staff.LibreLoginCommand;
 import xyz.kyngs.librelogin.common.command.commands.tfa.TwoFactorAuthCommand;
 import xyz.kyngs.librelogin.common.command.commands.tfa.TwoFactorConfirmCommand;
 import xyz.kyngs.librelogin.common.util.RateLimiter;
-
-import java.util.HashMap;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 public class CommandProvider<P, S> extends AuthenticHandler<P, S> {
 

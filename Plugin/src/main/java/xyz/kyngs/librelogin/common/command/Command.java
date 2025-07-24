@@ -8,10 +8,9 @@ package xyz.kyngs.librelogin.common.command;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.MessageKeys;
-
+import java.util.concurrent.CompletionStage;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.TextComponent;
-
 import xyz.kyngs.librelogin.api.Logger;
 import xyz.kyngs.librelogin.api.configuration.Messages;
 import xyz.kyngs.librelogin.api.crypto.CryptoProvider;
@@ -21,8 +20,6 @@ import xyz.kyngs.librelogin.api.database.User;
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 import xyz.kyngs.librelogin.common.authorization.AuthenticAuthorizationProvider;
 import xyz.kyngs.librelogin.common.util.GeneralUtil;
-
-import java.util.concurrent.CompletionStage;
 
 public class Command<P> extends BaseCommand {
 

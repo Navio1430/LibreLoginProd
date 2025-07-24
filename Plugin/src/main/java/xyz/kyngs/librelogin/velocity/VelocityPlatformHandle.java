@@ -9,18 +9,15 @@ package xyz.kyngs.librelogin.velocity;
 import com.google.common.base.MoreObjects;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
-
-import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.text.Component;
-
-import xyz.kyngs.librelogin.api.PlatformHandle;
-import xyz.kyngs.librelogin.api.server.ServerPing;
-
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
+import xyz.kyngs.librelogin.api.PlatformHandle;
+import xyz.kyngs.librelogin.api.server.ServerPing;
 
 public class VelocityPlatformHandle implements PlatformHandle<Player, RegisteredServer> {
     private final VelocityLibreLogin plugin;

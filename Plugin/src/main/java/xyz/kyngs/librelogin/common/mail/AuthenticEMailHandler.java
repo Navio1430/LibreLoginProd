@@ -9,7 +9,6 @@ package xyz.kyngs.librelogin.common.mail;
 import org.apache.commons.mail.EmailConstants;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
-
 import xyz.kyngs.librelogin.api.mail.EmailHandler;
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 import xyz.kyngs.librelogin.common.config.ConfigurationKeys;

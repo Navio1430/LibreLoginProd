@@ -9,19 +9,6 @@ package xyz.kyngs.librelogin.common.util;
 import static xyz.kyngs.librelogin.common.config.ConfigurationKeys.DATABASE_TYPE;
 import static xyz.kyngs.librelogin.common.config.ConfigurationKeys.MIGRATION_TYPE;
 
-import net.kyori.adventure.text.TextComponent;
-
-import org.jetbrains.annotations.Nullable;
-
-import xyz.kyngs.librelogin.api.Logger;
-import xyz.kyngs.librelogin.api.database.ReadDatabaseProvider;
-import xyz.kyngs.librelogin.api.database.connector.DatabaseConnector;
-import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
-import xyz.kyngs.librelogin.common.command.InvalidCommandArgument;
-import xyz.kyngs.librelogin.common.config.ConfigurationKeys;
-import xyz.kyngs.librelogin.common.config.HoconPluginConfiguration;
-import xyz.kyngs.librelogin.common.config.key.ConfigurationKey;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
@@ -35,6 +22,16 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ForkJoinPool;
+import net.kyori.adventure.text.TextComponent;
+import org.jetbrains.annotations.Nullable;
+import xyz.kyngs.librelogin.api.Logger;
+import xyz.kyngs.librelogin.api.database.ReadDatabaseProvider;
+import xyz.kyngs.librelogin.api.database.connector.DatabaseConnector;
+import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
+import xyz.kyngs.librelogin.common.command.InvalidCommandArgument;
+import xyz.kyngs.librelogin.common.config.ConfigurationKeys;
+import xyz.kyngs.librelogin.common.config.HoconPluginConfiguration;
+import xyz.kyngs.librelogin.common.config.key.ConfigurationKey;
 
 public class GeneralUtil {
 

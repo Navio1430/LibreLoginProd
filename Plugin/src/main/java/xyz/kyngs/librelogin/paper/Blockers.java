@@ -9,7 +9,6 @@ package xyz.kyngs.librelogin.paper;
 import static xyz.kyngs.librelogin.common.config.ConfigurationKeys.ALLOWED_COMMANDS_WHILE_UNAUTHORIZED;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
-
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -24,7 +23,6 @@ import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
-
 import xyz.kyngs.librelogin.api.authorization.AuthorizationProvider;
 import xyz.kyngs.librelogin.api.server.ServerHandler;
 import xyz.kyngs.librelogin.common.config.HoconPluginConfiguration;

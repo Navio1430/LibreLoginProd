@@ -8,7 +8,7 @@ package xyz.kyngs.librelogin.common.migrate;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-
+import java.util.*;
 import xyz.kyngs.librelogin.api.Logger;
 import xyz.kyngs.librelogin.api.database.User;
 import xyz.kyngs.librelogin.api.database.connector.DatabaseConnector;
@@ -17,8 +17,6 @@ import xyz.kyngs.librelogin.api.premium.PremiumException;
 import xyz.kyngs.librelogin.api.premium.PremiumProvider;
 import xyz.kyngs.librelogin.api.premium.PremiumUser;
 import xyz.kyngs.librelogin.common.util.GeneralUtil;
-
-import java.util.*;
 
 public class FastLoginSQLMigrateReadProvider extends SQLMigrateReadProvider {
     private final DatabaseConnector<?, ?> main;

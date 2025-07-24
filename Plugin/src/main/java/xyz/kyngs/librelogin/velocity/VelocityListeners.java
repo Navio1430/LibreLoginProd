@@ -18,20 +18,16 @@ import com.velocitypowered.api.proxy.InboundConnection;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.util.GameProfile;
-
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
-
+import java.lang.reflect.Field;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 import net.kyori.adventure.text.Component;
-
 import xyz.kyngs.librelogin.api.event.exception.EventCancelledException;
 import xyz.kyngs.librelogin.common.config.ConfigurationKeys;
 import xyz.kyngs.librelogin.common.listener.AuthenticListeners;
 import xyz.kyngs.librelogin.common.util.GeneralUtil;
-
-import java.lang.reflect.Field;
-import java.util.NoSuchElementException;
-import java.util.Objects;
 
 public class VelocityListeners
         extends AuthenticListeners<VelocityLibreLogin, Player, RegisteredServer> {

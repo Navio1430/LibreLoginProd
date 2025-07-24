@@ -8,13 +8,10 @@ package xyz.kyngs.librelogin.common.command.commands.premium;
 
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
-
+import java.util.concurrent.CompletionStage;
 import net.kyori.adventure.audience.Audience;
-
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 import xyz.kyngs.librelogin.common.event.events.AuthenticPremiumLoginSwitchEvent;
-
-import java.util.concurrent.CompletionStage;
 
 @CommandAlias("cracked|manuallogin")
 public class PremiumDisableCommand<P> extends PremiumCommand<P> {

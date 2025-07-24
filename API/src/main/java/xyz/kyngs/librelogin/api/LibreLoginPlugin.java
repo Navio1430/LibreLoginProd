@@ -6,6 +6,12 @@
 
 package xyz.kyngs.librelogin.api;
 
+import java.io.File;
+import java.io.InputStream;
+import java.sql.Timestamp;
+import java.util.Map;
+import java.util.UUID;
+import javax.annotation.Nullable;
 import xyz.kyngs.librelogin.api.authorization.AuthorizationProvider;
 import xyz.kyngs.librelogin.api.configuration.Messages;
 import xyz.kyngs.librelogin.api.crypto.CryptoProvider;
@@ -22,14 +28,6 @@ import xyz.kyngs.librelogin.api.server.ServerHandler;
 import xyz.kyngs.librelogin.api.totp.TOTPProvider;
 import xyz.kyngs.librelogin.api.util.SemanticVersion;
 import xyz.kyngs.librelogin.api.util.ThrowableFunction;
-
-import java.io.File;
-import java.io.InputStream;
-import java.sql.Timestamp;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.annotation.Nullable;
 
 /**
  * The main plugin interface.

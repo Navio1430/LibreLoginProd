@@ -6,13 +6,12 @@
 
 package xyz.kyngs.librelogin.common.crypto;
 
-import xyz.kyngs.librelogin.api.crypto.CryptoProvider;
-import xyz.kyngs.librelogin.api.crypto.HashedPassword;
-
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import xyz.kyngs.librelogin.api.crypto.CryptoProvider;
+import xyz.kyngs.librelogin.api.crypto.HashedPassword;
 
 public class MessageDigestCryptoProvider implements CryptoProvider {
 

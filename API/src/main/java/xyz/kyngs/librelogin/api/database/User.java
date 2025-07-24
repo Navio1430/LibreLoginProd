@@ -6,12 +6,10 @@
 
 package xyz.kyngs.librelogin.api.database;
 
-import org.jetbrains.annotations.Nullable;
-
-import xyz.kyngs.librelogin.api.crypto.HashedPassword;
-
 import java.sql.Timestamp;
 import java.util.UUID;
+import org.jetbrains.annotations.Nullable;
+import xyz.kyngs.librelogin.api.crypto.HashedPassword;
 
 /**
  * A user in the database.

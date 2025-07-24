@@ -7,9 +7,10 @@
 package xyz.kyngs.librelogin.common.command.commands.mail;
 
 import co.aikar.commands.annotation.*;
-
+import java.util.UUID;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.TimeUnit;
 import net.kyori.adventure.audience.Audience;
-
 import xyz.kyngs.librelogin.api.event.events.WrongPasswordEvent.AuthenticationSource;
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 import xyz.kyngs.librelogin.common.authorization.AuthenticAuthorizationProvider;
@@ -18,10 +19,6 @@ import xyz.kyngs.librelogin.common.config.ConfigurationKeys;
 import xyz.kyngs.librelogin.common.event.events.AuthenticWrongPasswordEvent;
 import xyz.kyngs.librelogin.common.util.GeneralUtil;
 import xyz.kyngs.librelogin.common.util.RateLimiter;
-
-import java.util.UUID;
-import java.util.concurrent.CompletionStage;
-import java.util.concurrent.TimeUnit;
 
 @CommandAlias("setemail")
 public class SetEMailCommand<P> extends EMailCommand<P> {

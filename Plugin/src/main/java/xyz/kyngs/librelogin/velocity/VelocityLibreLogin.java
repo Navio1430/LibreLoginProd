@@ -12,7 +12,6 @@ import co.aikar.commands.CommandIssuer;
 import co.aikar.commands.CommandManager;
 import co.aikar.commands.VelocityCommandIssuer;
 import co.aikar.commands.VelocityCommandManager;
-
 import com.google.inject.Inject;
 import com.velocitypowered.api.network.ProtocolVersion;
 import com.velocitypowered.api.plugin.PluginDescription;
@@ -20,14 +19,16 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
-
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Path;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
-
 import org.bstats.charts.CustomChart;
 import org.bstats.velocity.Metrics;
 import org.jetbrains.annotations.Nullable;
-
 import xyz.kyngs.librelogin.api.Logger;
 import xyz.kyngs.librelogin.api.PlatformHandle;
 import xyz.kyngs.librelogin.api.database.User;
@@ -38,12 +39,6 @@ import xyz.kyngs.librelogin.common.SLF4JLogger;
 import xyz.kyngs.librelogin.common.image.AuthenticImageProjector;
 import xyz.kyngs.librelogin.common.image.protocolize.ProtocolizeImageProjector;
 import xyz.kyngs.librelogin.common.util.CancellableTask;
-
-import java.io.File;
-import java.io.InputStream;
-import java.nio.file.Path;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 public class VelocityLibreLogin extends AuthenticLibreLogin<Player, RegisteredServer> {
 

@@ -6,10 +6,9 @@
 
 package xyz.kyngs.librelogin.paper;
 
-import org.bukkit.Bukkit;
-
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import org.bukkit.Bukkit;
 
 public class PaperUtil {
 

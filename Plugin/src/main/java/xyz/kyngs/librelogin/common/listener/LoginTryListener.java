@@ -8,14 +8,12 @@ package xyz.kyngs.librelogin.common.listener;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-
+import java.util.concurrent.TimeUnit;
 import xyz.kyngs.librelogin.api.event.events.AuthenticatedEvent;
 import xyz.kyngs.librelogin.api.event.events.WrongPasswordEvent;
 import xyz.kyngs.librelogin.api.event.events.WrongPasswordEvent.AuthenticationSource;
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 import xyz.kyngs.librelogin.common.config.ConfigurationKeys;
-
-import java.util.concurrent.TimeUnit;
 
 public class LoginTryListener<P, S> {
 

@@ -10,9 +10,7 @@ import net.luckperms.api.context.ContextCalculator;
 import net.luckperms.api.context.ContextConsumer;
 import net.luckperms.api.context.ContextSet;
 import net.luckperms.api.context.ImmutableContextSet;
-
 import org.checkerframework.checker.nullness.qual.NonNull;
-
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 
 public class AuthorizedContext<P> implements ContextCalculator<P> {

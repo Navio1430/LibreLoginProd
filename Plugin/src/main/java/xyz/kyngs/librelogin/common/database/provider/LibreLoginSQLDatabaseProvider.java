@@ -6,15 +6,6 @@
 
 package xyz.kyngs.librelogin.common.database.provider;
 
-import org.jetbrains.annotations.Nullable;
-
-import xyz.kyngs.librelogin.api.crypto.HashedPassword;
-import xyz.kyngs.librelogin.api.database.User;
-import xyz.kyngs.librelogin.api.database.connector.SQLDatabaseConnector;
-import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
-import xyz.kyngs.librelogin.common.database.AuthenticDatabaseProvider;
-import xyz.kyngs.librelogin.common.database.AuthenticUser;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,6 +14,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import org.jetbrains.annotations.Nullable;
+import xyz.kyngs.librelogin.api.crypto.HashedPassword;
+import xyz.kyngs.librelogin.api.database.User;
+import xyz.kyngs.librelogin.api.database.connector.SQLDatabaseConnector;
+import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
+import xyz.kyngs.librelogin.common.database.AuthenticDatabaseProvider;
+import xyz.kyngs.librelogin.common.database.AuthenticUser;
 
 public abstract class LibreLoginSQLDatabaseProvider
         extends AuthenticDatabaseProvider<SQLDatabaseConnector> {

@@ -15,17 +15,14 @@ import dev.samstevens.totp.qr.ZxingPngQrGenerator;
 import dev.samstevens.totp.secret.DefaultSecretGenerator;
 import dev.samstevens.totp.secret.SecretGenerator;
 import dev.samstevens.totp.time.SystemTimeProvider;
-
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import xyz.kyngs.librelogin.api.database.User;
 import xyz.kyngs.librelogin.api.totp.TOTPData;
 import xyz.kyngs.librelogin.api.totp.TOTPProvider;
 import xyz.kyngs.librelogin.common.AuthenticLibreLogin;
 import xyz.kyngs.librelogin.common.config.ConfigurationKeys;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 public class AuthenticTOTPProvider implements TOTPProvider {
 

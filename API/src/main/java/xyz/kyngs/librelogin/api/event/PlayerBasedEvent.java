@@ -6,13 +6,10 @@
 
 package xyz.kyngs.librelogin.api.event;
 
-import net.kyori.adventure.audience.Audience;
-
-import org.jetbrains.annotations.Nullable;
-
-import xyz.kyngs.librelogin.api.database.User;
-
 import java.util.UUID;
+import net.kyori.adventure.audience.Audience;
+import org.jetbrains.annotations.Nullable;
+import xyz.kyngs.librelogin.api.database.User;
 
 /**
  * An abstract event for events, that include player info

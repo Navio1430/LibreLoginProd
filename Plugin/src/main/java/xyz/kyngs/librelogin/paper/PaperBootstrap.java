@@ -9,14 +9,12 @@ package xyz.kyngs.librelogin.paper;
 import net.byteflux.libby.BukkitLibraryManager;
 import net.byteflux.libby.LibraryManager;
 import net.byteflux.libby.PaperLibraryManager;
-
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import xyz.kyngs.librelogin.api.provider.LibreLoginProvider;
 
 public class PaperBootstrap extends JavaPlugin implements LibreLoginProvider<Player, World> {

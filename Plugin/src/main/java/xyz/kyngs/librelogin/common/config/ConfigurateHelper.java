@@ -9,17 +9,14 @@ package xyz.kyngs.librelogin.common.config;
 import com.google.common.base.Splitter;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-
-import org.spongepowered.configurate.CommentedConfigurationNode;
-import org.spongepowered.configurate.serialize.SerializationException;
-
-import xyz.kyngs.librelogin.api.configuration.CorruptedConfigurationException;
-import xyz.kyngs.librelogin.api.util.ThrowableFunction;
-import xyz.kyngs.librelogin.common.config.key.ConfigurationKey;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.serialize.SerializationException;
+import xyz.kyngs.librelogin.api.configuration.CorruptedConfigurationException;
+import xyz.kyngs.librelogin.api.util.ThrowableFunction;
+import xyz.kyngs.librelogin.common.config.key.ConfigurationKey;
 
 public record ConfigurateHelper(CommentedConfigurationNode configuration) {
 

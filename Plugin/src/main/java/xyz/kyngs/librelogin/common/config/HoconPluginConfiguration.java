@@ -9,16 +9,15 @@ package xyz.kyngs.librelogin.common.config;
 import static xyz.kyngs.librelogin.common.config.ConfigurationKeys.DEFAULT_CRYPTO_PROVIDER;
 import static xyz.kyngs.librelogin.common.config.ConfigurationKeys.NEW_UUID_CREATOR;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import xyz.kyngs.librelogin.api.BiHolder;
 import xyz.kyngs.librelogin.api.LibreLoginPlugin;
 import xyz.kyngs.librelogin.api.Logger;
 import xyz.kyngs.librelogin.api.configuration.CorruptedConfigurationException;
 import xyz.kyngs.librelogin.common.config.key.ConfigurationKey;
 import xyz.kyngs.librelogin.common.config.migrate.config.*;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 
 public class HoconPluginConfiguration {
 
@@ -50,7 +49,7 @@ public class HoconPluginConfiguration {
                         plugin.getDataFolder(),
                         "config.conf",
                         defaultKeys,
-"""
+                        """
   !!THIS FILE IS WRITTEN IN THE HOCON FORMAT!!
   The hocon format is very similar to JSON, but it has some extra features.
   You can find more information about the format on the sponge wiki:
