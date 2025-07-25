@@ -115,7 +115,7 @@ dependencies {
     libby("com.github.kyngs.commands:acf-paper:7d5bf7cac0")
 
     //Utils
-    libby("com.github.ben-manes.caffeine:caffeine:3.2.0")
+    libby("com.github.ben-manes.caffeine:caffeine:3.2.2")
     libby("org.spongepowered:configurate-hocon:4.2.0")
     libby("at.favre.lib:bcrypt:0.10.2")
     libby("dev.samstevens.totp:totp:1.7.1")
