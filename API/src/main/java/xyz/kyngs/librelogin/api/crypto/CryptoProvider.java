@@ -6,7 +6,7 @@
 
 package xyz.kyngs.librelogin.api.crypto;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * This interface manages passwords for its own algorithm. Each algorithm must implement this
