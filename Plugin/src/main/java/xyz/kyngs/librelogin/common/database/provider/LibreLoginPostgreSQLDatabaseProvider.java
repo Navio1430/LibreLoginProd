@@ -25,7 +25,7 @@ public class LibreLoginPostgreSQLDatabaseProvider extends LibreLoginSQLDatabaseP
                 connection
                         .prepareStatement(
                                 "SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS WHERE"
-                                    + " TABLE_NAME='librepremium_data' and TABLE_SCHEMA='public'")
+                                        + " TABLE_NAME='librepremium_data' and TABLE_SCHEMA='public'")
                         .executeQuery();
 
         var columns = new ArrayList<String>();
