@@ -62,7 +62,7 @@ The error will be printed to the console\
                     "Please, change your username to &c%username%",
 """
 This message is displayed when the player's username is not in the correct case.
-See https://github.com/kyngs/LibreLogin/wiki/Name-Validation for more information.\
+See https://github.com/Navio1430/LibreLoginProd/wiki/Name-Validation for more information.\
 """,
                     ConfigurateHelper::getString);
 
@@ -82,7 +82,7 @@ See https://github.com/kyngs/LibreLogin/wiki/Name-Validation for more informatio
                             + " than 16 characters!",
 """
 This message is displayed when the player's username is not allowed.
-See https://github.com/kyngs/LibreLogin/wiki/Name-Validation for more information.\
+See https://github.com/Navio1430/LibreLoginProd/wiki/Name-Validation for more information.\
 """,
                     ConfigurateHelper::getString);
 
@@ -94,7 +94,7 @@ See https://github.com/kyngs/LibreLogin/wiki/Name-Validation for more informatio
                             + " Please contact support immediately.",
 """
 This occurs, when there is a profile conflict.
-See https://github.com/kyngs/LibreLogin/wiki/Profile-Conflicts for more information.\
+See https://github.com/Navio1430/LibreLoginProd/wiki/Profile-Conflicts for more information.\
 """,
                     ConfigurateHelper::getString);
 
@@ -688,7 +688,7 @@ The error will be printed to the console\
                     This server is running FOSS authentication plugin, LibreLogin.
                     Version: %version%
                     Authors: kyngs, and other contributors
-                    Source: https://github.com/kyngs/LibreLogin
+                    Source: https://github.com/Navio1430/LibreLoginProd
                     License: Mozilla Public License 2.0\
                     """,
 """
