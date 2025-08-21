@@ -49,7 +49,7 @@ public class HoconPluginConfiguration {
                         plugin.getDataFolder(),
                         "config.conf",
                         defaultKeys,
-"""
+                        """
   !!THIS FILE IS WRITTEN IN THE HOCON FORMAT!!
   The hocon format is very similar to JSON, but it has some extra features.
   You can find more information about the format on the sponge wiki:
