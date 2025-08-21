@@ -163,10 +163,10 @@ public abstract class LibreLoginSQLDatabaseProvider
                     var ps =
                             connection.prepareStatement(
                                     "INSERT INTO librepremium_data(uuid, premium_uuid,"
-                                        + " hashed_password, salt, algo, last_nickname, joined,"
-                                        + " last_seen, secret, ip, last_authentication,"
-                                        + " last_server, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,"
-                                        + " ?, ?, ?, ?)");
+                                            + " hashed_password, salt, algo, last_nickname, joined,"
+                                            + " last_seen, secret, ip, last_authentication,"
+                                            + " last_server, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,"
+                                            + " ?, ?, ?, ?)");
 
                     insertToStatement(ps, user);
 
@@ -319,7 +319,7 @@ public abstract class LibreLoginSQLDatabaseProvider
                         connection
                                 .prepareStatement(
                                         "ALTER TABLE librepremium_data ADD COLUMN"
-                                            + " last_authentication TIMESTAMP NULL DEFAULT NULL")
+                                                + " last_authentication TIMESTAMP NULL DEFAULT NULL")
                                 .executeUpdate();
                     if (!columns.contains("last_server")) {
                         connection
