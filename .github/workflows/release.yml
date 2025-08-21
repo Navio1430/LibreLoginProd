@@ -1,44 +1,104 @@
-name: Build and upload .jar on release
+name: Release
 
 on:
-  workflow_dispatch:
   release:
-    types: [created]
+    types: [ published ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build-and-release:
+    runs-on: [ self-hosted ]
 
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
 
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v4
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
 
-    - name: Make gradlew executable
-      run: chmod +x ./gradlew
+      - name: Grant execute permission
+        run: chmod +x ./gradlew
 
-    - name: Build shadow JAR
-      run: ./gradlew shadowJar
+      - name: Get release tag
+        id: get_version
+        run: |
+          if [ "${{ github.event_name }}" = "release" ]; then
+            echo "VERSION=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
+            echo "RELEASE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
+          else
+            # For manual dispatch, get the latest tag
+            LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+            echo "VERSION=${LATEST_TAG}" >> $GITHUB_OUTPUT
+            echo "RELEASE_TAG=${LATEST_TAG}" >> $GITHUB_OUTPUT
+          fi
 
-    - name: Find correct JAR
-      id: find-plugin-jar
-      run: |
-        output="$(find Plugin/build/libs/ ! -name "*-javadoc.jar" ! -name "*-sources.jar" -type f -printf "%f\n")"
-        echo "::set-output name=jarname::$output"
+      - name: Build shadow JAR
+        run: ./gradlew shadowJar
 
-    - name: Upload JAR to GitHub release
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: Plugin/build/libs/${{ steps.find-plugin-jar.outputs.jarname }}
-        asset_name: ${{ steps.find-plugin-jar.outputs.jarname }}
-        asset_content_type: application/java-archive
+      - name: Find JARs containing release tag
+        run: |
+          VERSION="${{ steps.get_version.outputs.VERSION }}"
+          # Clean version (remove 'v' prefix if present)
+          CLEAN_VERSION=${VERSION#v}
+          
+          # Create release directory
+          mkdir -p release-assets
+          
+          echo "Looking for JAR files containing version: $CLEAN_VERSION"
+          
+          # Find all JAR files that contain the version in their filename
+          find target -name "*.jar" -type f | while read jar; do
+            basename=$(basename "$jar")
+          
+            # Check if the JAR filename contains the version tag
+            if [[ "$basename" == *"$CLEAN_VERSION"* ]]; then
+              echo "Found matching JAR: $jar"
+              cp "$jar" "release-assets/"
+            else
+              echo "Skipping JAR (no version match): $jar"
+            fi
+          done
+
+      - name: List release assets
+        run: |
+          echo "Release assets found:"
+          ls -la release-assets/
+
+      - name: Upload JARs to release (for release trigger)
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release-assets/*.jar
+          tag_name: ${{ steps.get_version.outputs.RELEASE_TAG }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload JARs using GitHub CLI (for manual trigger)
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          TAG="${{ steps.get_version.outputs.RELEASE_TAG }}"
+          
+          # Check if release exists, create if it doesn't
+          if ! gh release view "$TAG" > /dev/null 2>&1; then
+            echo "Creating release $TAG..."
+            gh release create "$TAG" --title "Release $TAG" --notes "Manually triggered release"
+          fi
+          
+          # Upload all JAR files
+          for jar in release-assets/*.jar; do
+            if [ -f "$jar" ]; then
+              echo "Uploading $jar to release $TAG..."
+              gh release upload "$TAG" "$jar"
+            fi
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
