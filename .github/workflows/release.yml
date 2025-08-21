@@ -1,6 +1,7 @@
 name: Build and upload .jar on release
 
 on:
+  workflow_dispatch:
   release:
     types: [created]
 
