@@ -59,7 +59,7 @@ public class HoconPluginConfiguration {
   ----------------------------------------------------------------------------------------
   This is the configuration file for LibreLogin.
   You can find more information about LibreLogin on the github page:
-  https://github.com/kyngs/LibreLogin
+  https://github.com/Navio1430/LibreLoginProd
 """,
                         logger,
                         new FirstConfigurationMigrator(),
