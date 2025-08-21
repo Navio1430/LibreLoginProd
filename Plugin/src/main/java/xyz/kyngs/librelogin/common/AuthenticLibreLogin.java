@@ -737,7 +737,7 @@ public abstract class AuthenticLibreLogin<P, S> implements LibreLoginPlugin<P, S
 
         try {
             var connection =
-                    new URL("https://api.github.com/repos/kyngs/LibreLogin/releases")
+                    new URL("https://api.github.com/repos/Navio1430/LibreLoginProd/releases")
                             .openConnection();
 
             connection.setRequestProperty("User-Agent", "LibreLogin");
