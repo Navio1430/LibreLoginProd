@@ -71,7 +71,7 @@ public class HoconMessages implements Messages {
                         plugin.getDataFolder(),
                         "messages.conf",
                         Set.of(new BiHolder<>(MessageKeys.class, "")),
-"""
+                        """
   !!THIS FILE IS WRITTEN IN THE HOCON FORMAT!!
   The hocon format is very similar to JSON, but it has some extra features.
   You can find more information about the format on the sponge wiki:
@@ -82,7 +82,7 @@ public class HoconMessages implements Messages {
   This file contains all of the messages used by the plugin, you are welcome to fit it to your needs.
   The messages can be written both in the legacy format and in the MiniMessage format. For example, the following message is completely valid: <bold>&aReloaded!</bold>
   You can find more information about LibreLogin on the github page:
-  https://github.com/kyngs/LibreLogin
+  https://github.com/Navio1430/LibreLoginProd
 """,
                         logger,
                         new FirstMessagesMigrator(),
