@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.Map;
 import java.util.UUID;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import xyz.kyngs.librelogin.api.authorization.AuthorizationProvider;
 import xyz.kyngs.librelogin.api.configuration.Messages;
 import xyz.kyngs.librelogin.api.crypto.CryptoProvider;
