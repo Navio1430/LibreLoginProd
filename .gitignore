@@ -1,3 +1,5 @@
+target/
+
 ### Gradle & IntelliJ ###
 .gradle/
 /.idea/
