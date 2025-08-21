@@ -39,9 +39,9 @@ public class ConfigurationKeys {
                     "limbo",
                     List.of("limbo0", "limbo1"),
                     "The authentication servers/worlds, players should be sent to, when not"
-                        + " authenticated. On Paper, players will be spawned on the world spawn."
-                        + " THIS SERVERS MUST BE REGISTERED IN THE PROXY CONFIG. IN CASE OF PAPER,"
-                        + " THE WORLDS MUST EXIST.",
+                            + " authenticated. On Paper, players will be spawned on the world spawn."
+                            + " THIS SERVERS MUST BE REGISTERED IN THE PROXY CONFIG. IN CASE OF PAPER,"
+                            + " THE WORLDS MUST EXIST.",
                     ConfigurateHelper::getStringList);
 
     public static final Multimap<String, String> LOBBY_DEFAULT = HashMultimap.create();
@@ -116,8 +116,8 @@ OVERWRITE - Overwrite the offline profile's data with the online profile's data.
                     "milliseconds-to-refresh-login-attempts",
                     10000,
                     "Time to reset login attempts. The amount of time the player should have waited"
-                        + " for their login attempts to expire. On every rejoin, login attempts are"
-                        + " reset.",
+                            + " for their login attempts to expire. On every rejoin, login attempts are"
+                            + " reset.",
                     ConfigurateHelper::getInt);
 
     public static final ConfigurationKey<Boolean> USE_TITLES =
@@ -307,7 +307,7 @@ I heavily suggest you to read this wiki page: https://github.com/Navio1430/Libre
                     "session-timeout",
                     0L,
                     "Defines a time in seconds after a player's session expires. Default value is"
-                        + " one week (604800 seconds). Set to zero or less to disable sessions.",
+                            + " one week (604800 seconds). Set to zero or less to disable sessions.",
                     ConfigurateHelper::getLong);
 
     public static final ConfigurationKey<Boolean> PING_SERVERS =
@@ -315,9 +315,9 @@ I heavily suggest you to read this wiki page: https://github.com/Navio1430/Libre
                     "ping-servers",
                     false,
                     "!!THIS OPTION IS IRRELEVANT WHEN USING PAPER!! Should we ping servers to check"
-                        + " if they are online, and get their player count? If you disable this,"
-                        + " the pinging servers message will still appear in the console, even"
-                        + " though the servers will not be pinged.",
+                            + " if they are online, and get their player count? If you disable this,"
+                            + " the pinging servers message will still appear in the console, even"
+                            + " though the servers will not be pinged.",
                     ConfigurateHelper::getBoolean);
 
     public static final ConfigurationKey<Boolean> REMEMBER_LAST_SERVER =
