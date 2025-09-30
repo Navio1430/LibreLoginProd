@@ -139,7 +139,7 @@ dependencies {
     //Paper
     compileOnly("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
     implementation("com.github.retrooper:packetevents-spigot:2.9.3")
-    compileOnly("org.apache.logging.log4j:log4j-core:2.25.1")
+    compileOnly("org.apache.logging.log4j:log4j-core:2.25.2")
 
     //Libby
     implementation("xyz.kyngs.libby:libby-bukkit:1.6.0")
