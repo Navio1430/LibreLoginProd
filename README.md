@@ -2,7 +2,7 @@
 
 # Maintenance update 🚀 ❗
 
-update: Thanks to vuxeim and his contribution we can still use LibreLoginProd with the newest minecraft versions.
+update: Thanks to [vuxeim](https://github.com/vuxeim) and his contribution we can still use LibreLoginProd with the newest minecraft versions.
 
 I'm not going to maintain this plugin anymore, but still I'm open to PR's.
 Here's the new plugin repo: https://github.com/Navio1430/NavAuth.
@@ -19,7 +19,7 @@ LibreLogin did not meet our expectations, which is why this fork was created.</p
 
 # Contributors, thanks to:
 
-- **vuxeim** - for support for the newest minecraft versions
+- **[vuxeim](https://github.com/vuxeim)** - for support for the newest minecraft versions
 - **original LibreLogin creators** - for creating the LibreLogin
 
 # Quick information 📌
