@@ -2,7 +2,7 @@
 
 # Maintenance update 🚀 ❗
 
-update: Thanks to vuxeim and his contribution we can still use LibreLoginProd with the newest minecraft versions.
+update: Thanks to [vuxeim](https://github.com/vuxeim) and his contribution we can still use LibreLoginProd with the newest minecraft versions.
 
 I'm not going to maintain this plugin anymore, but still I'm open to PR's.
 Here's the new plugin repo: https://github.com/Navio1430/NavAuth.
@@ -19,7 +19,7 @@ LibreLogin did not meet our expectations, which is why this fork was created.</p
 
 # Contributors, thanks to:
 
-- **vuxeim** - for support for the newest minecraft versions
+- **[vuxeim](https://github.com/vuxeim)** - for support for the newest minecraft versions
 - **original LibreLogin creators** - for creating the LibreLogin
 
 # Quick information 📌
@@ -47,19 +47,18 @@ alt="Contributors listed"></img>
 - Name validation (including case sensitivity check)
 - Automatic data migration for premium players
 - Migration of a player's data by using one command
-- Geyser (Bedrock) support using [Floodgate](https://github.com/Navio1430/LibreLoginProd/wiki/Floodgate)
 
 ## Platforms ⚙️
-- [✔️] Velocity - up to 1.26.2
-- [✔️] Paper - up to 1.26.2
+- [✔️] Velocity - up to 26.2
+- [✔️] Paper - up to 26.2
 - [❌] BungeeCord - no longer supported, do not use it for production
 
 ## Main changes 
 
 - [📚] Support for the newest Minecraft Paper and Velocity versions
-
 - [❌] No more support for BungeeCord (maybe will be brought back in future)
 - [❌] Removed compatibility with NanoLimboPlugin (should not be used on prod)
+- [❗] FloodGate (Geyser) is no longer actively supported (as of Minecraft 26.1.2 upwards)
 
 # FAQ
 
