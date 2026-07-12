@@ -47,19 +47,18 @@ alt="Contributors listed"></img>
 - Name validation (including case sensitivity check)
 - Automatic data migration for premium players
 - Migration of a player's data by using one command
-- Geyser (Bedrock) support using [Floodgate](https://github.com/Navio1430/LibreLoginProd/wiki/Floodgate)
 
 ## Platforms ⚙️
-- [✔️] Velocity - up to 1.26.2
-- [✔️] Paper - up to 1.26.2
+- [✔️] Velocity - up to 26.2
+- [✔️] Paper - up to 26.2
 - [❌] BungeeCord - no longer supported, do not use it for production
 
 ## Main changes 
 
 - [📚] Support for the newest Minecraft Paper and Velocity versions
-
 - [❌] No more support for BungeeCord (maybe will be brought back in future)
 - [❌] Removed compatibility with NanoLimboPlugin (should not be used on prod)
+- [❗] FloodGate (Geyser) is no longer actively supported (as of Minecraft 26.1.2 upwards)
 
 # FAQ
 
