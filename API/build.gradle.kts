@@ -12,7 +12,7 @@ dependencies {
     api("javax.annotation:javax.annotation-api:1.3.2")
     // TODO: remove unnecessary bungeecord dependency
     compileOnly("net.kyori:adventure-platform-bungeecord:4.4.1")
-    compileOnly("com.google.guava:guava:33.4.8-jre")
+    compileOnly("com.google.guava:guava:33.5.0-jre")
 
     testImplementation(platform("org.junit:junit-bom:5.13.4"))
     testImplementation("org.junit.jupiter:junit-jupiter")
