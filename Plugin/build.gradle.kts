@@ -103,7 +103,7 @@ dependencies {
     compileOnly("com.github.ProxioDev.ValioBungee:RedisBungee-Bungee:0.13.0")
 
     //MySQL
-    libby("org.mariadb.jdbc:mariadb-java-client:3.5.4")
+    libby("org.mariadb.jdbc:mariadb-java-client:3.5.6")
     libby("com.zaxxer:HikariCP:6.3.2")
 
     //SQLite
