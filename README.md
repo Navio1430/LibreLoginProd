@@ -26,7 +26,7 @@ LibreLogin did not meet our expectations, which is why this fork was created.</p
 
 <img src="https://img.shields.io/badge/Java%20version-%2017+-blue?style=for-the-badge&logo=java&logoColor=white"
 alt="Plugin requires Java 17 or newer"></img>
-<a href="https://discord.gg/WTtEQneRJb">
+<a href="https://discord.gg/eSTjEgtXBy">
 <img src="https://img.shields.io/badge/Discord-%20SUPPORT-purple?style=for-the-badge&logo=discord&logoColor=white" 
 alt="Support available on Discord"></img>
 </a>
