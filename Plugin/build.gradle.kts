@@ -1,15 +1,162 @@
+import com.github.jengelman.gradle.plugins.shadow.relocation.SimpleRelocator
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import java.security.MessageDigest
+import java.util.Base64
+import org.gradle.api.artifacts.repositories.MavenArtifactRepository
 
 plugins {
     id("java")
     id("io.github.goooler.shadow") version "8.1.8"
     id("net.kyori.blossom").version("1.3.1")
     id("java-library")
-    id("xyz.kyngs.libby.plugin").version("1.2.1")
 }
 
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
+}
+
+// Inlined replacement for the discontinued xyz.kyngs.libby.plugin (1.2.1).
+// Upstream removed the plugin artifacts when rebranding Libby to Librarian, so the
+// plugin can no longer be resolved. This reproduces its behaviour: a `libby`
+// configuration that is also available at compile time, and a `libby` task that
+// generates build/libby/libby.json describing the runtime dependencies.
+
+open class LibbyExtension {
+    val excludedDependencies = mutableListOf<String>()
+    val noChecksumDependencies = mutableListOf<String>()
+
+    fun excludeDependency(dependency: String) {
+        excludedDependencies.add(dependency)
+    }
+
+    fun noChecksumDependency(dependency: String) {
+        noChecksumDependencies.add(dependency)
+    }
+}
+
+fun jsonEscape(value: String): String {
+    val out = StringBuilder(value.length)
+    for (c in value) {
+        when (c) {
+            '"' -> out.append("\\\"")
+            '\\' -> out.append("\\\\")
+            '\n' -> out.append("\\n")
+            '\r' -> out.append("\\r")
+            '\t' -> out.append("\\t")
+            else ->
+                if (c < ' ') out.append("\\u%04x".format(c.code)) else out.append(c)
+        }
+    }
+    return out.toString()
+}
+
+// The dependency accessor that plugins{} used to generate is unavailable for a
+// configuration declared in the build script itself, so provide it explicitly.
+fun DependencyHandler.libby(notation: Any) = add("libby", notation)
+
+val libbyConfiguration = configurations.create("libby")
+configurations.named("compileOnly") {
+    extendsFrom(libbyConfiguration)
+}
+
+val libbyExtension = extensions.create<LibbyExtension>("libby")
+
+val libbyOutputDir = layout.buildDirectory.dir("libby")
+
+val libbyTask =
+    tasks.register("libby") {
+        val shadowJarTask = tasks.named<ShadowJar>("shadowJar")
+        val repositoryHandler = project.repositories
+        val extension = libbyExtension
+        val configuration = libbyConfiguration
+
+        outputs.dir(libbyOutputDir)
+        inputs.files(configuration)
+
+        doLast {
+            val output = libbyOutputDir.get().asFile.resolve("libby.json")
+            output.parentFile.mkdirs()
+
+            // "{}" stands in for "." so shade cannot rewrite these coordinates
+            fun dotted(value: String) = value.replace(".", "{}")
+
+            val json = StringBuilder()
+            json.append("{\"version\":0,\"libraries\":[")
+
+            val digest = MessageDigest.getInstance("SHA-256")
+            var firstLibrary = true
+
+            for (artifact in configuration.resolvedConfiguration.resolvedArtifacts) {
+                val id = artifact.moduleVersion.id
+                val idString = "${id.group}:${id.name}:${id.version}"
+
+                if (extension.excludedDependencies.any { Regex(it).matches(idString) }) continue
+
+                if (!firstLibrary) json.append(',')
+                firstLibrary = false
+
+                json.append("{\"group\":\"").append(jsonEscape(dotted(id.group)))
+                json.append("\",\"name\":\"").append(jsonEscape(id.name))
+                json.append("\",\"version\":\"").append(jsonEscape(id.version)).append('"')
+
+                artifact.classifier?.let {
+                    json.append(",\"classifier\":\"").append(jsonEscape(it)).append('"')
+                }
+
+                val skipChecksum =
+                    artifact.type != "jar" ||
+                        extension.noChecksumDependencies.any { Regex(it).matches(idString) }
+
+                if (!skipChecksum) {
+                    val hash = digest.digest(artifact.file.readBytes())
+                    json.append(",\"checksum\":\"")
+                        .append(Base64.getEncoder().encodeToString(hash))
+                        .append('"')
+                }
+
+                json.append('}')
+            }
+
+            json.append("],\"repositories\":[")
+            var firstRepository = true
+            for (repository in repositoryHandler) {
+                if (repository !is MavenArtifactRepository) continue
+                val url = repository.url.toString()
+                if (!url.startsWith("http")) continue
+                if (!firstRepository) json.append(',')
+                firstRepository = false
+                json.append('"').append(jsonEscape(url)).append('"')
+            }
+            json.append(']')
+
+            // Relocations are only emitted when shade is applied, matching the
+            // original plugin, which always wrote the object in that case.
+            if (tasks.findByName("shadowJar") != null) {
+                json.append(",\"relocations\":{")
+                var firstRelocation = true
+                for (relocator in shadowJarTask.get().relocators) {
+                    if (relocator !is SimpleRelocator) continue
+                    if (!firstRelocation) json.append(',')
+                    firstRelocation = false
+                    json.append('"')
+                        .append(jsonEscape(dotted(relocator.pattern)))
+                        .append("\":\"")
+                        .append(jsonEscape(dotted(relocator.shadedPattern)))
+                        .append('"')
+                }
+                json.append('}')
+            }
+
+            json.append('}')
+
+            output.writeText(json.toString())
+        }
+    }
+
+// Pulling the generated file in through a task output provider registers the
+// implicit task dependency, so libby.json is produced before resources are copied.
+tasks.named<ProcessResources>("processResources") {
+    from(libbyTask)
 }
 
 repositories {
@@ -69,7 +216,7 @@ tasks.withType<Jar> {
     from("../LICENSE.txt")
 }
 
-libby {
+configure<LibbyExtension> {
     excludeDependency("org.slf4j:.*:.*")
     excludeDependency("org.checkerframework:.*:.*")
     excludeDependency("com.google.errorprone:.*:.*")
@@ -138,7 +285,7 @@ dependencies {
 
     //Paper
     compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
-    implementation("com.github.retrooper:packetevents-spigot:2.13.0")
+    implementation("com.github.retrooper:packetevents-spigot:2.14.0")
     compileOnly("org.apache.logging.log4j:log4j-core:2.25.1")
 
     //Libby
